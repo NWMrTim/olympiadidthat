@@ -1,53 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Olympia Did That</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Olympia Did That</title>
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  color: white;
-  background:
-    linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
-    url('assets/money-bg.jpg') center / cover no-repeat fixed;
-}
+  <style>
+    :root{
+      --overlay: 0.85;     /* darken background */
+      --glow: rgba(255,0,0,0.35);
+    }
 
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
+    html, body { height: 100%; }
 
-.main-graphic {
-  max-width: 750px;
-  width: 90%;
-  box-shadow: 0 0 40px rgba(255,0,0,0.4);
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: white;
 
-h1 {
-  margin-top: 30px;
-  font-size: 2rem;
-}
+      /* money background + dark overlay so the main graphic pops */
+      background:
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
+        url("assets/money-bg.jpg") center / cover no-repeat fixed;
+    }
 
-p {
-  font-size: 1.1rem;
-  opacity: 0.8;
-}
-</style>
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px 16px;
+      gap: 14px;
+    }
 
+    .main-graphic {
+      max-width: 760px;
+      width: min(92vw, 760px);
+      height: auto;
+      box-shadow: 0 0 42px var(--glow);
+      border-radius: 2px;
+      display: block;
+    }
+
+    h1 {
+      margin: 18px 0 0;
+      font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+      line-height: 1.15;
+      text-shadow: 0 2px 18px rgba(0,0,0,0.6);
+    }
+
+    h2 {
+      margin: 6px 0 0;
+      font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    .contact {
+      margin-top: 14px;
+      font-size: 1rem;
+      opacity: 0.92;
+    }
+
+    .contact a {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .contact a:hover {
+      opacity: 0.85;
+    }
+  </style>
 </head>
+
 <body>
+  <div class="hero">
+    <!-- If you moved the image into /assets, keep this path.
+         If you left it in the repo root, change to: src="OlympiaDidThatLanding.png" -->
+    <img src="assets/OlympiaDidThatLanding.png" alt="Olympia Did That graphic" class="main-graphic" />
 
-<div class="hero">
-  <img src="OlympiaDidThatLanding.png" alt="Olympia Did That graphic" class="main-graphic">
-  <h1>Olympia Did That! Exposing the SCAM cycle</h1>
-  <h2>Are you ready to take Action?</h2>
-</div>
+    <h1>Olympia Did That! Exposing the SCAM cycle</h1>
+    <h2>Are you ready to take Action?</h2>
 
+    <div class="contact">
+      <strong>Contact info:</strong>
+      <div>Email: <a href="mailto:contact@olympiadidthat.com">contact@olympiadidthat.com</a></div>
+    </div>
+  </div>
 </body>
 </html>
