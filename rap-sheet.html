@@ -1,1 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rap Sheet | Olympia Did That</title>
 
+  <style>
+    :root{
+      --overlay: 0.22;
+      --stroke: rgba(255,255,255,0.18);
+      --text: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.78);
+      --shadow: 0 18px 50px rgba(0,0,0,0.50);
+      --radius: 18px;
+      --max: 1180px;
+      --accent: #ff3b3b;
+
+      --panelBg: rgba(0,0,0,0.70);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
+        url("assets/money-bg.jpg") center / cover no-repeat fixed;
+    }
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
+
+    .header{
+      position: sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.55);
+      border-bottom: 1px solid var(--stroke);
+    }
+    .navrow{
+      display:grid;
+      grid-template-columns: 220px 1fr 320px;
+      gap:14px;
+      align-items:center;
+      padding: 14px 20px;
+      max-width: var(--max);
+      margin:0 auto;
+    }
+    .logo{ display:flex; align-items:center; gap:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.4px; }
+    .logo-badge{
+      width:34px; height:34px; border-radius:10px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid var(--stroke);
+      display:grid; place-items:center;
+      box-shadow: var(--shadow);
+      font-size:14px;
+    }
+    .navlinks{ display:flex; gap:18px; justify-content:center; flex-wrap:wrap; font-weight:800; letter-spacing:0.3px; }
+    .navlinks a{ padding:8px 10px; border-radius:10px; }
+    .navlinks a:hover{ background: rgba(255,255,255,0.12); text-decoration:none; }
+
+    .search{ display:flex; gap:10px; justify-content:flex-end; }
+    .search input{
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,0.55);
+      color: var(--text);
+      outline:none;
+    }
+    .search button{
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,0.16);
+      color: var(--text);
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .panel{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: var(--panelBg);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelPad{ padding: 22px; }
+
+    h1{
+      margin:0 0 8px;
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height:1.05;
+      text-transform: uppercase;
+      letter-spacing:0.6px;
+    }
+    .sub{ margin:0; color:var(--muted); line-height:1.55; max-width: 75ch; }
+
+    .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:14px; }
+
+    .btnRow{ display:flex; gap:12px; flex-wrap:wrap; margin-top: 14px; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.14);
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor:pointer;
+    }
+    .btnPrimary{
+      background: rgba(255,59,59,0.92);
+      border-color: rgba(255,59,59,0.92);
+      color:#111;
+    }
+    .btn:hover{ filter:brightness(1.06); text-decoration:none; }
+    .tiny{ color:var(--muted); font-size:13px; }
+
+    @media (max-width: 980px){
+      .navrow{ grid-template-columns: 1fr; }
+      .navlinks{ justify-content:flex-start; }
+      .search{ justify-content:flex-start; }
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="navrow">
+      <a class="logo" href="index.html">
+        <div class="logo-badge">ODT</div>
+        <div>Olympia Did That</div>
+      </a>
+
+      <nav class="navlinks" aria-label="Primary">
+        <a href="wall.html">THE WALL</a>
+        <a href="bills/billindex.html">THE BILLS</a>
+        <a href="action.html">TAKE ACTION</a>
+      </nav>
+
+      <form class="search" onsubmit="return false;">
+        <input type="search" placeholder="Find your legislator (coming soon)" />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="wrap" style="padding-top:22px;">
+    <section class="panel panelPad">
+      <div class="tiny"><a href="wall.html">← Back to the Wall</a></div>
+      <h1 id="name">Rap Sheet</h1>
+      <p id="title" class="sub">—</p>
+    </section>
+
+    <section class="grid">
+      <div class="panel panelPad">
+        <div style="font-weight:900; text-transform:uppercase; letter-spacing:0.4px;">The Bills</div>
+        <ul id="bills" style="margin:12px 0 0; color:var(--muted); line-height:1.55;"></ul>
+      </div>
+
+      <div class="panel panelPad">
+        <div style="font-weight:900; text-transform:uppercase; letter-spacing:0.4px;">The Cost</div>
+        <div id="cost" style="margin-top:12px; font-size:26px; font-weight:900;">—</div>
+        <div class="tiny" style="margin-top:6px;">Price tag: placeholder until you set your numbers.</div>
+      </div>
+
+      <div class="panel panelPad" style="grid-column: 1 / -1;">
+        <div style="font-weight:900; text-transform:uppercase; letter-spacing:0.4px;">The Quote</div>
+        <div id="quote" style="margin-top:12px; color:var(--muted); font-size:18px; line-height:1.6;">—</div>
+
+        <div class="btnRow">
+          <a id="emailBtn" class="btn btnPrimary" href="#">Tell them they did that</a>
+          <a class="btn" href="action.html">Fund the Truth</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" style="margin-top:34px; padding:22px 0 30px; border-top:1px solid var(--stroke); background:rgba(0,0,0,0.65);">
+    <div class="wrap" style="display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+      <div class="tiny">© 2026 Olympia Did That — Truth Fund</div>
+      <div style="display:flex; gap:14px; flex-wrap:wrap; color:var(--muted);">
+        <a href="about.html">About Us</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="tip.html">Submit a Tip</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const db = {
+      macri: {
+        name: "Rep. Nicole Macri (Seattle)",
+        title: "The Crime-Pass Specialist",
+        bills: ["HB 1274 — Juvenile record wipe", "HB 2114 — Rent control"],
+        cost: "$$$ / month (placeholder)",
+        quote: "“Accountability is optional; your paycheck is not.”",
+        email: "rep.nicole.macri@leg.wa.gov"
+      },
+      fitzgibbon: {
+        name: "Rep. Joe Fitzgibbon (West Seattle)",
+        title: "The Tax-Hike Architect",
+        bills: ["SB 6346 — Income tax 'foot in the door'", "SB 6345 — Pain at the pump ferry tax"],
+        cost: "$$$ / year (placeholder)",
+        quote: "“Why let you keep it when the state can spend it better?”",
+        email: "rep.joe.fitzgibbon@leg.wa.gov"
+      },
+      berg: {
+        name: "Rep. April Berg (Mill Creek)",
+        title: "The Property-Tax Puppet Master",
+        bills: ["SB 5770 — Forever-hike property tax"],
+        cost: "$$$ / year (placeholder)",
+        quote: "“Your home is the state’s piggy bank.”",
+        email: "rep.april.berg@leg.wa.gov"
+      },
+      frame: {
+        name: "Sen. Noel Frame (Seattle)",
+        title: "The Sentence Shortener",
+        bills: ["SB 5269 — Retroactive sentence cuts", "SB 5266 — Sentencing reform"],
+        cost: "Safety cost: higher repeat offenses (placeholder)",
+        quote: "“The prison door should always be swinging open.”",
+        email: "sen.noel.frame@leg.wa.gov"
+      },
+      dhingra: {
+        name: "Sen. Manka Dhingra (Redmond)",
+        title: "The Gatekeeper of Lawlessness",
+        bills: ["SB 5475 — '25 is the new 18' (emerging adults)"],
+        cost: "Safety cost: lighter accountability (placeholder)",
+        quote: "“Why punish the crime when we can analyze the criminal?”",
+        email: "sen.manka.dhingra@leg.wa.gov"
+      }
+    };
+
+    function mailtoFor(person){
+      const subject = encodeURIComponent("You did that.");
+      const body = encodeURIComponent(
+`Hello,
+
+I’m contacting you about the bills you sponsored/voted for.
+
+This is hurting Washington families. Please explain your vote and commit to reversing course.
+
+— A Washington voter
+`);
+      return `mailto:${person.email}?subject=${subject}&body=${body}`;
+    }
+
+    (function init(){
+      const id = new URLSearchParams(location.search).get("id") || "macri";
+      const person = db[id] || db.macri;
+
+      document.getElementById("name").textContent = person.name;
+      document.getElementById("title").textContent = person.title;
+      document.getElementById("cost").textContent = person.cost;
+      document.getElementById("quote").textContent = person.quote;
+      document.getElementById("bills").innerHTML = person.bills.map(b => `<li>${b}</li>`).join("");
+      document.getElementById("emailBtn").href = mailtoFor(person);
+    })();
+  </script>
+</body>
+</html>
