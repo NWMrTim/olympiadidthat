@@ -1,1 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Taxes | The Bills | Olympia Did That</title>
 
+  <style>
+    :root{
+      --overlay: 0.25;
+      --stroke: rgba(255,255,255,0.14);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.72);
+      --shadow: 0 18px 50px rgba(0,0,0,0.45);
+      --radius: 18px;
+      --max: 1180px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
+        url("../assets/money-bg.jpg") center / cover no-repeat fixed;
+    }
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
+
+    .header{
+      position: sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.35);
+      border-bottom: 1px solid var(--stroke);
+    }
+    .navrow{
+      display:grid;
+      grid-template-columns: 220px 1fr 320px;
+      gap:14px;
+      align-items:center;
+      padding: 14px 20px;
+      max-width: var(--max);
+      margin:0 auto;
+    }
+    .logo{ display:flex; align-items:center; gap:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.4px; }
+    .logo-badge{
+      width:34px; height:34px; border-radius:10px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid var(--stroke);
+      display:grid; place-items:center;
+      box-shadow: var(--shadow);
+      font-size:14px;
+    }
+    .navlinks{ display:flex; gap:18px; justify-content:center; flex-wrap:wrap; font-weight:800; letter-spacing:0.3px; }
+    .navlinks a{ padding:8px 10px; border-radius:10px; }
+    .navlinks a.active, .navlinks a:hover{ background: rgba(255,255,255,0.10); text-decoration:none; }
+
+    .search{ display:flex; gap:10px; justify-content:flex-end; }
+    .search input{
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,0.35);
+      color: var(--text);
+      outline:none;
+    }
+    .search button{
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,0.12);
+      color: var(--text);
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .panel{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: rgba(0,0,0,0.28);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelPad{ padding: 22px; }
+
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height:1.05;
+      text-transform: uppercase;
+      letter-spacing:0.6px;
+    }
+    .sub{ margin:0; color:var(--muted); line-height:1.55; max-width: 75ch; }
+
+    .tabs{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 14px; }
+    .tab{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.10);
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+    .tab.active{ background: rgba(255,255,255,0.18); }
+    .tab:hover{ text-decoration:none; filter:brightness(1.06); }
+
+    .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:14px; }
+
+    .bill{
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      padding: 16px;
+    }
+    .billTop{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    }
+    .billCode{ font-weight: 900; letter-spacing:0.4px; }
+
+    .pill{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,0.25);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .pill.passed{
+      background: rgba(46, 204, 113, 0.18);
+      border-color: rgba(46, 204, 113, 0.55);
+      color: rgba(210, 255, 230, 0.95);
+    }
+    .pill.committee{
+      background: rgba(241, 196, 15, 0.18);
+      border-color: rgba(241, 196, 15, 0.55);
+      color: rgba(255, 245, 210, 0.95);
+    }
+    .pill.introduced{
+      background: rgba(52, 152, 219, 0.18);
+      border-color: rgba(52, 152, 219, 0.55);
+      color: rgba(220, 245, 255, 0.95);
+    }
+    .pill.signed{
+      background: rgba(155, 89, 182, 0.18);
+      border-color: rgba(155, 89, 182, 0.55);
+      color: rgba(245, 225, 255, 0.95);
+    }
+    .pill.blocked{
+      background: rgba(231, 76, 60, 0.18);
+      border-color: rgba(231, 76, 60, 0.55);
+      color: rgba(255, 220, 220, 0.95);
+    }
+    .pill.proposed{
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.22);
+      color: rgba(255,255,255,0.86);
+    }
+
+    .billTitle{ margin-top:8px; font-weight:900; }
+    .billDesc{ margin-top:6px; color: var(--muted); line-height:1.5; }
+    .billMeta{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; color: var(--muted); font-size: 13px; }
+
+    .footer{
+      margin-top: 34px;
+      padding: 22px 0 30px;
+      border-top: 1px solid var(--stroke);
+      background: rgba(0,0,0,0.28);
+    }
+    .footerLinks{ display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); }
+    .tiny{ color:var(--muted); font-size:13px; }
+
+    @media (max-width: 980px){
+      .navrow{ grid-template-columns: 1fr; }
+      .navlinks{ justify-content:flex-start; }
+      .search{ justify-content:flex-start; }
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="navrow">
+      <a class="logo" href="../index.html">
+        <div class="logo-badge">ODT</div>
+        <div>Olympia Did That</div>
+      </a>
+
+      <nav class="navlinks" aria-label="Primary">
+        <a href="../wall.html">THE WALL</a>
+        <a class="active" href="taxes.html">THE BILLS</a>
+        <a href="../action.html">TAKE ACTION</a>
+      </nav>
+
+      <form class="search" onsubmit="return false;">
+        <input type="search" placeholder="Search bills (coming soon)" />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="wrap" style="padding-top:22px;">
+    <section class="panel panelPad">
+      <h1>The Bills: Taxes</h1>
+      <p class="sub">
+        The tax & cost-of-living hit list. Status badges are color-coded (Proposed / Introduced / In Committee / Passed / Signed / Blocked).
+      </p>
+
+      <div class="tabs">
+        <a class="tab active" href="taxes.html">💰 Taxes</a>
+        <a class="tab" href="crime.html">🚔 Crime</a>
+      </div>
+    </section>
+
+    <section class="panel panelPad" style="margin-top:14px;">
+      <div style="font-weight:900; text-transform:uppercase; letter-spacing:0.4px;">The Olympia Did That Hit List</div>
+      <div class="grid" id="grid"></div>
+      <div class="tiny" style="margin-top:12px;">
+        If you later update each bill’s status text (e.g., “In Committee”), the badge color will auto-update.
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap" style="display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+      <div class="tiny">© 2026 Olympia Did That — Truth Fund</div>
+      <div class="footerLinks">
+        <a href="../about.html">About Us</a>
+        <a href="../privacy.html">Privacy Policy</a>
+        <a href="../tip.html">Submit a Tip</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const taxBills = [
+      {
+        code: "SB 6346",
+        status: "Proposed",
+        title: "The Income Tax “Foot in the Door”",
+        desc: "Framed as a “Millionaires Tax,” but it builds the administrative machinery for a universal state income tax.",
+        sponsors: "Driver (draft): Rep. Joe Fitzgibbon",
+        impact: "Bottom Line: Build it now, tax everyone later."
+      },
+      {
+        code: "SB 5770",
+        status: "Proposed",
+        title: "The Forever-Hike Property Tax",
+        desc: "Triples the annual growth cap from 1% to 3% without a vote — turning homeownership into a yearly cost ratchet.",
+        sponsors: "Lead Sponsor (draft): Rep. April Berg",
+        impact: "Bottom Line: Your home becomes the state’s piggy bank."
+      },
+      {
+        code: "SB 6345",
+        status: "Proposed",
+        title: "The “Pain at the Pump” Ferry Tax",
+        desc: "Hikes the gas tax again to fund hybrid-electric ferries and other projects while roads and bridges crumble.",
+        sponsors: "Architect (draft): Sen. Marko Liias",
+        impact: "Bottom Line: You pay more at the pump; they get a shiny project."
+      },
+      {
+        code: "SB 6347",
+        status: "Proposed",
+        title: "The “Death Tax” Expansion",
+        desc: "Claws back exemptions for family-owned businesses and farms — making it harder to pass your life’s work to your kids.",
+        sponsors: "Backed by budget leadership (draft)",
+        impact: "Bottom Line: Olympia takes a final cut when you’re gone."
+      },
+      {
+        code: "HB 2079",
+        status: "Proposed",
+        title: "The Nanny-State Alcohol Tax",
+        desc: "Another “sin tax” framed as “community funding” — used to plug a budget hole caused by overspending.",
+        sponsors: "Supported by nanny-state bloc (draft)",
+        impact: "Bottom Line: They tax your weekend to pay for their mess."
+      },
+      {
+        code: "HB 1940",
+        status: "Proposed",
+        title: "The Vice Squeeze",
+        desc: "Targets high-THC products with massive excise taxes, pushing consumers back to the black market.",
+        sponsors: "Revenue expansion caucus (draft)",
+        impact: "Bottom Line: Cash grab over smart policy."
+      }
+    ];
+
+    function statusClass(status){
+      const s = (status || "").toLowerCase();
+      if (s.includes("signed")) return "signed";
+      if (s.includes("passed")) return "passed";
+      if (s.includes("committee")) return "committee";
+      if (s.includes("introduced")) return "introduced";
+      if (s.includes("blocked") || s.includes("killed") || s.includes("dead")) return "blocked";
+      if (s.includes("proposal") || s.includes("proposed")) return "proposed";
+      return "proposed";
+    }
+
+    function billCard(b){
+      return `
+        <article class="bill">
+          <div class="billTop">
+            <div class="billCode">${b.code}</div>
+            <div class="pill ${statusClass(b.status)}">${b.status}</div>
+          </div>
+          <div class="billTitle">${b.title}</div>
+          <div class="billDesc">${b.desc}</div>
+          <div class="billMeta">
+            <span>${b.sponsors}</span>
+            <span>•</span>
+            <span>${b.impact}</span>
+          </div>
+        </article>
+      `;
+    }
+
+    document.getElementById("grid").innerHTML = taxBills.map(billCard).join("");
+  </script>
+</body>
+</html>
