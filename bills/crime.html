@@ -7,13 +7,17 @@
 
   <style>
     :root{
-      --overlay: 0.25;
-      --stroke: rgba(255,255,255,0.14);
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.72);
-      --shadow: 0 18px 50px rgba(0,0,0,0.45);
+      --overlay: 0.22;
+      --stroke: rgba(255,255,255,0.18);
+      --text: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.78);
+      --shadow: 0 18px 50px rgba(0,0,0,0.50);
       --radius: 18px;
       --max: 1180px;
+
+      /* Readability */
+      --panelBg: rgba(0,0,0,0.70);
+      --cardBg: rgba(255,255,255,0.12);
     }
     *{ box-sizing:border-box; }
     body{
@@ -31,7 +35,7 @@
     .header{
       position: sticky; top:0; z-index:50;
       backdrop-filter: blur(10px);
-      background: rgba(0,0,0,0.35);
+      background: rgba(0,0,0,0.55); /* rule */
       border-bottom: 1px solid var(--stroke);
     }
     .navrow{
@@ -46,7 +50,7 @@
     .logo{ display:flex; align-items:center; gap:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.4px; }
     .logo-badge{
       width:34px; height:34px; border-radius:10px;
-      background: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.14);
       border: 1px solid var(--stroke);
       display:grid; place-items:center;
       box-shadow: var(--shadow);
@@ -54,7 +58,7 @@
     }
     .navlinks{ display:flex; gap:18px; justify-content:center; flex-wrap:wrap; font-weight:800; letter-spacing:0.3px; }
     .navlinks a{ padding:8px 10px; border-radius:10px; }
-    .navlinks a.active, .navlinks a:hover{ background: rgba(255,255,255,0.10); text-decoration:none; }
+    .navlinks a.active, .navlinks a:hover{ background: rgba(255,255,255,0.12); text-decoration:none; }
 
     .search{ display:flex; gap:10px; justify-content:flex-end; }
     .search input{
@@ -62,7 +66,7 @@
       padding:10px 12px;
       border-radius:12px;
       border:1px solid var(--stroke);
-      background: rgba(0,0,0,0.35);
+      background: rgba(0,0,0,0.55); /* rule */
       color: var(--text);
       outline:none;
     }
@@ -70,7 +74,7 @@
       padding:10px 12px;
       border-radius:12px;
       border:1px solid var(--stroke);
-      background: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.16);
       color: var(--text);
       font-weight:900;
       cursor:pointer;
@@ -79,7 +83,7 @@
     .panel{
       border: 1px solid var(--stroke);
       border-radius: var(--radius);
-      background: rgba(0,0,0,0.28);
+      background: var(--panelBg); /* rule */
       box-shadow: var(--shadow);
       overflow:hidden;
     }
@@ -100,12 +104,12 @@
       padding: 10px 12px;
       border-radius: 14px;
       border: 1px solid var(--stroke);
-      background: rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.14);
       font-weight: 900;
       letter-spacing: 0.4px;
       text-transform: uppercase;
     }
-    .tab.active{ background: rgba(255,255,255,0.18); }
+    .tab.active{ background: rgba(255,255,255,0.20); }
     .tab:hover{ text-decoration:none; filter:brightness(1.06); }
 
     .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:14px; }
@@ -113,8 +117,9 @@
     .bill{
       border: 1px solid var(--stroke);
       border-radius: 16px;
-      background: rgba(255,255,255,0.08);
+      background: var(--cardBg);
       padding: 16px;
+      box-shadow: var(--shadow);
     }
     .billTop{
       display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
@@ -125,7 +130,7 @@
       padding: 6px 10px;
       border-radius: 999px;
       border: 1px solid var(--stroke);
-      background: rgba(0,0,0,0.25);
+      background: rgba(0,0,0,0.40);
       color: var(--muted);
       font-size: 12px;
       white-space: nowrap;
@@ -133,35 +138,37 @@
       letter-spacing: 0.3px;
       text-transform: uppercase;
     }
+
+    /* Status colors */
     .pill.passed{
-      background: rgba(46, 204, 113, 0.18);
-      border-color: rgba(46, 204, 113, 0.55);
-      color: rgba(210, 255, 230, 0.95);
+      background: rgba(46, 204, 113, 0.22);
+      border-color: rgba(46, 204, 113, 0.60);
+      color: rgba(220, 255, 235, 0.98);
     }
     .pill.committee{
-      background: rgba(241, 196, 15, 0.18);
-      border-color: rgba(241, 196, 15, 0.55);
-      color: rgba(255, 245, 210, 0.95);
+      background: rgba(241, 196, 15, 0.22);
+      border-color: rgba(241, 196, 15, 0.60);
+      color: rgba(255, 248, 220, 0.98);
     }
     .pill.introduced{
-      background: rgba(52, 152, 219, 0.18);
-      border-color: rgba(52, 152, 219, 0.55);
-      color: rgba(220, 245, 255, 0.95);
+      background: rgba(52, 152, 219, 0.22);
+      border-color: rgba(52, 152, 219, 0.60);
+      color: rgba(225, 248, 255, 0.98);
     }
     .pill.signed{
-      background: rgba(155, 89, 182, 0.18);
-      border-color: rgba(155, 89, 182, 0.55);
-      color: rgba(245, 225, 255, 0.95);
+      background: rgba(155, 89, 182, 0.22);
+      border-color: rgba(155, 89, 182, 0.60);
+      color: rgba(250, 235, 255, 0.98);
     }
     .pill.blocked{
-      background: rgba(231, 76, 60, 0.18);
-      border-color: rgba(231, 76, 60, 0.55);
-      color: rgba(255, 220, 220, 0.95);
+      background: rgba(231, 76, 60, 0.22);
+      border-color: rgba(231, 76, 60, 0.60);
+      color: rgba(255, 228, 228, 0.98);
     }
     .pill.proposed{
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.22);
-      color: rgba(255,255,255,0.86);
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.26);
+      color: rgba(255,255,255,0.90);
     }
 
     .billTitle{ margin-top:8px; font-weight:900; }
@@ -172,7 +179,7 @@
       margin-top: 34px;
       padding: 22px 0 30px;
       border-top: 1px solid var(--stroke);
-      background: rgba(0,0,0,0.28);
+      background: rgba(0,0,0,0.65);
     }
     .footerLinks{ display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); }
     .tiny{ color:var(--muted); font-size:13px; }
@@ -196,7 +203,7 @@
 
       <nav class="navlinks" aria-label="Primary">
         <a href="../wall.html">THE WALL</a>
-        <a class="active" href="crime.html">THE BILLS</a>
+        <a class="active" href="billindex.html">THE BILLS</a>
         <a href="../action.html">TAKE ACTION</a>
       </nav>
 
@@ -248,12 +255,12 @@
         title: "Retroactive Sentence Cuts",
         desc: "Gives judges the power to retroactively cut sentences — pushing “decarceration” even for serious offenses.",
         sponsors: "Primary force (draft): Sen. Noel Frame",
-        impact: "Bottom Line: The prison door should always be swinging open."
+        impact: "Bottom Line: The prison door swings open sooner."
       },
       {
         code: "SB 5266",
         status: "Proposed",
-        title: "Sentencing Reform",
+        title: "Sentencing Reform Expansion",
         desc: "Broad sentencing reforms that reduce enhancements and shorten prison stays across categories.",
         sponsors: "Primary force (draft): Sen. Noel Frame",
         impact: "Bottom Line: Shorter sentences, fewer consequences."
@@ -262,9 +269,9 @@
         code: "SB 5475",
         status: "Proposed",
         title: "“25 is the New 18”",
-        desc: "Treats violent 24-year-olds as “emerging adults,” shifting policy toward lighter accountability up to age 25.",
+        desc: "Treats violent offenders up to age 25 as “emerging adults,” shifting policy toward lighter accountability.",
         sponsors: "Lead advocate (draft): Sen. Manka Dhingra",
-        impact: "Bottom Line: Analyze the criminal; punish less."
+        impact: "Bottom Line: Serious offenders get lighter handling."
       }
     ];
 
