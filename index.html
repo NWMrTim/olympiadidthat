@@ -1,93 +1,315 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Olympia Did That</title>
 
   <style>
     :root{
-      --overlay: 0.85;     /* darken background */
-      --glow: rgba(255,0,0,0.35);
+      --overlay: 0.22;                 /* keep background visible */
+      --stroke: rgba(255,255,255,0.18);
+      --text: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.78);
+      --shadow: 0 18px 50px rgba(0,0,0,0.50);
+      --radius: 18px;
+      --max: 1180px;
+      --accent: #ff3b3b;
+
+      /* NEW: readability */
+      --panelBg: rgba(0,0,0,0.70);
+      --cardBg: rgba(255,255,255,0.12);
     }
 
-    html, body { height: 100%; }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: white;
-
-      /* money background + dark overlay so the main graphic pops */
+    *{ box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
       background:
-        linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
         url("assets/money-bg.jpg") center / cover no-repeat fixed;
     }
 
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 24px 16px;
+    a{ color: inherit; text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+    .wrap{ max-width: var(--max); margin: 0 auto; padding: 20px; }
+
+    .header{
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.55);         /* NEW: more solid header */
+      border-bottom: 1px solid var(--stroke);
+    }
+    .navrow{
+      display: grid;
+      grid-template-columns: 220px 1fr 320px;
       gap: 14px;
+      align-items: center;
+      padding: 14px 20px;
+      max-width: var(--max);
+      margin: 0 auto;
     }
 
-    .main-graphic {
-      max-width: 760px;
-      width: min(92vw, 760px);
-      height: auto;
-      box-shadow: 0 0 42px var(--glow);
-      border-radius: 2px;
-      display: block;
+    .logo{
+      display:flex; align-items:center; gap:10px;
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+    .logo-badge{
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid var(--stroke);
+      display:grid; place-items:center;
+      box-shadow: var(--shadow);
+      font-size: 14px;
     }
 
-    h1 {
-      margin: 18px 0 0;
-      font-size: clamp(1.6rem, 3.2vw, 2.2rem);
-      line-height: 1.15;
-      text-shadow: 0 2px 18px rgba(0,0,0,0.6);
+    .navlinks{
+      display:flex; gap: 18px;
+      justify-content: center;
+      flex-wrap: wrap;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+    .navlinks a{
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+    .navlinks a:hover{
+      background: rgba(255,255,255,0.12);
+      text-decoration: none;
     }
 
-    h2 {
-      margin: 6px 0 0;
-      font-size: clamp(1.1rem, 2.2vw, 1.4rem);
-      font-weight: 600;
-      opacity: 0.9;
+    .search{
+      display:flex; gap: 10px; justify-content: flex-end;
+    }
+    .search input{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,0.55);         /* NEW: more solid */
+      color: var(--text);
+      outline: none;
+    }
+    .search button{
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.16);
+      color: var(--text);
+      font-weight: 900;
+      cursor: pointer;
     }
 
-    .contact {
-      margin-top: 14px;
-      font-size: 1rem;
-      opacity: 0.92;
+    .hero{ padding: 40px 0 10px; }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+      align-items: stretch;
     }
 
-    .contact a {
-      color: #ffffff;
-      text-decoration: underline;
+    .panel{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: var(--panelBg);           /* NEW */
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .panelPad{ padding: 26px; }
+
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(34px, 4vw, 54px);
+      line-height: 1.02;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+    .sub{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.5;
+      max-width: 62ch;
+    }
+    .ctaRow{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.14);   /* NEW: more solid buttons */
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .btnPrimary{
+      background: rgba(255,59,59,0.92);
+      border-color: rgba(255,59,59,0.92);
+      color: #111;
+    }
+    .btn:hover{ filter: brightness(1.06); text-decoration: none; }
+
+    .mock{
+      height: 100%;
+      min-height: 360px;
+      background:
+        linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.18)),
+        url("assets/OlympiaDidThatLanding.jpg") center / cover no-repeat;
+    }
+    .mockWrap{ position: relative; }
+    .mockNote{
+      position: absolute;
+      bottom: 16px; left: 16px; right: 16px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,0.65);         /* NEW: readable */
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
     }
 
-    .contact a:hover {
-      opacity: 0.85;
+    .footer{
+      margin-top: 34px;
+      padding: 28px 0 38px;
+      border-top: 1px solid var(--stroke);
+      background: rgba(0,0,0,0.65);         /* NEW */
+    }
+    .footerGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    .signup{
+      display:flex; gap: 10px; flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .signup input{
+      flex: 1 1 240px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,0.55);         /* NEW */
+      color: var(--text);
+      outline: none;
+    }
+    .footerLinks{
+      display:flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    .tiny{ color: var(--muted); font-size: 13px; }
+
+    @media (max-width: 980px){
+      .navrow{ grid-template-columns: 1fr; }
+      .navlinks{ justify-content: flex-start; }
+      .search{ justify-content: flex-start; }
+      .heroGrid{ grid-template-columns: 1fr; }
+      .footerGrid{ grid-template-columns: 1fr; }
+      .footerLinks{ justify-content: flex-start; }
+      .mock{ min-height: 260px; }
     }
   </style>
 </head>
 
 <body>
-  <div class="hero">
-    <!-- If you moved the image into /assets, keep this path.
-         If you left it in the repo root, change to: src="OlympiaDidThatLanding.png" -->
-    <img src="assets/OlympiaDidThatLanding.png" alt="Olympia Did That graphic" class="main-graphic" />
+  <header class="header">
+    <div class="navrow">
+      <a class="logo" href="index.html">
+        <div class="logo-badge">ODT</div>
+        <div>Olympia Did That</div>
+      </a>
 
-    <h1>Olympia Did That! Exposing the SCAM cycle</h1>
-    <h2>Are you ready to take Action?</h2>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="wall.html">THE WALL</a>
+        <a href="bills/billindex.html">THE BILLS</a>
+        <a href="action.html">TAKE ACTION</a>
+      </nav>
 
-    <div class="contact">
-      <strong>Contact info:</strong>
-      <div>Email: <a href="mailto:contact@olympiadidthat.com">contact@olympiadidthat.com</a></div>
+      <form class="search" onsubmit="return findLegislator(event)">
+        <input id="q" type="search" placeholder="Find your legislator" aria-label="Find your legislator" />
+        <button type="submit">Search</button>
+      </form>
     </div>
-  </div>
+  </header>
+
+  <main class="wrap hero">
+    <div class="heroGrid">
+      <section class="panel panelPad">
+        <h1>They did that. Now you know.</h1>
+        <p class="sub">
+          Washington’s legislators are passing bills that hike your taxes and hurt your safety.
+          We’re keeping the receipts.
+        </p>
+
+        <div class="ctaRow">
+          <a class="btn btnPrimary" href="wall.html">See the Wall of Shame</a>
+          <a class="btn" href="action.html">Fund the Truth</a>
+          <a class="btn" href="bills/billindex.html">View the Hit List</a>
+        </div>
+
+        <p class="tiny" style="margin-top:14px;">
+          Tip: Use the search bar to jump straight to a legislator rap sheet.
+        </p>
+      </section>
+
+      <aside class="panel mockWrap">
+        <div class="mock" role="img" aria-label="Front page mockup placeholder"></div>
+        <div class="mockNote">
+          Visual idea: a “Seattle Times front page” mockup featuring the Wall of Shame on the left,
+          donation widget on the right (Truth Fund).
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footerGrid">
+      <div>
+        <div style="font-weight:900; letter-spacing:0.4px; text-transform:uppercase;">Stay Alert.</div>
+        <div class="tiny">Get notified when they do it again.</div>
+        <div class="signup">
+          <input type="email" placeholder="Email address" />
+          <button class="btn btnPrimary" type="button">Sign Up</button>
+        </div>
+        <div class="tiny" style="margin-top:10px;">© 2026 Olympia Did That — Truth Fund</div>
+      </div>
+
+      <div>
+        <div class="footerLinks">
+          <a href="about.html">About Us</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="tip.html">Submit a Tip</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function findLegislator(e){
+      e.preventDefault();
+      const q = (document.getElementById('q').value || '').trim();
+      if(!q) return false;
+      window.location.href = "wall.html?q=" + encodeURIComponent(q);
+      return false;
+    }
+  </script>
 </body>
 </html>
