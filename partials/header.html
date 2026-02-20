@@ -111,19 +111,19 @@
  /* Search: EXPANDS to consume unused space */
  /* Search: stays on ONE row; input shrinks before wrapping */
  .search{
-   flex: 0 1 520px;     /* overall width target; tweak 430–520 if desired */
+   flex: 1 1 auto;        /* take the leftover space */
    display: flex;
    align-items: center;
    gap: 8px;
-   min-width: 0;        /* IMPORTANT: allows children to shrink */
+   min-width: 0;          /* IMPORTANT: allow shrinking */
    justify-content: flex-end;
 }
 
-.search input{
+ .search input{
    flex: 1 1 auto;
-   min-width: 0;        /* CRITICAL: prevents the button from dropping */
-   max-width: 440px;    /* controls how long the field can get */
+   min-width: 0;          /* CRITICAL */
    width: 100%;
+   max-width: 520px;      /* allow it to get longer */
    padding: 9px 12px;
    border-radius: 14px;
    border: 1px solid var(--hdrStroke);
@@ -160,7 +160,7 @@
     color: var(--hdrText);
     text-decoration: none;
     box-shadow: var(--hdrShadow);
-    max-width: 320px;         /* prevent ridiculous width */
+    max-width: 300px;         /* prevent ridiculous width */
   }
   .districtBtn:hover{ background: rgba(255,255,255,0.20); text-decoration:none; }
   .districtSmall{
