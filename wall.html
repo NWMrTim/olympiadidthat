@@ -10,15 +10,19 @@
       --overlay: 0.22;
       --stroke: rgba(255,255,255,0.18);
       --text: rgba(255,255,255,0.94);
-      --muted: rgba(255,255,255,0.78);
-      --shadow: 0 18px 50px rgba(0,0,0,0.50);
+      --muted: rgba(255,255,255,0.80);
+      --shadow: 0 18px 50px rgba(0,0,0,0.55);
       --radius: 18px;
       --max: 1180px;
       --accent: #ff3b3b;
 
-      /* Readability */
-      --panelBg: rgba(0,0,0,0.70);
+      /* readability */
+      --panelBg: rgba(0,0,0,0.72);
+      --cardBg: rgba(0,0,0,0.72);
+      --chipBg: rgba(255,255,255,0.14);
+      --chipBgActive: rgba(255,255,255,0.20);
     }
+
     *{ box-sizing:border-box; }
     body{
       margin:0;
@@ -32,10 +36,11 @@
     a:hover{ text-decoration:underline; }
     .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
 
+    /* Header */
     .header{
       position: sticky; top:0; z-index:50;
       backdrop-filter: blur(10px);
-      background: rgba(0,0,0,0.55); /* rule */
+      background: rgba(0,0,0,0.55);
       border-bottom: 1px solid var(--stroke);
     }
     .navrow{
@@ -47,7 +52,10 @@
       max-width: var(--max);
       margin:0 auto;
     }
-    .logo{ display:flex; align-items:center; gap:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.4px; }
+    .logo{
+      display:flex; align-items:center; gap:10px;
+      font-weight:900; letter-spacing:0.4px; text-transform:uppercase;
+    }
     .logo-badge{
       width:34px; height:34px; border-radius:10px;
       background: rgba(255,255,255,0.14);
@@ -56,9 +64,15 @@
       box-shadow: var(--shadow);
       font-size:14px;
     }
-    .navlinks{ display:flex; gap:18px; justify-content:center; flex-wrap:wrap; font-weight:800; letter-spacing:0.3px; }
+    .navlinks{
+      display:flex; gap:18px; justify-content:center; flex-wrap:wrap;
+      font-weight:800; letter-spacing:0.3px;
+    }
     .navlinks a{ padding:8px 10px; border-radius:10px; }
-    .navlinks a.active, .navlinks a:hover{ background: rgba(255,255,255,0.12); text-decoration:none; }
+    .navlinks a.active, .navlinks a:hover{
+      background: rgba(255,255,255,0.12);
+      text-decoration:none;
+    }
 
     .search{ display:flex; gap:10px; justify-content:flex-end; }
     .search input{
@@ -66,7 +80,7 @@
       padding:10px 12px;
       border-radius:12px;
       border:1px solid var(--stroke);
-      background: rgba(0,0,0,0.55); /* rule */
+      background: rgba(0,0,0,0.55);
       color: var(--text);
       outline:none;
     }
@@ -80,79 +94,139 @@
       cursor:pointer;
     }
 
+    /* Panels */
     .panel{
       border: 1px solid var(--stroke);
       border-radius: var(--radius);
-      background: var(--panelBg); /* rule */
+      background: var(--panelBg);
       box-shadow: var(--shadow);
       overflow:hidden;
+      backdrop-filter: blur(6px);
     }
     .panelPad{ padding: 22px; }
 
     h1{
       margin:0 0 10px;
-      font-size: clamp(30px, 3.2vw, 46px);
+      font-size: clamp(30px, 3.2vw, 48px);
       line-height:1.05;
       text-transform: uppercase;
       letter-spacing:0.6px;
     }
-    .sub{ margin:0; color:var(--muted); line-height:1.55; max-width: 75ch; }
+    .sub{ margin:0; color: var(--muted); line-height:1.55; max-width: 80ch; }
 
-    .ctaRow{ display:flex; gap:12px; flex-wrap:wrap; margin-top: 12px; }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding: 12px 14px;
-      border-radius: 14px;
+    /* Filter chips */
+    .chipRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 14px; }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
       border: 1px solid var(--stroke);
-      background: rgba(255,255,255,0.14);
+      background: var(--chipBg);
       font-weight: 900;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.35px;
       text-transform: uppercase;
       cursor: pointer;
+      user-select:none;
     }
-    .btnPrimary{
-      background: rgba(255,59,59,0.92);
-      border-color: rgba(255,59,59,0.92);
-      color:#111;
-    }
-    .btn:hover{ filter:brightness(1.06); text-decoration:none; }
+    .chip:hover{ filter: brightness(1.06); }
+    .chip.active{ background: var(--chipBgActive); }
 
+    /* Grid */
     .grid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 14px;
       margin-top: 14px;
     }
+
+    /* Person card */
     .card{
       border: 1px solid var(--stroke);
-      border-radius: 16px;
-      background: rgba(255,255,255,0.10);
-      overflow:hidden;
+      border-radius: 18px;
+      background: var(--cardBg); /* darker, less translucent */
       box-shadow: var(--shadow);
+      overflow:hidden;
+      backdrop-filter: blur(6px);
     }
+
     .mug{
-      height: 180px;
-      background: rgba(0,0,0,0.40);
+      height: 170px;
+      padding: 14px;
+      background: rgba(0,0,0,0.55); /* stops money bleed */
       border-bottom: 1px solid var(--stroke);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .mugInner{
+      width: 100%;
+      height: 100%;
+      border-radius: 14px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.10);
       display:grid;
       place-items:center;
-      color: rgba(255,255,255,0.70);
+      color: rgba(255,255,255,0.80);
       font-weight: 900;
       letter-spacing: 0.4px;
       text-transform: uppercase;
+      text-align:center;
+      padding: 10px;
     }
-    .cardBody{ padding: 16px; }
-    .name{ font-weight:900; }
-    .tiny{ color:var(--muted); font-size: 13px; margin-top: 6px; line-height:1.4; }
 
+    .cardBody{ padding: 16px; }
+    .name{ font-weight: 900; font-size: 18px; }
+    .tiny{ color: var(--muted); font-size: 13px; margin-top: 6px; line-height: 1.45; }
+
+    .btnRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 12px; }
+
+    /* Smaller buttons */
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 14px;     /* smaller */
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.14);
+      font-weight: 900;
+      letter-spacing: 0.35px;
+      text-transform: uppercase;
+      cursor:pointer;
+    }
+    .btn:hover{ filter: brightness(1.06); text-decoration:none; }
+
+    .btnPrimary{
+      background: rgba(255,59,59,0.92);
+      border-color: rgba(255,59,59,0.92);
+      color: #111;
+    }
+
+    /* Stronger secondary (“Fund the Truth”) */
+    .btnSecondary{
+      background: rgba(255,255,255,0.22);
+      border-color: rgba(255,255,255,0.36);
+      color: var(--text);
+    }
+
+    /* Footer */
     .footer{
       margin-top: 34px;
       padding: 22px 0 30px;
       border-top: 1px solid var(--stroke);
       background: rgba(0,0,0,0.65);
     }
-    .footerLinks{ display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); }
+    .footerLinks{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      color: var(--muted);
+    }
 
+    /* Responsive */
     @media (max-width: 980px){
       .navrow{ grid-template-columns: 1fr; }
       .navlinks{ justify-content:flex-start; }
@@ -191,11 +265,11 @@
       <h1>The Wall of Shame</h1>
       <p class="sub">Click a mugshot to view the rap sheet. (Images are placeholders for now.)</p>
 
-      <div class="ctaRow">
-        <button class="btn" onclick="setFilter('all')">All</button>
-        <button class="btn" onclick="setFilter('tax')">💰 The Tax Squad</button>
-        <button class="btn" onclick="setFilter('crime')">🚔 The Crime Clique</button>
-        <button class="btn" onclick="setFilter('bureau')">📂 The Bureaucrats</button>
+      <div class="chipRow" role="tablist" aria-label="Wall filters">
+        <div class="chip active" role="tab" aria-selected="true" tabindex="0" onclick="setFilter('all')">ALL</div>
+        <div class="chip" role="tab" aria-selected="false" tabindex="0" onclick="setFilter('tax')">💰 THE TAX SQUAD</div>
+        <div class="chip" role="tab" aria-selected="false" tabindex="0" onclick="setFilter('crime')">🚓 THE CRIME CLIQUE</div>
+        <div class="chip" role="tab" aria-selected="false" tabindex="0" onclick="setFilter('bureau')">📂 THE BUREAUCRATS</div>
       </div>
     </section>
 
@@ -206,11 +280,12 @@
 
   <footer class="footer">
     <div class="wrap" style="display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;">
-      <div class="tiny">© 2026 Olympia Did That — Truth Fund</div>
+      <div style="color:var(--muted); font-size:13px;">© 2026 Olympia Did That — Truth Fund</div>
       <div class="footerLinks">
         <a href="about.html">About Us</a>
         <a href="privacy.html">Privacy Policy</a>
         <a href="tip.html">Submit a Tip</a>
+        <a href="mailto:contact@olympiadidthat.com">Contact</a>
       </div>
     </div>
   </footer>
@@ -233,14 +308,16 @@
     function cardTemplate(p){
       return `
         <article class="card">
-          <div class="mug">MUGSHOT PLACEHOLDER</div>
+          <div class="mug">
+            <div class="mugInner">MUGSHOT PLACEHOLDER</div>
+          </div>
           <div class="cardBody">
             <div class="name">${p.name}</div>
             <div class="tiny">${p.offense}</div>
             <div class="tiny">Bills: ${p.blurb}</div>
-            <div class="ctaRow" style="margin-top:12px;">
+            <div class="btnRow">
               <a class="btn btnPrimary" href="rap-sheet.html?id=${encodeURIComponent(p.id)}">View Rap Sheet</a>
-              <a class="btn" href="action.html">Fund the Truth</a>
+              <a class="btn btnSecondary" href="action.html">Fund the Truth</a>
             </div>
           </div>
         </article>
@@ -253,13 +330,26 @@
       grid.innerHTML = filtered.map(cardTemplate).join("");
     }
 
-    function setFilter(f){ currentFilter = f; render(); }
+    function setFilter(f){
+      currentFilter = f;
+      // update chip UI
+      document.querySelectorAll(".chip").forEach(ch => ch.classList.remove("active"));
+      const map = { all:0, tax:1, crime:2, bureau:3 };
+      const idx = map[f] ?? 0;
+      const chips = document.querySelectorAll(".chip");
+      if (chips[idx]) chips[idx].classList.add("active");
+      render();
+    }
 
     function findLegislator(e){
       e.preventDefault();
       const q = (document.getElementById('q').value || '').trim().toLowerCase();
       if(!q) return false;
-      const hit = people.find(p => p.name.toLowerCase().includes(q) || p.id.includes(q));
+
+      const hit = people.find(p =>
+        p.name.toLowerCase().includes(q) || p.id.includes(q)
+      );
+
       if(hit) window.location.href = "rap-sheet.html?id=" + encodeURIComponent(hit.id);
       else alert("No match yet. Try last name (e.g., Macri).");
       return false;
@@ -269,6 +359,7 @@
       const params = new URLSearchParams(location.search);
       const q = (params.get("q")||"").trim();
       if(q) document.getElementById("q").value = q;
+
       render();
     })();
   </script>
