@@ -1,1 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Take Action | Olympia Did That</title>
 
+  <style>
+    :root{
+      --overlay: 0.22;
+      --stroke: rgba(255,255,255,0.18);
+      --text: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.78);
+      --shadow: 0 18px 50px rgba(0,0,0,0.50);
+      --radius: 18px;
+      --max: 1180px;
+      --accent: #ff3b3b;
+
+      --panelBg: rgba(0,0,0,0.70);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
+        url("assets/money-bg.jpg") center / cover no-repeat fixed;
+    }
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
+
+    .header{
+      position: sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.55);
+      border-bottom: 1px solid var(--stroke);
+    }
+    .navrow{
+      display:grid;
+      grid-template-columns: 220px 1fr 320px;
+      gap:14px;
+      align-items:center;
+      padding: 14px 20px;
+      max-width: var(--max);
+      margin:0 auto;
+    }
+    .logo{ display:flex; align-items:center; gap:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.4px; }
+    .logo-badge{
+      width:34px; height:34px; border-radius:10px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid var(--stroke);
+      display:grid; place-items:center;
+      box-shadow: var(--shadow);
+      font-size:14px;
+    }
+    .navlinks{ display:flex; gap:18px; justify-content:center; flex-wrap:wrap; font-weight:800; letter-spacing:0.3px; }
+    .navlinks a{ padding:8px 10px; border-radius:10px; }
+    .navlinks a.active, .navlinks a:hover{ background: rgba(255,255,255,0.12); text-decoration:none; }
+
+    .search{ display:flex; gap:10px; justify-content:flex-end; }
+    .search input{
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,0.55);
+      color: var(--text);
+      outline:none;
+    }
+    .search button{
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,0.16);
+      color: var(--text);
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .hero{ padding: 22px 0 10px; }
+    .heroGrid{ display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 14px; align-items: stretch; }
+
+    .panel{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: var(--panelBg);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelPad{ padding: 22px; }
+
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height:1.05;
+      text-transform: uppercase;
+      letter-spacing:0.6px;
+    }
+    .sub{ margin:0; color:var(--muted); line-height:1.55; max-width: 75ch; }
+
+    .bar{ height:12px; border-radius:999px; border:1px solid var(--stroke); background:rgba(0,0,0,0.55); overflow:hidden; margin-top:8px; }
+    .bar > div{ height:100%; width:12%; background: rgba(255,59,59,0.92); }
+
+    .choice{
+      display:flex; gap:10px; align-items:center;
+      padding:10px 12px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,0.12);
+      border-radius:14px;
+    }
+
+    .btnRow{ display:flex; gap:12px; flex-wrap:wrap; margin-top: 14px; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.14);
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .btnPrimary{
+      background: rgba(255,59,59,0.92);
+      border-color: rgba(255,59,59,0.92);
+      color:#111;
+    }
+    .btn:hover{ filter:brightness(1.06); text-decoration:none; }
+    .tiny{ color:var(--muted); font-size:13px; }
+
+    @media (max-width: 980px){
+      .navrow{ grid-template-columns: 1fr; }
+      .navlinks{ justify-content:flex-start; }
+      .search{ justify-content:flex-start; }
+      .heroGrid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="navrow">
+      <a class="logo" href="index.html">
+        <div class="logo-badge">ODT</div>
+        <div>Olympia Did That</div>
+      </a>
+
+      <nav class="navlinks" aria-label="Primary">
+        <a href="wall.html">THE WALL</a>
+        <a href="bills/billindex.html">THE BILLS</a>
+        <a class="active" href="action.html">TAKE ACTION</a>
+      </nav>
+
+      <form class="search" onsubmit="return false;">
+        <input type="search" placeholder="Find your legislator (coming soon)" />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="wrap hero">
+    <div class="heroGrid">
+      <section class="panel panelPad">
+        <h1>They won’t listen to emails. They’ll listen to the Sunday paper.</h1>
+        <p class="sub">
+          We are taking the Wall of Shame to the front pages. Help us put these mugshots in every driveway in Washington.
+        </p>
+
+        <div style="margin-top:16px;">
+          <div style="font-weight:900; text-transform:uppercase; letter-spacing:0.4px;">$50 a month for 12 months</div>
+          <div class="tiny" style="margin-top:6px;">A $600 investment in Washington’s future.</div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <div class="tiny">Goal: 2,000 donors at $50/mo. Current: 12%</div>
+          <div class="bar"><div></div></div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <div style="font-weight:900; text-transform:uppercase; letter-spacing:0.4px;">Where your support goes</div>
+          <ul style="margin:10px 0 0; color:var(--muted); line-height:1.55;">
+            <li><b>Sunday Ads:</b> full-page, high-impact ads to expose these legislators.</li>
+            <li><b>“Let’s Go [County]” paper:</b> printed bundles for PCO door-to-door distribution.</li>
+            <li><b>2026 vetting:</b> research + support to recruit and back candidates who will fix the mess.</li>
+          </ul>
+        </div>
+      </section>
+
+      <aside class="panel panelPad">
+        <div style="font-weight:900; text-transform:uppercase; letter-spacing:0.4px;">Donation Widget</div>
+        <p class="tiny" style="margin-top:8px;">
+          Replace this box with your real donation embed (Stripe/Givebutter/etc.).
+        </p>
+
+        <div style="display:grid; gap:10px; margin-top:12px;">
+          <label class="choice"><input type="radio" name="amt" checked> $50 Monthly (Recommended)</label>
+          <label class="choice"><input type="radio" name="amt"> $100 Monthly (Champion)</label>
+          <label class="choice"><input type="radio" name="amt"> One-time Donation</label>
+        </div>
+
+        <div class="btnRow">
+          <button class="btn btnPrimary" type="button">Fund the Truth</button>
+          <a class="btn" href="wall.html">Back to the Wall</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer" style="margin-top:34px; padding:22px 0 30px; border-top:1px solid var(--stroke); background:rgba(0,0,0,0.65);">
+    <div class="wrap" style="display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+      <div class="tiny">© 2026 Olympia Did That — Truth Fund</div>
+      <div style="display:flex; gap:14px; flex-wrap:wrap; color:var(--muted);">
+        <a href="about.html">About Us</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="tip.html">Submit a Tip</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
