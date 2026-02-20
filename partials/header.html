@@ -13,6 +13,8 @@
       <a class="navBtn" href="/bills/billindex.html">THE BILLS</a>
       <a class="navBtn" href="/events.html">EVENTS</a>
       <a class="navBtn" href="/action.html">TAKE ACTION</a>
+      <!-- If you want: change THE WALL -> WALL OF SHAME -->
+      <!-- <a class="navBtn" href="/wall.html">WALL OF SHAME</a> -->
     </nav>
 
     <form class="search" onsubmit="return window.ODT_findLegislator && window.ODT_findLegislator(event);">
@@ -52,7 +54,7 @@
     border-bottom: 1px solid var(--hdrStroke);
   }
 
-  /* DESKTOP: single-row FLEX, never wraps */
+  /* DESKTOP: one row, no wrap */
   .headerInner{
     max-width: 1180px;
     margin: 0 auto;
@@ -60,7 +62,7 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    flex-wrap: nowrap;         /* IMPORTANT */
+    flex-wrap: nowrap;
   }
 
   /* Brand */
@@ -74,24 +76,25 @@
     letter-spacing: 0.4px;
     text-transform: uppercase;
     white-space: nowrap;
+    margin-right: 6px;
   }
   .brandText{ line-height: 1.05; }
   .brandTop,.brandBottom{ font-size: 18px; }
 
-  /* Nav: NEVER wrap on desktop */
+  /* Nav: keep in one row, center-ish */
   .nav{
     flex: 0 0 auto;
     display: flex;
     align-items: center;
     gap: 12px;
-    flex-wrap: nowrap;         /* IMPORTANT */
-    white-space: nowrap;       /* IMPORTANT */
+    flex-wrap: nowrap;
+    white-space: nowrap;
   }
   .navBtn{
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 14px;
+    padding: 10px 13px; /* slightly tighter to help fit */
     border-radius: 12px;
     border: 1px solid var(--hdrStroke);
     background: var(--chip);
@@ -105,18 +108,19 @@
   }
   .navBtn:hover{ background: var(--chipHover); text-decoration:none; }
 
-  /* Search: grows/shrinks to prevent wrapping */
+  /* Search: EXPANDS to consume unused space */
   .search{
-    flex: 1 1 auto;            /* IMPORTANT: takes remaining space */
+    flex: 1 1 auto;     /* takes leftover space */
     display: flex;
     align-items: center;
     gap: 10px;
-    min-width: 240px;          /* prevents collapsing too far */
+    min-width: 380px;   /* ensure placeholder can show more */
+    justify-content: center; /* visually “center-ish” */
   }
   .search input{
     flex: 1 1 auto;
     width: 100%;
-    min-width: 0;              /* IMPORTANT: allow shrink */
+    min-width: 360px;   /* keep it long enough */
     padding: 10px 12px;
     border-radius: 14px;
     border: 1px solid var(--hdrStroke);
@@ -137,20 +141,21 @@
     box-shadow: var(--hdrShadow);
   }
 
-  /* District button: fixed width; shrink/hide at smaller widths */
+  /* District: AUTO width, right-justified, no wasted space */
   .districtBtn{
-    flex: 0 0 300px;
-    display:flex;
-    flex-direction:column;
-    gap:4px;
+    flex: 0 0 auto;           /* key change: no fixed width */
+    margin-left: auto;        /* pushes it to the far right */
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
     padding: 10px 12px;
     border-radius: 16px;
     border: 1px solid var(--hdrStroke);
     background: rgba(255,255,255,0.14);
     color: var(--hdrText);
-    text-decoration:none;
+    text-decoration: none;
     box-shadow: var(--hdrShadow);
-    min-width: 0;
+    max-width: 320px;         /* prevent ridiculous width */
   }
   .districtBtn:hover{ background: rgba(255,255,255,0.20); text-decoration:none; }
   .districtSmall{
@@ -158,6 +163,7 @@
     color: var(--hdrMuted);
     font-weight: 800;
     letter-spacing: 0.2px;
+    white-space: nowrap;
   }
   .districtBig{
     font-size: 12px;
@@ -165,14 +171,17 @@
     letter-spacing: 0.25px;
     text-transform: uppercase;
     line-height: 1.2;
+    white-space: nowrap;      /* keeps it tight (no extra blank area) */
   }
 
-  /* If screen gets tight, hide district button BEFORE anything wraps */
-  @media (max-width: 1060px){
+  /* When space gets tight, hide district to protect layout */
+  @media (max-width: 1080px){
     .districtBtn{ display:none; }
+    .search{ min-width: 320px; }
+    .search input{ min-width: 280px; }
   }
 
-  /* MOBILE: stack like your mockup */
+  /* Mobile: stack (your mockup) */
   @media (max-width: 720px){
     .headerInner{
       flex-direction: column;
@@ -196,8 +205,10 @@
 
     .search{
       min-width: 0;
+      justify-content: stretch;
     }
     .search input{
+      min-width: 0;
       padding: 14px 14px;
       border-radius: 18px;
       font-size: 18px;
@@ -206,6 +217,23 @@
       padding: 14px 16px;
       border-radius: 18px;
       font-size: 18px;
+    }
+
+    /* Default: hide district on mobile to keep header short */
+    .districtBtn{ display:none; margin-left: 0; }
+  }
+
+  /* OPTIONAL: show district on specific pages (wall + landing) */
+  body.show-district .districtBtn{ display:inline-flex; }
+  @media (max-width: 720px){
+    body.show-district .districtBtn{
+      display:inline-flex;
+      width:100%;
+      max-width:none;
+    }
+    body.show-district .districtSmall,
+    body.show-district .districtBig{
+      white-space: normal;
     }
   }
 </style>
