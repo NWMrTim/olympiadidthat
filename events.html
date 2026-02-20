@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Events | Olympia Did That</title>
+
+  <style>
+    :root{
+      --overlay: 0.22;
+      --stroke: rgba(255,255,255,0.18);
+      --text: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.80);
+      --shadow: 0 18px 50px rgba(0,0,0,0.55);
+      --radius: 18px;
+      --max: 1180px;
+      --panelBg: rgba(0,0,0,0.75);
+      --accent: #ff3b3b;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: Arial, system-ui, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
+        url("assets/money-bg.jpg") center / cover no-repeat fixed;
+    }
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
+
+    .panel{
+      border:1px solid var(--stroke);
+      border-radius:var(--radius);
+      background:var(--panelBg);
+      box-shadow:var(--shadow);
+      padding:22px;
+      backdrop-filter: blur(6px);
+    }
+    h1{
+      margin:0 0 10px;
+      font-size:42px;
+      text-transform:uppercase;
+      letter-spacing:0.6px;
+    }
+    .sub{ color:var(--muted); line-height:1.6; max-width: 85ch; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+      margin-top:16px;
+    }
+    .card{
+      border:1px solid var(--stroke);
+      border-radius:16px;
+      background: rgba(0,0,0,0.75);
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .cardTitle{
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:0.3px;
+      margin-bottom:10px;
+    }
+    .tiny{ font-size:13px; color:var(--muted); line-height:1.6; }
+
+    .event{
+      border:1px solid var(--stroke);
+      border-radius:14px;
+      padding:14px;
+      background: rgba(255,255,255,0.10);
+      margin-top:12px;
+    }
+    .eventTop{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      font-weight:900;
+    }
+    .tag{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,0.12);
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:0.2px;
+    }
+    .btnRow{ margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; }
+    .btn{
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,0.16);
+      font-size:13px;
+      font-weight:900;
+      text-transform:uppercase;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .btnPrimary{
+      background: rgba(255,59,59,0.95);
+      border-color: rgba(255,59,59,0.95);
+      color:#111;
+    }
+
+    .footer{
+      margin-top:40px;
+      padding:20px;
+      border-top:1px solid var(--stroke);
+      background:rgba(0,0,0,0.65);
+    }
+    .footerLinks{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    @media(max-width:980px){
+      .grid{ grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="site-header"></div>
+  <script>
+    fetch("/partials/header.html")
+      .then(r => r.text())
+      .then(html => document.getElementById("site-header").innerHTML = html);
+  </script>
+
+  <main class="wrap" style="padding-top:22px;">
+    <section class="panel">
+      <h1>Events</h1>
+      <p class="sub">
+        Upcoming town halls, hearings, community meetings, and civic actions. If you want an event posted or corrected,
+        email <a href="mailto:contact@olympiadidthat.com">contact@olympiadidthat.com</a>.
+      </p>
+
+      <div class="btnRow">
+        <a class="btn btnPrimary" href="mailto:contact@olympiadidthat.com?subject=Event%20Submission%20for%20Olympia%20Did%20That">Submit an Event</a>
+        <a class="btn" href="/action.html">Fund the Truth</a>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <div class="cardTitle">Upcoming (placeholder)</div>
+        <div class="tiny">Add events here as you get them. Example layout below:</div>
+
+        <div class="event">
+          <div class="eventTop">
+            <div>Town Hall — Example Title</div>
+            <div class="tag">Town Hall</div>
+          </div>
+          <div class="tiny" style="margin-top:8px;">
+            <b>Date/Time:</b> TBD<br>
+            <b>Location:</b> TBD<br>
+            <b>Notes:</b> Short description goes here.<br>
+            <b>Link:</b> RSVP / details
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardTitle">How we list events</div>
+        <div class="tiny">
+          We focus on public-facing events that help people engage with the legislative process.
+          If something is missing or incorrect, email
+          <a href="mailto:contact@olympiadidthat.com">contact@olympiadidthat.com</a>.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footerLinks">
+      <a href="/about.html">About Us</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/tip.html">Submit a Tip</a>
+      <a href="mailto:contact@olympiadidthat.com">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    /* allow shared header search to work on this page too */
+    window.ODT_findLegislator = function(e){
+      e.preventDefault();
+      // For now: go to the wall with a query
+      const q = (document.getElementById("q")?.value || "").trim();
+      if(!q) return false;
+      window.location.href = "/wall.html?q=" + encodeURIComponent(q);
+      return false;
+    }
+  </script>
+</body>
+</html>
