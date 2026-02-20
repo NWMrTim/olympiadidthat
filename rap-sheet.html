@@ -14,9 +14,9 @@
       --shadow: 0 18px 50px rgba(0,0,0,0.50);
       --radius: 18px;
       --max: 1180px;
-      --accent: #ff3b3b;
 
-      --panelBg: rgba(0,0,0,0.70);
+      /* Readability rules */
+      --panelBg: rgba(0,0,0,0.70);  /* rule */
     }
     *{ box-sizing:border-box; }
     body{
@@ -34,7 +34,7 @@
     .header{
       position: sticky; top:0; z-index:50;
       backdrop-filter: blur(10px);
-      background: rgba(0,0,0,0.55);
+      background: rgba(0,0,0,0.55); /* rule */
       border-bottom: 1px solid var(--stroke);
     }
     .navrow{
@@ -65,7 +65,7 @@
       padding:10px 12px;
       border-radius:12px;
       border:1px solid var(--stroke);
-      background: rgba(0,0,0,0.55);
+      background: rgba(0,0,0,0.55); /* rule */
       color: var(--text);
       outline:none;
     }
@@ -82,7 +82,7 @@
     .panel{
       border: 1px solid var(--stroke);
       border-radius: var(--radius);
-      background: var(--panelBg);
+      background: var(--panelBg); /* rule */
       box-shadow: var(--shadow);
       overflow:hidden;
     }
@@ -173,8 +173,12 @@
         <div id="quote" style="margin-top:12px; color:var(--muted); font-size:18px; line-height:1.6;">—</div>
 
         <div class="btnRow">
-          <a id="emailBtn" class="btn btnPrimary" href="#">Tell them they did that</a>
+          <a id="emailBtn" class="btn btnPrimary" href="mailto:contact@olympiadidthat.com">Contact ODT</a>
           <a class="btn" href="action.html">Fund the Truth</a>
+        </div>
+
+        <div class="tiny" style="margin-top:10px;">
+          Questions / corrections? Email us at <a href="mailto:contact@olympiadidthat.com">contact@olympiadidthat.com</a>.
         </div>
       </div>
     </section>
@@ -198,56 +202,37 @@
         title: "The Crime-Pass Specialist",
         bills: ["HB 1274 — Juvenile record wipe", "HB 2114 — Rent control"],
         cost: "$$$ / month (placeholder)",
-        quote: "“Accountability is optional; your paycheck is not.”",
-        email: "rep.nicole.macri@leg.wa.gov"
+        quote: "“Accountability is optional; your paycheck is not.”"
       },
       fitzgibbon: {
         name: "Rep. Joe Fitzgibbon (West Seattle)",
         title: "The Tax-Hike Architect",
         bills: ["SB 6346 — Income tax 'foot in the door'", "SB 6345 — Pain at the pump ferry tax"],
         cost: "$$$ / year (placeholder)",
-        quote: "“Why let you keep it when the state can spend it better?”",
-        email: "rep.joe.fitzgibbon@leg.wa.gov"
+        quote: "“Why let you keep it when the state can spend it better?”"
       },
       berg: {
         name: "Rep. April Berg (Mill Creek)",
         title: "The Property-Tax Puppet Master",
         bills: ["SB 5770 — Forever-hike property tax"],
         cost: "$$$ / year (placeholder)",
-        quote: "“Your home is the state’s piggy bank.”",
-        email: "rep.april.berg@leg.wa.gov"
+        quote: "“Your home is the state’s piggy bank.”"
       },
       frame: {
         name: "Sen. Noel Frame (Seattle)",
         title: "The Sentence Shortener",
         bills: ["SB 5269 — Retroactive sentence cuts", "SB 5266 — Sentencing reform"],
         cost: "Safety cost: higher repeat offenses (placeholder)",
-        quote: "“The prison door should always be swinging open.”",
-        email: "sen.noel.frame@leg.wa.gov"
+        quote: "“The prison door should always be swinging open.”"
       },
       dhingra: {
         name: "Sen. Manka Dhingra (Redmond)",
         title: "The Gatekeeper of Lawlessness",
         bills: ["SB 5475 — '25 is the new 18' (emerging adults)"],
         cost: "Safety cost: lighter accountability (placeholder)",
-        quote: "“Why punish the crime when we can analyze the criminal?”",
-        email: "sen.manka.dhingra@leg.wa.gov"
+        quote: "“Why punish the crime when we can analyze the criminal?”"
       }
     };
-
-    function mailtoFor(person){
-      const subject = encodeURIComponent("You did that.");
-      const body = encodeURIComponent(
-`Hello,
-
-I’m contacting you about the bills you sponsored/voted for.
-
-This is hurting Washington families. Please explain your vote and commit to reversing course.
-
-— A Washington voter
-`);
-      return `mailto:${person.email}?subject=${subject}&body=${body}`;
-    }
 
     (function init(){
       const id = new URLSearchParams(location.search).get("id") || "macri";
@@ -258,7 +243,11 @@ This is hurting Washington families. Please explain your vote and commit to reve
       document.getElementById("cost").textContent = person.cost;
       document.getElementById("quote").textContent = person.quote;
       document.getElementById("bills").innerHTML = person.bills.map(b => `<li>${b}</li>`).join("");
-      document.getElementById("emailBtn").href = mailtoFor(person);
+
+      // Always contact@ for contact links
+      document.getElementById("emailBtn").href =
+        "mailto:contact@olympiadidthat.com?subject=" +
+        encodeURIComponent("Rap sheet feedback: " + person.name);
     })();
   </script>
 </body>
