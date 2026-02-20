@@ -109,14 +109,17 @@
   .navBtn:hover{ background: var(--chipHover); text-decoration:none; }
 
   /* Search: EXPANDS to consume unused space */
-  .search{
-    flex: 1 1 auto;     /* takes leftover space */
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-width: 380px;   /* ensure placeholder can show more */
-    justify-content: center; /* visually “center-ish” */
-  }
+  .search input{
+    flex: 1 1 auto;
+    min-width: 300px;  /* slightly shorter */
+    max-width: 440px;  /* prevents overgrowth */
+    padding: 9px 12px;
+    border-radius: 14px;
+    border: 1px solid var(--hdrStroke);
+    background: var(--glass);
+    color: var(--hdrText);
+    outline: none;
+ }
   .search input{
     flex: 1 1 auto;
     width: 100%;
@@ -129,8 +132,7 @@
     outline: none;
   }
   .search button{
-    flex: 0 0 auto;
-    padding: 10px 14px;
+    padding: 9px 12px;
     border-radius: 14px;
     border: 1px solid var(--hdrStroke);
     background: rgba(255,255,255,0.20);
