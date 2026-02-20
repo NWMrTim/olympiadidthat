@@ -108,40 +108,43 @@
   }
   .navBtn:hover{ background: var(--chipHover); text-decoration:none; }
 
-  /* Search: EXPANDS to consume unused space */
-  .search input{
-    flex: 1 1 auto;
-    min-width: 300px;  /* slightly shorter */
-    max-width: 440px;  /* prevents overgrowth */
-    padding: 9px 12px;
-    border-radius: 14px;
-    border: 1px solid var(--hdrStroke);
-    background: var(--glass);
-    color: var(--hdrText);
-    outline: none;
- }
-  .search input{
-    flex: 1 1 auto;
-    width: 100%;
-    min-width: 360px;   /* keep it long enough */
-    padding: 10px 12px;
-    border-radius: 14px;
-    border: 1px solid var(--hdrStroke);
-    background: var(--glass);
-    color: var(--hdrText);
-    outline: none;
-  }
-  .search button{
-    padding: 9px 12px;
-    border-radius: 14px;
-    border: 1px solid var(--hdrStroke);
-    background: rgba(255,255,255,0.20);
-    color: var(--hdrText);
-    font-weight: 900;
-    cursor: pointer;
-    white-space: nowrap;
-    box-shadow: var(--hdrShadow);
-  }
+ /* Search: EXPANDS to consume unused space */
+ /* Search: stays on ONE row; input shrinks before wrapping */
+ .search{
+   flex: 0 1 460px;     /* overall width target; tweak 430–520 if desired */
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   min-width: 0;        /* IMPORTANT: allows children to shrink */
+   justify-content: flex-end;
+}
+
+.search input{
+   flex: 1 1 auto;
+   min-width: 0;        /* CRITICAL: prevents the button from dropping */
+   max-width: 380px;    /* controls how long the field can get */
+   width: 100%;
+   padding: 9px 12px;
+   border-radius: 14px;
+   border: 1px solid var(--hdrStroke);
+   background: var(--glass);
+   color: var(--hdrText);
+   outline: none;
+}
+
+.search button{
+   flex: 0 0 auto;
+   padding: 9px 12px;
+   border-radius: 14px;
+   border: 1px solid var(--hdrStroke);
+   background: rgba(255,255,255,0.20);
+   color: var(--hdrText);
+   font-weight: 900;
+   cursor: pointer;
+   white-space: nowrap;
+   box-shadow: var(--hdrShadow);
+}
+
 
   /* District: AUTO width, right-justified, no wasted space */
   .districtBtn{
@@ -179,8 +182,8 @@
   /* When space gets tight, hide district to protect layout */
   @media (max-width: 1080px){
     .districtBtn{ display:none; }
-    .search{ min-width: 320px; }
-    .search input{ min-width: 280px; }
+    .search{ flex: 1 1 auto; }
+    .search input{ max-width: none; }
   }
 
   /* Mobile: stack (your mockup) */
