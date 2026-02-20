@@ -1,7 +1,6 @@
 <header class="siteHeader">
   <div class="headerInner">
 
-    <!-- LEFT: Brand -->
     <a class="brand" href="/index.html" aria-label="Olympia Did That home">
       <div class="brandText">
         <div class="brandTop">OLYMPIA DID</div>
@@ -9,7 +8,6 @@
       </div>
     </a>
 
-    <!-- CENTER: Nav -->
     <nav class="nav" aria-label="Primary navigation">
       <a class="navBtn" href="/wall.html">THE WALL</a>
       <a class="navBtn" href="/bills/billindex.html">THE BILLS</a>
@@ -17,7 +15,6 @@
       <a class="navBtn" href="/action.html">TAKE ACTION</a>
     </nav>
 
-    <!-- RIGHT: Search -->
     <form class="search" onsubmit="return window.ODT_findLegislator && window.ODT_findLegislator(event);">
       <input id="q" type="search"
              placeholder="Find your legislator on the Wall"
@@ -25,7 +22,6 @@
       <button type="submit">Search</button>
     </form>
 
-    <!-- FAR RIGHT: District Finder (can be hidden on mobile / other pages) -->
     <a class="districtBtn"
        href="https://app.leg.wa.gov/DistrictFinder/"
        target="_blank" rel="noopener">
@@ -42,8 +38,6 @@
     --hdrText: rgba(255,255,255,0.94);
     --hdrMuted: rgba(255,255,255,0.78);
     --hdrShadow: 0 18px 40px rgba(0,0,0,0.45);
-
-    /* smoother, less “splotchy” than heavy blur */
     --hdrBg: rgba(0,0,0,0.58);
     --glass: rgba(0,0,0,0.52);
     --chip: rgba(255,255,255,0.12);
@@ -58,19 +52,20 @@
     border-bottom: 1px solid var(--hdrStroke);
   }
 
-  /* Desktop: 2-row capable grid (prevents overlap) */
+  /* DESKTOP: single-row FLEX, never wraps */
   .headerInner{
     max-width: 1180px;
     margin: 0 auto;
     padding: 14px 20px;
-    display: grid;
-    grid-template-columns: 190px 1fr 420px 280px;
-    gap: 14px;
+    display: flex;
     align-items: center;
+    gap: 14px;
+    flex-wrap: nowrap;         /* IMPORTANT */
   }
 
   /* Brand */
   .brand{
+    flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
     text-decoration: none;
@@ -78,17 +73,19 @@
     font-weight: 900;
     letter-spacing: 0.4px;
     text-transform: uppercase;
+    white-space: nowrap;
   }
   .brandText{ line-height: 1.05; }
   .brandTop,.brandBottom{ font-size: 18px; }
 
-  /* Nav */
+  /* Nav: NEVER wrap on desktop */
   .nav{
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
     gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;  /* wrap when needed (no overlap) */
+    flex-wrap: nowrap;         /* IMPORTANT */
+    white-space: nowrap;       /* IMPORTANT */
   }
   .navBtn{
     display: inline-flex;
@@ -108,25 +105,27 @@
   }
   .navBtn:hover{ background: var(--chipHover); text-decoration:none; }
 
-  /* Search */
+  /* Search: grows/shrinks to prevent wrapping */
   .search{
-    display:flex;
-    gap:10px;
-    align-items:center;
-    justify-content:flex-end;
-    min-width: 0; /* prevents overflow */
+    flex: 1 1 auto;            /* IMPORTANT: takes remaining space */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 240px;          /* prevents collapsing too far */
   }
   .search input{
+    flex: 1 1 auto;
     width: 100%;
+    min-width: 0;              /* IMPORTANT: allow shrink */
     padding: 10px 12px;
     border-radius: 14px;
     border: 1px solid var(--hdrStroke);
     background: var(--glass);
     color: var(--hdrText);
     outline: none;
-    min-width: 0;
   }
   .search button{
+    flex: 0 0 auto;
     padding: 10px 14px;
     border-radius: 14px;
     border: 1px solid var(--hdrStroke);
@@ -138,8 +137,9 @@
     box-shadow: var(--hdrShadow);
   }
 
-  /* District button */
+  /* District button: fixed width; shrink/hide at smaller widths */
   .districtBtn{
+    flex: 0 0 300px;
     display:flex;
     flex-direction:column;
     gap:4px;
@@ -150,7 +150,7 @@
     color: var(--hdrText);
     text-decoration:none;
     box-shadow: var(--hdrShadow);
-    min-width: 0; /* prevents overflow */
+    min-width: 0;
   }
   .districtBtn:hover{ background: rgba(255,255,255,0.20); text-decoration:none; }
   .districtSmall{
@@ -167,54 +167,35 @@
     line-height: 1.2;
   }
 
-  /* --------- Breakpoint: when screen is narrower, prevent running off screen */
-  @media (max-width: 1180px){
-    .headerInner{
-      grid-template-columns: 190px 1fr;
-      grid-template-areas:
-        "brand nav"
-        "search district";
-      align-items: center;
-    }
-    .brand{ grid-area: brand; }
-    .nav{ grid-area: nav; justify-content:flex-end; }
-    .search{ grid-area: search; justify-content:flex-start; }
-    .districtBtn{ grid-area: district; }
+  /* If screen gets tight, hide district button BEFORE anything wraps */
+  @media (max-width: 1060px){
+    .districtBtn{ display:none; }
   }
 
-  /* --------- Mobile layout: EXACTLY like your mockup idea, and keep header short */
+  /* MOBILE: stack like your mockup */
   @media (max-width: 720px){
     .headerInner{
-      grid-template-columns: 1fr;
-      grid-template-areas:
-        "brand"
-        "nav"
-        "search";
+      flex-direction: column;
+      align-items: stretch;
       gap: 12px;
       padding: 14px 16px;
     }
 
-    .brand{ grid-area: brand; }
-
-    /* 2x2 grid buttons */
     .nav{
-      grid-area: nav;
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      justify-content: stretch;
+      white-space: normal;
     }
     .navBtn{
       width: 100%;
       padding: 14px 12px;
       font-size: 18px;
       border-radius: 16px;
-      justify-content:center;
     }
 
     .search{
-      grid-area: search;
-      justify-content: stretch;
+      min-width: 0;
     }
     .search input{
       padding: 14px 14px;
@@ -225,26 +206,6 @@
       padding: 14px 16px;
       border-radius: 18px;
       font-size: 18px;
-    }
-
-    /* default: hide LD button on mobile to keep header shorter */
-    .districtBtn{ display:none; }
-  }
-
-  /* OPTIONAL: only show the district button on pages that WANT it */
-  /* If you add <body class="show-district"> then it will appear (even on mobile below search) */
-  body.show-district .districtBtn{ display:flex; }
-  @media (max-width: 720px){
-    body.show-district .headerInner{
-      grid-template-areas:
-        "brand"
-        "nav"
-        "search"
-        "district";
-    }
-    body.show-district .districtBtn{
-      display:flex;
-      width:100%;
     }
   }
 </style>
