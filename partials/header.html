@@ -18,17 +18,17 @@
     </nav>
 
     <form class="search" onsubmit="return window.ODT_findLegislator && window.ODT_findLegislator(event);">
-      <input id="q" type="search"
-             placeholder="Find your legislator:"
-             aria-label="Find your legislator:" />
-      <button type="submit">Search</button>
+     <input id="q" type="search"
+         placeholder="Search..."
+         aria-label="Search" />
+     <button type="submit">Search</button>
     </form>
 
     <a class="districtBtn"
        href="https://app.leg.wa.gov/DistrictFinder/"
        target="_blank" rel="noopener">
-      <span class="districtSmall">Not sure who your current legislator is?</span>
-      <span class="districtBig">Find your legislative district</span>
+       <span class="districtSmall">Click here to find your</span>
+       <span class="districtBig">Legislative District</span>
     </a>
 
   </div>
@@ -47,24 +47,24 @@
   }
 
   .siteHeader{
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background: rgba(60,60,60,0.92);   /* more solid than before */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--hdrStroke);
+   position: sticky;
+   top: 0;
+   z-index: 1000;
+   background: rgba(0,0,0,0.70);          /* matches panels */
+   border-bottom: 1px solid var(--hdrStroke);
+   backdrop-filter: blur(10px);
+   -webkit-backdrop-filter: blur(10px);
   }
 
   /* DESKTOP: one row, no wrap */
   .headerInner{
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: nowrap;
+   max-width: 1180px;
+   margin: 0 auto;
+   padding: 14px 20px;
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   flex-wrap: nowrap;
   }
 
   /* Brand */
@@ -85,13 +85,13 @@
 
   /* Nav: keep in one row, center-ish */
   .nav{
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    min-width: 0;
-    gap: 12px;
-    flex-wrap: nowrap;
-    white-space: nowrap;
+   flex: 0 0 auto;
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   flex-wrap: nowrap;
+   white-space: nowrap;
+   min-width: 0;
   }
   .navBtn{
     display: inline-flex;
@@ -114,14 +114,14 @@
  /* Search: EXPANDS to consume unused space */
  /* Search: stays on ONE row; input shrinks before wrapping */
  .search{
-   flex: 0 1 400px;        /* take the leftover space */
-   max-width: 400px;
+   flex: 0 1 420px;        /* <= THIS prevents overlap */
+   max-width: 420px;
    display: flex;
    align-items: center;
    gap: 8px;
-   min-width: 260px;          /* IMPORTANT: allow shrinking */
-   justify-content: flex-end;
-}
+   min-width: 260px;
+   margin-left: 6px;
+ }
 
  .search input{
    flex: 1 1 auto;
@@ -136,52 +136,51 @@
    outline: none;
 }
 
-.search button{
-   flex: 0 0 auto;
-   padding: 9px 12px;
-   border-radius: 14px;
-   border: 1px solid var(--hdrStroke);
-   background: rgba(255,255,255,0.20);
-   color: var(--hdrText);
-   font-weight: 900;
-   cursor: pointer;
-   white-space: nowrap;
-   box-shadow: var(--hdrShadow);
+.search input{
+  flex: 1 1 auto;
+  min-width: 200px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--hdrStroke);
+  background: var(--glass);
+  color: var(--hdrText);
+  outline: none;
 }
 
 
-  /* District: AUTO width, right-justified, no wasted space */
+ /* District: tight, right-aligned */
   .districtBtn{
-    flex: 0 0 auto;           /* key change: no fixed width */
-    margin-left: auto;        /* pushes it to the far right */
-    display: inline-flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 10px 12px;
-    border-radius: 16px;
-    border: 1px solid var(--hdrStroke);
-    background: rgba(255,255,255,0.14);
-    color: var(--hdrText);
-    text-decoration: none;
-    box-shadow: var(--hdrShadow);
-    max-width: 300px;         /* prevent ridiculous width */
+   flex: 0 0 auto;
+   margin-left: auto;
+   display: inline-flex;
+   flex-direction: column;
+   gap: 4px;
+   padding: 10px 12px;
+   border-radius: 16px;
+   border: 1px solid var(--hdrStroke);
+   background: rgba(255,255,255,0.14);
+   color: var(--hdrText);
+   text-decoration: none;
+   box-shadow: var(--hdrShadow);
+   max-width: 240px;       /* tighter */
   }
   .districtBtn:hover{ background: rgba(255,255,255,0.20); text-decoration:none; }
   .districtSmall{
-    font-size: 12px;
-    color: var(--hdrMuted);
-    font-weight: 800;
-    letter-spacing: 0.2px;
-    white-space: nowrap;
-  }
-  .districtBig{
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: 0.25px;
-    text-transform: uppercase;
-    line-height: 1.2;
-    white-space: nowrap;      /* keeps it tight (no extra blank area) */
-  }
+   font-size: 12px;
+   color: var(--hdrMuted);
+   font-weight: 800;
+   letter-spacing: 0.2px;
+   white-space: nowrap;
+ }
+ .districtBig{
+   font-size: 14px;        /* slightly larger */
+   font-weight: 900;
+   letter-spacing: 0.25px;
+   text-transform: uppercase;
+   line-height: 1.1;
+   white-space: nowrap;
+ }
 
   /* When space gets tight, hide district to protect layout */
   @media (max-width: 1080px){
