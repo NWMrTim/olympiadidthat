@@ -112,7 +112,8 @@
  /* Search: EXPANDS to consume unused space */
  /* Search: stays on ONE row; input shrinks before wrapping */
  .search{
-   flex: 1 1 auto;        /* take the leftover space */
+   flex: 0 1 420px;        /* take the leftover space */
+   max-width: 420px;
    display: flex;
    align-items: center;
    gap: 8px;
@@ -122,9 +123,9 @@
 
  .search input{
    flex: 1 1 auto;
-   min-width: 220px;          /* CRITICAL */
+   min-width: 200px;          /* CRITICAL */
+   max-width: 360px;      /* allow it to get longer */
    width: 100%;
-   max-width: 520px;      /* allow it to get longer */
    padding: 9px 12px;
    border-radius: 14px;
    border: 1px solid var(--hdrStroke);
