@@ -13,238 +13,204 @@
       <a class="navBtn" href="/bills/billindex.html">THE BILLS</a>
       <a class="navBtn" href="/events.html">EVENTS</a>
       <a class="navBtn" href="/action.html">TAKE ACTION</a>
-      <!-- If you want: change THE WALL -> WALL OF SHAME -->
-      <!-- <a class="navBtn" href="/wall.html">WALL OF SHAME</a> -->
     </nav>
 
     <form class="search" onsubmit="return window.ODT_findLegislator && window.ODT_findLegislator(event);">
-     <input id="q" type="search"
-         placeholder="Search..."
-         aria-label="Search" />
-     <button type="submit">Search</button>
+      <input id="q" type="search"
+             placeholder="Search..."
+             aria-label="Search" />
+      <button type="submit">Search</button>
     </form>
 
     <a class="districtBtn"
        href="https://app.leg.wa.gov/DistrictFinder/"
        target="_blank" rel="noopener">
-       <span class="districtBig">Legislative</span>
-       <span class="districtBig">District Finder</span>
+       <span>Legislative</span>
+       <span>District Finder</span>
     </a>
 
   </div>
 </header>
 
 <style>
-  :root{
-    --hdrStroke: rgba(255,255,255,0.18);
-    --hdrText: rgba(255,255,255,0.94);
-    --hdrMuted: rgba(255,255,255,0.78);
-    --hdrShadow: 0 18px 40px rgba(0,0,0,0.45);
-    --hdrBg: rgba(0,0,0,0.58);
-    --glass: rgba(0,0,0,0.52);
-    --chip: rgba(255,255,255,0.12);
-    --chipHover: rgba(255,255,255,0.18);
-  }
+:root{
+  --hdrStroke: rgba(255,255,255,0.18);
+  --hdrText: rgba(255,255,255,0.94);
+  --hdrShadow: 0 18px 40px rgba(0,0,0,0.45);
+  --glass: rgba(0,0,0,0.52);
+  --chip: rgba(255,255,255,0.12);
+  --chipHover: rgba(255,255,255,0.18);
+}
 
-  .siteHeader{
-   position: sticky;
-   top: 0;
-   z-index: 1000;
-   background: rgba(0,0,0,0.70);          /* matches panels */
-   border-bottom: 1px solid var(--hdrStroke);
-   backdrop-filter: blur(10px);
-   -webkit-backdrop-filter: blur(10px);
-  }
+/* Header */
+.siteHeader{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,0.70);
+  border-bottom: 1px solid var(--hdrStroke);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
 
-  /* DESKTOP: one row, no wrap */
+.headerInner{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
+/* Brand */
+.brand{
+  flex: 0 0 auto;
+  display: inline-flex;
+  text-decoration: none;
+  color: var(--hdrText);
+  font-weight: 900;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.brandTop,.brandBottom{
+  font-size: 18px;
+  line-height: 1.05;
+}
+
+/* Nav */
+.nav{
+  display: flex;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.navBtn{
+  padding: 10px 13px;
+  border-radius: 12px;
+  border: 1px solid var(--hdrStroke);
+  background: var(--chip);
+  color: var(--hdrText);
+  text-decoration: none;
+  font-weight: 900;
+  text-transform: uppercase;
+  box-shadow: var(--hdrShadow);
+}
+
+.navBtn:hover{
+  background: var(--chipHover);
+}
+
+/* Search */
+.search{
+  flex: 0 1 400px;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 240px;
+  margin-left: 6px;
+}
+
+.search input{
+  flex: 1;
+  min-width: 180px;
+  padding: 9px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--hdrStroke);
+  background: var(--glass);
+  color: var(--hdrText);
+  outline: none;
+}
+
+.search button{
+  padding: 9px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--hdrStroke);
+  background: rgba(255,255,255,0.20);
+  color: var(--hdrText);
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--hdrShadow);
+  appearance: none;
+}
+
+/* District Button */
+.districtBtn{
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;          /* CENTERED */
+  justify-content: center;
+  text-align: center;           /* CENTERED */
+  gap: 2px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--hdrStroke);
+  background: rgba(255,255,255,0.14);
+  color: var(--hdrText);
+  text-decoration: none;
+  box-shadow: var(--hdrShadow);
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.districtBtn:hover{
+  background: rgba(255,255,255,0.20);
+}
+
+/* Hide district button when tight */
+@media (max-width: 1080px){
+  .districtBtn{ display:none; }
+  .search{ flex: 1; max-width:none; }
+}
+
+/* Mobile Layout */
+@media (max-width: 720px){
+
   .headerInner{
-   max-width: 1180px;
-   margin: 0 auto;
-   padding: 14px 20px;
-   display: flex;
-   align-items: center;
-   gap: 12px;
-   flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
   }
 
-  /* Brand */
-  .brand{
-    flex: 0 0 auto;
-    display: inline-flex;
-    align-items: center;
-    text-decoration: none;
-    color: var(--hdrText);
-    font-weight: 900;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    margin-right: 6px;
-  }
-  .brandText{ line-height: 1.05; }
-  .brandTop,.brandBottom{ font-size: 18px; }
-
-  /* Nav: keep in one row, center-ish */
   .nav{
-   flex: 0 0 auto;
-   display: flex;
-   align-items: center;
-   gap: 12px;
-   flex-wrap: nowrap;
-   white-space: nowrap;
-   min-width: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
+
   .navBtn{
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 13px; /* slightly tighter to help fit */
-    border-radius: 12px;
-    border: 1px solid var(--hdrStroke);
-    background: var(--chip);
-    color: var(--hdrText);
-    text-decoration: none;
-    font-weight: 900;
-    letter-spacing: 0.3px;
-    text-transform: uppercase;
-    box-shadow: var(--hdrShadow);
-    white-space: nowrap;
+    width: 100%;
+    padding: 14px 12px;
+    font-size: 18px;
+    border-radius: 16px;
   }
-  .navBtn:hover{ background: var(--chipHover); text-decoration:none; }
 
- /* Search: EXPANDS to consume unused space */
- /* Search: stays on ONE row; input shrinks before wrapping */
- .search{
-   flex: 0 1 420px;        /* <= THIS prevents overlap */
-   max-width: 420px;
-   display: flex;
-   align-items: center;
-   gap: 8px;
-   min-width: 260px;
-   margin-left: 6px;
- }
+  .search input{
+    padding: 14px;
+    border-radius: 18px;
+    font-size: 18px;
+  }
 
- .search input{
-   flex: 1 1 auto;
-   min-width: 200px;          /* CRITICAL */
-   max-width: 360px;      /* allow it to get longer */
-   width: 100%;
-   padding: 9px 12px;
-   border-radius: 14px;
-   border: 1px solid var(--hdrStroke);
-   background: var(--glass);
-   color: var(--hdrText);
-   outline: none;
- }
+  .search button{
+    padding: 14px 16px;
+    border-radius: 18px;
+    font-size: 18px;
+  }
 
- .search button{
-   flex: 0 0 auto;
-   padding: 9px 12px;
-   border-radius: 14px;
-   border: 1px solid var(--hdrStroke);
-   background: rgba(255,255,255,0.20);
-   color: var(--hdrText);
-   font-weight: 900;
-   cursor: pointer;
-   white-space: nowrap;
-   box-shadow: var(--hdrShadow);
-   appearance: none;
-   -webkit-appearance: none;
- }
-
-
- /* District: tight, right-aligned */
   .districtBtn{
-   flex: 0 0 auto;
-   margin-left: auto;
-   display: inline-flex;
-   flex-direction: column;
-   gap: 4px;
-   padding: 10px 12px;
-   border-radius: 16px;
-   border: 1px solid var(--hdrStroke);
-   background: rgba(255,255,255,0.14);
-   color: var(--hdrText);
-   text-decoration: none;
-   box-shadow: var(--hdrShadow);
-   max-width: 240px;       /* tighter */
+    display: flex;
+    width: 100%;
+    border-radius: 18px;
+    padding: 14px;
+    font-size: 15px;
+    white-space: normal;
   }
-  .districtBtn:hover{ background: rgba(255,255,255,0.20); text-decoration:none; }
-  .districtSmall{
-   font-size: 12px;
-   color: var(--hdrMuted);
-   font-weight: 800;
-   letter-spacing: 0.2px;
-   white-space: nowrap;
- }
- .districtBig{
-   font-size: 14px;        /* slightly larger */
-   font-weight: 900;
-   letter-spacing: 0.25px;
-   text-transform: uppercase;
-   line-height: 1.1;
-   white-space: nowrap;
- }
-
-  /* When space gets tight, hide district to protect layout */
-  @media (max-width: 1080px){
-    .districtBtn{ display:none; }
-    .search{ flex: 1 1 auto; }
-    .search input{ max-width: none; }
-  }
-
-  /* Mobile: stack (your mockup) */
-  @media (max-width: 720px){
-    .headerInner{
-      flex-direction: column;
-      align-items: stretch;
-      gap: 12px;
-      padding: 14px 16px;
-    }
-
-    .nav{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      white-space: normal;
-    }
-    .navBtn{
-      width: 100%;
-      padding: 14px 12px;
-      font-size: 18px;
-      border-radius: 16px;
-    }
-
-    .search{
-      min-width: 0;
-      justify-content: stretch;
-    }
-    .search input{
-      min-width: 0;
-      padding: 14px 14px;
-      border-radius: 18px;
-      font-size: 18px;
-    }
-    .search button{
-      padding: 14px 16px;
-      border-radius: 18px;
-      font-size: 18px;
-    }
-
-    /* Default: hide district on mobile to keep header short */
-    .districtBtn{ display:none; margin-left: 0; }
-  }
-
-  /* OPTIONAL: show district on specific pages (wall + landing) */
-  body.show-district .districtBtn{ display:inline-flex; }
-  @media (max-width: 720px){
-    body.show-district .districtBtn{
-      display:inline-flex;
-      width:100%;
-      max-width:none;
-    }
-    body.show-district .districtSmall,
-    body.show-district .districtBig{
-      white-space: normal;
-    }
-  }
+}
 </style>
