@@ -15,26 +15,34 @@
       --muted: rgba(255,255,255,0.72);
       --shadow: 0 18px 50px rgba(0,0,0,0.55);
       --red: #ff3b3b;
+      --max: 1180px;
     }
 
     *{ box-sizing: border-box; }
 
     body{
       margin:0;
-      font-family: Arial, sans-serif;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       color: var(--text);
       background:
         linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
-        url('assets/money-bg.jpg') center / cover no-repeat fixed;
+        url('/assets/money-bg.jpg') center / cover no-repeat fixed;
     }
 
+    /* IMPORTANT: fixes purple/blue default link colors */
+    a{ color: inherit; text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+
+    /* Header mount point (header.html is sticky already, but this doesn't hurt) */
+    #site-header{ position: sticky; top: 0; z-index: 1000; }
+
     .wrap{
-      max-width: 1180px;
+      max-width: var(--max);
       margin: 0 auto;
       padding: 26px 20px 60px;
     }
 
-    /* HERO PANEL */
+    /* Top panel */
     .hero{
       background: var(--panel);
       border: 1px solid var(--stroke);
@@ -45,7 +53,7 @@
 
     .hero h1{
       margin: 0 0 8px;
-      font-size: 54px;
+      font-size: clamp(32px, 3.8vw, 54px);
       letter-spacing: 1px;
       text-transform: uppercase;
     }
@@ -62,6 +70,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      align-items: center;
     }
 
     .pill{
@@ -70,9 +79,15 @@
       color: var(--text);
       padding: 10px 14px;
       border-radius: 999px;
+      cursor: pointer;
       font-weight: 900;
       text-transform: uppercase;
-      cursor: pointer;
+      letter-spacing: 0.2px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .pill.active{
@@ -80,11 +95,11 @@
       border-color: rgba(255,255,255,0.26);
     }
 
-    /* GRID */
+    /* Cards */
     .grid{
       margin-top: 18px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
     }
 
@@ -105,28 +120,43 @@
       place-items: center;
       background: rgba(0,0,0,0.35);
       border-bottom: 1px solid var(--stroke);
-      font-weight: 900;
-      text-transform: uppercase;
       color: rgba(255,255,255,0.75);
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
 
     .cardBody{
-      padding: 16px;
+      padding: 16px 16px 18px;
       display: flex;
       flex-direction: column;
       gap: 10px;
       flex: 1;
     }
 
-    .name{ font-size: 22px; font-weight: 900; margin: 0; }
-    .role{ margin: 0; color: var(--muted); }
-    .bills{ margin: 0; font-weight: 700; }
+    .name{
+      font-size: 22px;
+      font-weight: 900;
+      margin: 0;
+    }
+
+    .role{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .bills{
+      margin: 0;
+      color: rgba(255,255,255,0.82);
+      font-weight: 700;
+    }
 
     .actions{
       margin-top: auto;
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
+      gap: 10px;
     }
 
     .btn{
@@ -135,16 +165,19 @@
       padding: 10px 14px;
       font-weight: 900;
       text-transform: uppercase;
+      letter-spacing: 0.3px;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.35);
     }
 
     .btnPrimary{
       background: var(--red);
       color: #111;
+      border-color: rgba(255,255,255,0.08);
     }
 
     .btnGhost{
@@ -152,7 +185,12 @@
       color: var(--text);
     }
 
-    /* FOOTER (MATCHES BILLS STYLE) */
+    .btn:hover{
+      filter: brightness(1.06);
+      text-decoration: none;
+    }
+
+    /* Bills-style footer panel */
     .footer{
       margin-top: 34px;
       padding: 22px 0 30px;
@@ -160,10 +198,18 @@
       background: rgba(0,0,0,0.65);
     }
 
+    .footerRow{
+      display:flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
     .footerLinks{
       display:flex;
-      gap:14px;
-      flex-wrap:wrap;
+      gap: 14px;
+      flex-wrap: wrap;
       color: var(--muted);
     }
 
@@ -173,28 +219,26 @@
     }
 
     @media (max-width: 980px){
-      .grid{ grid-template-columns: repeat(2, 1fr); }
-      .hero h1{ font-size: 42px; }
+      .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 640px){
       .grid{ grid-template-columns: 1fr; }
-      .hero h1{ font-size: 36px; }
+      .wrap{ padding-top: 18px; }
     }
   </style>
 </head>
 
 <body class="show-district">
-
+  <!-- Shared header gets injected here -->
   <div id="site-header"></div>
 
   <main class="wrap">
-
     <section class="hero">
       <h1>THE WALL OF SHAME</h1>
-      <p>Click a mugshot to view the rap sheet.</p>
+      <p>Click a mugshot to view the rap sheet. (Images are placeholders for now.)</p>
 
-      <div class="filters">
+      <div class="filters" role="group" aria-label="Wall filters">
         <button class="pill active" data-filter="all">ALL</button>
         <button class="pill" data-filter="tax">💰 TAX</button>
         <button class="pill" data-filter="crime">🚓 CRIME</button>
@@ -202,31 +246,71 @@
       </div>
     </section>
 
-    <section class="grid" id="grid">
-      <!-- cards unchanged -->
-    </section>
+    <section class="grid" id="grid" aria-label="Wall cards">
+      <!-- Card 1 -->
+      <article class="card" data-tags="crime">
+        <div class="mugshot">MUGSHOT PLACEHOLDER</div>
+        <div class="cardBody">
+          <h3 class="name">Rep. Nicole Macri</h3>
+          <p class="role">The Crime-Pass Specialist</p>
+          <p class="bills">Bills: HB 1274, HB 2114</p>
+          <div class="actions">
+            <a class="btn btnPrimary" href="/rap-sheet.html">View Rap Sheet</a>
+            <a class="btn btnGhost" href="/action.html">Fund the Truth</a>
+          </div>
+        </div>
+      </article>
 
+      <!-- Card 2 -->
+      <article class="card" data-tags="tax">
+        <div class="mugshot">MUGSHOT PLACEHOLDER</div>
+        <div class="cardBody">
+          <h3 class="name">Rep. Joe Fitzgibbon</h3>
+          <p class="role">The Tax-Hike Architect</p>
+          <p class="bills">Bills: SB 6346, SB 6345</p>
+          <div class="actions">
+            <a class="btn btnPrimary" href="/rap-sheet.html">View Rap Sheet</a>
+            <a class="btn btnGhost" href="/action.html">Fund the Truth</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="card" data-tags="welfare">
+        <div class="mugshot">MUGSHOT PLACEHOLDER</div>
+        <div class="cardBody">
+          <h3 class="name">Sen. Example Name</h3>
+          <p class="role">The Welfare Trap Builder</p>
+          <p class="bills">Bills: HB 0000, SB 0000</p>
+          <div class="actions">
+            <a class="btn btnPrimary" href="/rap-sheet.html">View Rap Sheet</a>
+            <a class="btn btnGhost" href="/action.html">Fund the Truth</a>
+          </div>
+        </div>
+      </article>
+    </section>
   </main>
 
-  <!-- MATCHING FOOTER -->
+  <!-- Footer panel (Bills style) -->
   <footer class="footer" role="contentinfo">
-    <div class="wrap" style="display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;">
-      <div class="tiny">
-        © 2026 Olympia Did That — Truth Fund. Paid for by People United for Washington.
-      </div>
-      <div class="footerLinks">
+    <div class="wrap footerRow">
+      <div class="tiny">© 2026 Olympia Did That — Truth Fund. Paid for by People United for Washington.</div>
+      <nav class="footerLinks" aria-label="Footer links">
         <a href="/about.html">About Us</a>
         <a href="/privacy.html">Privacy Policy</a>
         <a href="mailto:contact@olympiadidthat.com">Submit a Tip</a>
-      </div>
+      </nav>
     </div>
   </footer>
 
   <script>
+    // Inject shared header
     fetch("/partials/header.html")
       .then(r => r.text())
-      .then(html => { document.getElementById("site-header").innerHTML = html; });
+      .then(html => { document.getElementById("site-header").innerHTML = html; })
+      .catch(() => { /* fail silently */ });
 
+    // Filter logic
     const pills = document.querySelectorAll(".pill");
     const cards = document.querySelectorAll(".card");
 
@@ -237,12 +321,11 @@
         const f = btn.dataset.filter;
 
         cards.forEach(c => {
-          const tags = (c.dataset.tags || "").split(/\s+/);
+          const tags = (c.dataset.tags || "").split(/\s+/).filter(Boolean);
           c.style.display = (f === "all" || tags.includes(f)) ? "" : "none";
         });
       });
     });
   </script>
-
 </body>
 </html>
