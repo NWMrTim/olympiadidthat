@@ -54,3 +54,14 @@
   text-decoration: underline;
 }
 </style>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const DONATE_URL = "https://pu4wa.com/donate/";
+
+    document.querySelectorAll(".fund-btn").forEach(btn => {
+      btn.href = DONATE_URL;
+      btn.target = "_blank";
+      btn.rel = "noopener noreferrer";
+    });
+  });
+</script>
