@@ -1,0 +1,173 @@
+:root{
+  --overlay: 0.22;
+
+  --stroke: rgba(255,255,255,0.18);
+  --strokeStrong: rgba(255,255,255,0.28);
+
+  --text: rgba(255,255,255,0.94);
+  --muted: rgba(255,255,255,0.78);
+
+  --shadow: 0 18px 50px rgba(0,0,0,0.50);
+  --radius: 18px;
+  --max: 1180px;
+
+  /* STANDARDIZED SURFACES (dark glass everywhere) */
+  --surface: rgba(0,0,0,0.70);     /* panels/cards */
+  --surface2: rgba(0,0,0,0.55);    /* inputs/secondary buttons */
+  --btn: rgba(0,0,0,0.45);         /* secondary button */
+  --btnHover: rgba(0,0,0,0.52);
+
+  /* Primary (red) */
+  --primary: rgba(255,59,59,0.92);
+  --primaryBorder: rgba(255,59,59,0.92);
+  --primaryText: #111;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: var(--text);
+}
+
+a{ color:inherit; text-decoration:none; }
+a:hover{ text-decoration:underline; }
+
+.wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
+
+/* ---------- Header/Nav (used by partials) ---------- */
+.header{
+  position: sticky; top:0; z-index:50;
+  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,0.55);
+  border-bottom: 1px solid var(--stroke);
+}
+
+.navrow{
+  display:grid;
+  grid-template-columns: 220px 1fr 320px;
+  gap:14px;
+  align-items:center;
+  padding: 14px 20px;
+  max-width: var(--max);
+  margin:0 auto;
+}
+
+.logo{ display:flex; align-items:center; gap:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.4px; }
+.logo-badge{
+  width:34px; height:34px; border-radius:10px;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid var(--stroke);
+  display:grid; place-items:center;
+  box-shadow: var(--shadow);
+  font-size:14px;
+}
+
+.navlinks{ display:flex; gap:18px; justify-content:center; flex-wrap:wrap; font-weight:800; letter-spacing:0.3px; }
+.navlinks a{ padding:8px 10px; border-radius:10px; }
+.navlinks a.active, .navlinks a:hover{
+  background: rgba(255,255,255,0.12);
+  text-decoration:none;
+}
+
+.search{ display:flex; gap:10px; justify-content:flex-end; }
+.search input{
+  width:100%;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid var(--stroke);
+  background: var(--surface2);
+  color: var(--text);
+  outline:none;
+}
+.search button{
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,0.16);
+  color: var(--text);
+  font-weight:900;
+  cursor:pointer;
+}
+
+/* ---------- STANDARD SURFACES ---------- */
+.panel,
+.card{
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+}
+
+.panelPad{ padding: 22px; }
+
+.card{
+  padding: 18px;
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ---------- TEXT ---------- */
+h1{
+  margin:0 0 10px;
+  font-size: clamp(32px, 3.4vw, 52px);
+  line-height:1.05;
+  text-transform: uppercase;
+  letter-spacing:0.6px;
+}
+.sub{ margin:0; color:var(--muted); line-height:1.55; max-width: 75ch; }
+.tiny{ color:var(--muted); font-size:13px; }
+
+/* ---------- BUTTONS (standardized) ---------- */
+.btnRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 6px; }
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--strokeStrong);
+  background: var(--btn);
+  color: var(--text);
+  font-weight: 900;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+.btn:hover{
+  background: var(--btnHover);
+  filter: brightness(1.06);
+  text-decoration:none;
+}
+
+.btnPrimary{
+  background: var(--primary);
+  border-color: var(--primaryBorder);
+  color: var(--primaryText);
+}
+
+/* ---------- GRIDS ---------- */
+.grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:14px; }
+
+/* ---------- FOOTER ---------- */
+.footer{
+  margin-top: 34px;
+  padding: 22px 0 30px;
+  border-top: 1px solid var(--stroke);
+  background: rgba(0,0,0,0.65);
+}
+.footerLinks{ display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 980px){
+  .navrow{ grid-template-columns: 1fr; }
+  .navlinks{ justify-content:flex-start; }
+  .search{ justify-content:flex-start; }
+  .grid{ grid-template-columns: 1fr; }
+}
