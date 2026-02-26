@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Submit a Tip | Olympia Did That</title>
+
+  <style>
+    :root{
+      --overlay: 0.22;
+      --stroke: rgba(255,255,255,0.18);
+      --stroke2: rgba(255,255,255,0.26);
+      --text: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.78);
+      --shadow: 0 18px 50px rgba(0,0,0,0.50);
+      --radius: 18px;
+      --max: 1180px;
+
+      --panelBg: rgba(0,0,0,0.70);
+      --red: #ff3b3b;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
+        url("/assets/money-bg.jpg") center / cover no-repeat fixed;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    #site-header{ position: sticky; top:0; z-index:1000; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
+
+    .panel{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: var(--panelBg);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelPad{ padding: 22px; }
+
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height:1.05;
+      text-transform: uppercase;
+      letter-spacing:0.6px;
+    }
+    .sub{ margin:0; color:var(--muted); line-height:1.6; max-width: 92ch; }
+    .tiny{ color:var(--muted); font-size:13px; }
+
+    .formGrid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:14px; }
+    .field{
+      display:flex; flex-direction:column; gap:8px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.10);
+      padding: 14px;
+    }
+
+    label{
+      font-weight:900;
+      letter-spacing:0.2px;
+      text-transform:uppercase;
+      font-size: 13px;
+    }
+
+    input, textarea{
+      width:100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,0.55);
+      color: var(--text);
+      outline:none;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    textarea{ min-height: 140px; resize: vertical; }
+
+    .btnRow{ display:flex; gap:12px; flex-wrap:wrap; margin-top: 14px; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke2);
+      background: rgba(255,255,255,0.14);
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor:pointer;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+      transition: background .15s ease, box-shadow .15s ease, filter .15s ease, transform .15s ease;
+    }
+    .btnPrimary{
+      background: rgba(255,59,59,0.92);
+      border-color: rgba(255,59,59,0.92);
+      color:#111;
+    }
+    .btn:hover{
+      filter: brightness(1.07);
+      transform: translateY(-1px);
+      text-decoration:none;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.18),
+        0 14px 34px rgba(0,0,0,0.45);
+    }
+
+    @media (max-width: 980px){
+      .formGrid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="site-header"></div>
+
+  <main class="wrap" style="padding-top:22px;">
+    <section class="panel panelPad">
+      <h1>Submit a Tip</h1>
+      <p class="sub">
+        Have a document, link, screenshot, or lead? Send it in. If you need to remain anonymous,
+        don’t include identifying info.
+      </p>
+      <p class="sub" style="margin-top:10px;">
+        Prefer email? Send to <a href="mailto:contact@olympiadidthat.com">contact@olympiadidthat.com</a>.
+      </p>
+
+      <div class="formGrid">
+        <div class="field">
+          <label for="name">Your Name (optional)</label>
+          <input id="name" type="text" placeholder="Optional" />
+        </div>
+
+        <div class="field">
+          <label for="email">Your Email (optional)</label>
+          <input id="email" type="email" placeholder="Optional" />
+        </div>
+
+        <div class="field" style="grid-column: 1 / -1;">
+          <label for="link">Link (optional)</label>
+          <input id="link" type="url" placeholder="Paste a URL if you have one" />
+        </div>
+
+        <div class="field" style="grid-column: 1 / -1;">
+          <label for="details">Details</label>
+          <textarea id="details" placeholder="What should we look at? What happened? Who/what/when/where?"></textarea>
+        </div>
+      </div>
+
+      <div class="btnRow">
+        <button class="btn btnPrimary" type="button" onclick="sendTip()">Send Tip</button>
+        <a class="btn" href="mailto:contact@olympiadidthat.com?subject=Tip%20for%20Olympia%20Did%20That">Email Instead</a>
+      </div>
+
+      <div class="tiny" style="margin-top:12px;">
+        Note: This form generates an email draft on your device (no server-side collection yet).
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    async function inject(selector, url){
+      const el = document.querySelector(selector);
+      if (!el) return;
+      try{
+        const res = await fetch(url, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+        el.innerHTML = await res.text();
+      }catch(err){
+        console.warn("Inject failed:", url, err);
+        el.innerHTML = "";
+      }
+    }
+
+    (async () => {
+      await inject("#site-header", "/partials/header.html");
+      await inject("#site-footer", "/partials/footer.html");
+    })();
+
+    window.ODT_findLegislator = function(e){
+      e.preventDefault();
+      const q = (document.getElementById("q")?.value || "").trim();
+      if(!q) return false;
+      window.location.href = "/wall.html?q=" + encodeURIComponent(q);
+      return false;
+    }
+
+    function sendTip(){
+      const name = (document.getElementById("name").value || "").trim();
+      const email = (document.getElementById("email").value || "").trim();
+      const link = (document.getElementById("link").value || "").trim();
+      const details = (document.getElementById("details").value || "").trim();
+
+      const subject = encodeURIComponent("New tip submission");
+      const lines = [];
+      lines.push("Tip details:");
+      lines.push("");
+      if(name) lines.push("Name: " + name);
+      if(email) lines.push("Email: " + email);
+      if(link) lines.push("Link: " + link);
+      lines.push("");
+      lines.push(details || "(No details provided)");
+      lines.push("");
+      lines.push("— Sent from OlympiaDidThat.com");
+
+      const body = encodeURIComponent(lines.join("\n"));
+      window.location.href = `mailto:contact@olympiadidthat.com?subject=${subject}&body=${body}`;
+    }
+  </script>
+</body>
+</html>
