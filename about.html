@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us | Olympia Did That</title>
+
+  <style>
+    :root{
+      --overlay: 0.22;
+      --stroke: rgba(255,255,255,0.18);
+      --stroke2: rgba(255,255,255,0.26);
+      --text: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.78);
+      --shadow: 0 18px 50px rgba(0,0,0,0.50);
+      --radius: 18px;
+      --max: 1180px;
+
+      --panelBg: rgba(0,0,0,0.70);
+      --panelBg2: rgba(0,0,0,0.62);
+      --red: #ff3b3b;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
+        url("/assets/money-bg.jpg") center / cover no-repeat fixed;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    #site-header{ position: sticky; top:0; z-index:1000; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
+
+    .panel{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: var(--panelBg);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelPad{ padding: 22px; }
+
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height:1.05;
+      text-transform: uppercase;
+      letter-spacing:0.6px;
+    }
+    .sub{ margin:0; color:var(--muted); line-height:1.6; max-width: 90ch; }
+
+    .grid{ display:grid; grid-template-columns: 1.2fr 0.8fr; gap:14px; margin-top:14px; }
+    .card{
+      border: 1px solid var(--stroke);
+      border-radius: 22px;
+      background: var(--panelBg2);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      overflow:hidden;
+    }
+
+    .sectionTitle{
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:0.4px;
+    }
+    .list{ margin:10px 0 0; color:var(--muted); line-height:1.7; padding-left: 18px; }
+    .tiny{ color:var(--muted); font-size:13px; }
+
+    .btnRow{ display:flex; gap:12px; flex-wrap:wrap; margin-top: 14px; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke2);
+      background: rgba(255,255,255,0.14);
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor:pointer;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+      transition: background .15s ease, box-shadow .15s ease, filter .15s ease, transform .15s ease;
+    }
+    .btnPrimary{
+      background: rgba(255,59,59,0.92);
+      border-color: rgba(255,59,59,0.92);
+      color:#111;
+    }
+    .btn:hover{
+      filter: brightness(1.07);
+      transform: translateY(-1px);
+      text-decoration:none;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.18),
+        0 14px 34px rgba(0,0,0,0.45);
+    }
+
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="site-header"></div>
+
+  <main class="wrap" style="padding-top:22px;">
+    <section class="panel panelPad">
+      <h1>About Us</h1>
+      <p class="sub">
+        Olympia Did That is a watchdog-style project tracking bills and decisions that raise the cost of living,
+        weaken public safety, and expand government power — with receipts.
+      </p>
+
+      <div class="btnRow">
+        <a class="btn btnPrimary" href="/wall.html">See the Wall</a>
+        <a class="btn" href="/bills/billindex.html">Browse the Bills</a>
+        <a class="btn" href="/action.html">Take Action</a>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <div class="sectionTitle">What we do</div>
+        <ul class="list">
+          <li><b>Track bills</b> in categories like taxes and crime, with clear status badges.</li>
+          <li><b>Connect the dots</b> between who backs what and what it costs families.</li>
+          <li><b>Publish shareable summaries</b> so normal people can understand what’s happening.</li>
+          <li><b>Promote accountability</b> using public information and documented sources.</li>
+        </ul>
+
+        <div class="sectionTitle" style="margin-top:14px;">What we’re not</div>
+        <ul class="list">
+          <li>We’re not a government agency.</li>
+          <li>We’re not your lawyer. (Nothing here is legal advice.)</li>
+          <li>We’re not perfect — and we welcome corrections.</li>
+        </ul>
+
+        <div class="tiny" style="margin-top:14px;">
+          Corrections: email <a href="mailto:contact@olympiadidthat.com">contact@olympiadidthat.com</a>.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="sectionTitle">Transparency</div>
+        <p class="sub" style="margin-top:10px;">
+          We want every claim to be verifiable. If something is wrong or missing, send us a note and we’ll fix it.
+        </p>
+
+        <div class="sectionTitle" style="margin-top:14px;">Press / Partnerships</div>
+        <p class="sub" style="margin-top:10px;">
+          For media, printing, or collaboration questions:
+          <a href="mailto:contact@olympiadidthat.com">contact@olympiadidthat.com</a>.
+        </p>
+
+        <div class="sectionTitle" style="margin-top:14px;">Tip line</div>
+        <p class="sub" style="margin-top:10px;">
+          Have a lead, document, or link? Use the tip page:
+          <a href="/tip.html">Submit a Tip</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    async function inject(selector, url){
+      const el = document.querySelector(selector);
+      if (!el) return;
+      try{
+        const res = await fetch(url, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+        el.innerHTML = await res.text();
+      }catch(err){
+        console.warn("Inject failed:", url, err);
+        el.innerHTML = "";
+      }
+    }
+
+    (async () => {
+      await inject("#site-header", "/partials/header.html");
+      await inject("#site-footer", "/partials/footer.html");
+    })();
+
+    window.ODT_findLegislator = function(e){
+      e.preventDefault();
+      const q = (document.getElementById("q")?.value || "").trim();
+      if(!q) return false;
+      window.location.href = "/wall.html?q=" + encodeURIComponent(q);
+      return false;
+    }
+  </script>
+</body>
+</html>
