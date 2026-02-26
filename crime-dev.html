@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Crime (DEV) | The Bills | Olympia Did That</title>
+
+  <style>
+    :root{
+      --overlay: 0.22;
+      --stroke: rgba(255,255,255,0.18);
+      --text: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.78);
+      --shadow: 0 18px 50px rgba(0,0,0,0.50);
+      --radius: 18px;
+      --max: 1180px;
+
+      --panelBg: rgba(0,0,0,0.70);
+      --cardBg: rgba(255,255,255,0.12);
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height: 100%; }
+
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
+        url("/assets/money-bg.jpg") center / cover no-repeat fixed;
+
+      min-height: 100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    #site-header{ position: sticky; top:0; z-index:1000; }
+    main{ flex: 1 0 auto; }
+
+    .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
+
+    .panel{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: var(--panelBg);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelPad{ padding: 22px; }
+
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height:1.05;
+      text-transform: uppercase;
+      letter-spacing:0.6px;
+    }
+    .sub{ margin:0; color:var(--muted); line-height:1.55; max-width: 85ch; }
+
+    .tabs{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 14px; }
+    .tab{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.14);
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+    .tab.active{ background: rgba(255,255,255,0.20); }
+    .tab:hover{ text-decoration:none; filter:brightness(1.06); }
+
+    .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:14px; }
+
+    .bill{
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      background: var(--cardBg);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .billTop{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    }
+    .billCode{ font-weight: 900; letter-spacing:0.4px; }
+
+    .pill{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,0.40);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .pill.passed{
+      background: rgba(46, 204, 113, 0.22);
+      border-color: rgba(46, 204, 113, 0.60);
+      color: rgba(220, 255, 235, 0.98);
+    }
+    .pill.committee{
+      background: rgba(241, 196, 15, 0.22);
+      border-color: rgba(241, 196, 15, 0.60);
+      color: rgba(255, 248, 220, 0.98);
+    }
+    .pill.introduced{
+      background: rgba(52, 152, 219, 0.22);
+      border-color: rgba(52, 152, 219, 0.60);
+      color: rgba(225, 248, 255, 0.98);
+    }
+    .pill.signed{
+      background: rgba(155, 89, 182, 0.22);
+      border-color: rgba(155, 89, 182, 0.60);
+      color: rgba(250, 235, 255, 0.98);
+    }
+    .pill.blocked{
+      background: rgba(231, 76, 60, 0.22);
+      border-color: rgba(231, 76, 60, 0.60);
+      color: rgba(255, 228, 228, 0.98);
+    }
+    .pill.proposed{
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.26);
+      color: rgba(255,255,255,0.90);
+    }
+
+    .billTitle{ margin-top:8px; font-weight:900; }
+    .billDesc{ margin-top:6px; color: var(--muted); line-height:1.5; }
+    .billMeta{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; color: var(--muted); font-size: 13px; }
+
+    .devNote{
+      margin-top:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .devRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top: 10px;
+    }
+    .miniBtn{
+      border:1px solid var(--stroke);
+      border-radius: 12px;
+      padding: 9px 12px;
+      background: rgba(255,255,255,0.14);
+      color: var(--text);
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      cursor:pointer;
+    }
+    .miniBtn:hover{ filter:brightness(1.06); }
+
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="site-header"></div>
+
+  <main>
+    <div class="wrap" style="padding-top:22px;">
+      <section class="panel panelPad">
+        <h1>The Bills: Crime (DEV)</h1>
+        <p class="sub">
+          Experimental page: tries to live-fetch badge status per bill (via Cloudflare Worker).
+          If the fetch fails, the static status remains.
+        </p>
+
+        <div class="tabs">
+          <a class="tab" href="taxes-dev.html">💰 Taxes (DEV)</a>
+          <a class="tab active" href="crime-dev.html">🚔 Crime (DEV)</a>
+          <a class="tab" href="taxes.html">Taxes (Static)</a>
+          <a class="tab" href="crime.html">Crime (Static)</a>
+        </div>
+
+        <div class="devNote">
+          <b>Worker URL:</b> set <code>STATUS_API_BASE</code> in the script to your Cloudflare Worker endpoint.
+        </div>
+
+        <div class="devRow">
+          <button class="miniBtn" type="button" onclick="ODT_refreshStatuses()">Refresh Live Status</button>
+          <span id="devStatus" class="devNote" style="margin:0; padding:8px 10px;">Status: idle</span>
+        </div>
+      </section>
+
+      <section class="panel panelPad" style="margin-top:14px;">
+        <div style="font-weight:900; text-transform:uppercase; letter-spacing:0.4px;">The Olympia Did That Warning List</div>
+        <div class="grid" id="grid"></div>
+      </section>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    async function inject(selector, url){
+      const el = document.querySelector(selector);
+      if (!el) return;
+      try{
+        const res = await fetch(url, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+        el.innerHTML = await res.text();
+      }catch(err){
+        console.warn("Inject failed:", url, err);
+        el.innerHTML = "";
+      }
+    }
+
+    const STATUS_API_BASE = "/api/billstatus";
+
+    const crimeBills = [
+      {
+        code: "SB 5269 (2025-26)",
+        biennium: "2025-26",
+        billNumber: "5269",
+        status: "Proposed",
+        title: "Retroactive Sentence Cuts",
+        desc: "Expands pathways to reduce sentences after conviction (short label).",
+        sponsors: "Backed by: Sen. Noel Frame (draft)",
+        impact: "Bottom Line: Less time served; more risk to public safety."
+      },
+      {
+        code: "SB 5266 (2025-26)",
+        biennium: "2025-26",
+        billNumber: "5266",
+        status: "Proposed",
+        title: "Sentencing Reform Expansion",
+        desc: "Broad sentencing changes marketed as reform (short label).",
+        sponsors: "Backed by: Sen. Noel Frame (draft)",
+        impact: "Bottom Line: Weakens accountability under the banner of reform."
+      },
+      {
+        code: "SB 5475 (2025-26)",
+        biennium: "2025-26",
+        billNumber: "5475",
+        status: "Proposed",
+        title: "“25 is the new 18” Emerging Adults",
+        desc: "Treats adult offenders as “emerging adults,” shifting consequences toward programs.",
+        sponsors: "Backed by: Sen. Manka Dhingra (draft)",
+        impact: "Bottom Line: Adult crime reclassified as a youth problem."
+      },
+      {
+        code: "HB 1274 (2025-26)",
+        biennium: "2025-26",
+        billNumber: "1274",
+        status: "Proposed",
+        title: "Juvenile Record Wipe",
+        desc: "Expands mechanisms to seal/wipe juvenile records (short label).",
+        sponsors: "Backed by: Rep. Nicole Macri (draft)",
+        impact: "Bottom Line: Reduces transparency into repeat behavior."
+      },
+      {
+        code: "HB 2114 (2025-26)",
+        biennium: "2025-26",
+        billNumber: "2114",
+        status: "Proposed",
+        title: "Rent Control / Housing Restrictions",
+        desc: "Not purely crime—listed here only if you want “public safety impact” framing (optional).",
+        sponsors: "Backed by: Rep. Nicole Macri (draft)",
+        impact: "Bottom Line: (Your summary here)."
+      }
+    ];
+
+    function statusClass(status){
+      const s = (status || "").toLowerCase();
+      if (s.includes("signed")) return "signed";
+      if (s.includes("passed")) return "passed";
+      if (s.includes("committee") || s.includes("referred")) return "committee";
+      if (s.includes("introduced") || s.includes("first reading")) return "introduced";
+      if (s.includes("blocked") || s.includes("killed") || s.includes("dead")) return "blocked";
+      if (s.includes("proposal") || s.includes("proposed")) return "proposed";
+      return "proposed";
+    }
+
+    function billCard(b){
+      const key = `${b.biennium}:${b.billNumber}`;
+      return `
+        <article class="bill" data-key="${key}">
+          <div class="billTop">
+            <div class="billCode">${b.code}</div>
+            <div class="pill ${statusClass(b.status)}" data-role="pill">${b.status}</div>
+          </div>
+          <div class="billTitle">${b.title}</div>
+          <div class="billDesc">${b.desc}</div>
+          <div class="billMeta">
+            <span>${b.sponsors}</span>
+            <span>•</span>
+            <span>${b.impact}</span>
+          </div>
+        </article>
+      `;
+    }
+
+    function render(){
+      document.getElementById("grid").innerHTML = crimeBills.map(billCard).join("");
+    }
+
+    async function fetchLiveStatus(biennium, billNumber){
+      const url = `${STATUS_API_BASE}?biennium=${encodeURIComponent(biennium)}&billNumber=${encodeURIComponent(billNumber)}`;
+      const res = await fetch(url, { cache: "no-cache" });
+      if(!res.ok) throw new Error(`Worker ${res.status}`);
+      return await res.json();
+    }
+
+    function setDevStatus(msg){
+      const el = document.getElementById("devStatus");
+      if (el) el.textContent = "Status: " + msg;
+    }
+
+    async function refreshStatuses(){
+      setDevStatus("fetching…");
+      let okCount = 0, failCount = 0;
+
+      for (const b of crimeBills){
+        try{
+          const data = await fetchLiveStatus(b.biennium, b.billNumber);
+          if (!data || data.ok !== true || !data.statusText) throw new Error("bad json");
+
+          const key = `${b.biennium}:${b.billNumber}`;
+          const card = document.querySelector(`.bill[data-key="${CSS.escape(key)}"]`);
+          const pill = card?.querySelector(`[data-role="pill"]`);
+          if (pill){
+            pill.textContent = data.statusText;
+            pill.className = `pill ${statusClass(data.statusText)}`;
+          }
+          okCount++;
+        }catch(e){
+          console.warn("Status fetch failed:", b.biennium, b.billNumber, e);
+          failCount++;
+        }
+      }
+
+      setDevStatus(`done (${okCount} updated, ${failCount} failed)`);
+    }
+
+    window.ODT_refreshStatuses = refreshStatuses;
+
+    (async () => {
+      await inject("#site-header", "../partials/header.html");
+      await inject("#site-footer", "../partials/footer.html");
+
+      // highlight THE BILLS in nav
+      const links = document.querySelectorAll(".navlinks a");
+      links.forEach(a => a.classList.remove("active"));
+      const billsLink =
+        Array.from(links).find(a => (a.getAttribute("href") || "").includes("billindex")) ||
+        Array.from(links).find(a => (a.textContent || "").toLowerCase().includes("bills"));
+      if (billsLink) billsLink.classList.add("active");
+
+      render();
+      // optional: auto-refresh on load while you test
+      // refreshStatuses();
+    })();
+
+    window.ODT_findLegislator = function(e){
+      e.preventDefault();
+      const q = (document.getElementById("q")?.value || "").trim();
+      if(!q) return false;
+      window.location.href = "/wall.html?q=" + encodeURIComponent(q);
+      return false;
+    }
+  </script>
+</body>
+</html>
