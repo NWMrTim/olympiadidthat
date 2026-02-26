@@ -1,0 +1,522 @@
+<!-- /heros.html  (yes, keeping your filename spelling) -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Heroes Wall | Olympia Did That</title>
+
+  <style>
+    :root{
+      --overlay: 0.22;
+      --stroke: rgba(255,255,255,0.18);
+      --stroke2: rgba(255,255,255,0.26);
+      --text: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.78);
+      --shadow: 0 18px 50px rgba(0,0,0,0.50);
+      --radius: 18px;
+      --max: 1180px;
+
+      --panelBg: rgba(0,0,0,0.70);
+      --panelBg2: rgba(0,0,0,0.62);
+      --red: #ff3b3b;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
+        url("/assets/money-bg.jpg") center / cover no-repeat fixed;
+
+      /* sticky footer behavior */
+      min-height: 100vh;
+      display:flex;
+      flex-direction: column;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    #site-header{ position: sticky; top:0; z-index:1000; }
+    main{ flex: 1 0 auto; }
+
+    .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
+
+    .panel{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: var(--panelBg);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelPad{ padding: 22px; }
+
+    h1{
+      margin:0 0 8px;
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height:1.05;
+      text-transform: uppercase;
+      letter-spacing:0.6px;
+    }
+    .sub{ margin:0; color:var(--muted); line-height:1.6; max-width: 90ch; }
+
+    .sectionHdr{
+      margin-top: 16px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+    .kicker{
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .btnRow{ display:flex; gap:12px; flex-wrap:wrap; margin-top: 14px; }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke2);
+      background: rgba(255,255,255,0.14);
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor:pointer;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+      transition: background .15s ease, box-shadow .15s ease, filter .15s ease, transform .15s ease;
+    }
+    .btnPrimary{
+      background: rgba(255,59,59,0.92);
+      border-color: rgba(255,59,59,0.92);
+      color:#111;
+    }
+    .btn:hover{
+      filter: brightness(1.07);
+      transform: translateY(-1px);
+      text-decoration:none;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.18),
+        0 14px 34px rgba(0,0,0,0.45);
+    }
+    .tiny{ color:var(--muted); font-size:13px; }
+
+    .grid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card{
+      background: var(--panelBg2);
+      border: 1px solid var(--stroke);
+      border-radius: 22px;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction: column;
+      min-height: 460px;
+    }
+
+    .poster{
+      height: 220px;
+      border-bottom: 1px solid var(--stroke);
+      background: rgba(0,0,0,0.35);
+      position: relative;
+      overflow:hidden;
+    }
+
+    .poster img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      filter: contrast(1.03);
+    }
+
+    .poster .pending{
+      height:100%;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding: 16px;
+      color: rgba(255,255,255,0.80);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45));
+    }
+
+    .cardBody{
+      padding: 16px 16px 18px;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .name{
+      margin:0;
+      font-size: 20px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.15;
+    }
+
+    .moniker{
+      margin: 0;
+      color: rgba(255,255,255,0.90);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+    }
+
+    .role{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .why{
+      margin: 0;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.55;
+    }
+
+    .meta{
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+      display:flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px){
+      .grid{ grid-template-columns: 1fr; }
+      .poster{ height: 240px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="site-header"></div>
+
+  <main>
+    <div class="wrap">
+      <section class="panel panelPad">
+        <h1>Heroes Wall: The Guardians of Washington</h1>
+        <p class="sub">
+          This wall highlights leaders who fight for taxpayers, accountability, and common sense.
+          If we missed someone, tell us who to add.
+        </p>
+
+        <div class="btnRow">
+          <a class="btn btnPrimary" href="mailto:contact@olympiadidthat.com?subject=Hero%20Suggestion%20for%20ODT&body=Who%20should%20we%20add%20to%20the%20Heroes%20Wall%3F%0A%0AName%3A%0ARole%3A%0AWhy%20they%20belong%3A%0ALinks%2Fsources%3A%0A%0A%E2%80%94%20Sent%20from%20OlympiaDidThat.com">
+            Suggest a Hero
+          </a>
+          <a class="btn" href="/wall.html">Back to the Wall</a>
+        </div>
+
+        <div class="tiny" style="margin-top:10px;">
+          Tip: posters can be JPG/PNG/WebP. Square 1024×1024 works great; we crop to fit the card.
+        </div>
+      </section>
+
+      <div class="sectionHdr">
+        <div class="kicker">Legislators</div>
+        <div class="tiny">Posters shown when available. “Poster Pending” cards are placeholders.</div>
+      </div>
+
+      <section class="grid" aria-label="Heroes grid (legislators)">
+        <!-- 1 -->
+        <article class="card">
+          <div class="poster">
+            <img src="/assets/heros/AjFjTK-nCzM.webp" alt="John Braun poster" onerror="this.remove(); this.parentElement.innerHTML='<div class=&quot;pending&quot;>Poster Pending</div>';">
+          </div>
+          <div class="cardBody">
+            <h3 class="name">John Braun</h3>
+            <p class="moniker">“The Fiscal Guardian”</p>
+            <p class="role"><b>Role:</b> Senate Minority Leader</p>
+            <p class="why"><b>Action:</b> Led the Senate floor fight against the 9.9% income tax (SB 6346) and is a leading voice for property tax relief and budget accountability.</p>
+            <div class="meta">
+              <span>Image: AjFjTK-nCzM.webp</span>
+              <span>Category: Guardians</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2 -->
+        <article class="card">
+          <div class="poster">
+            <img src="/assets/heros/VvbjGx7ARQZ.webp" alt="Jim Walsh poster" onerror="this.remove(); this.parentElement.innerHTML='<div class=&quot;pending&quot;>Poster Pending</div>';">
+          </div>
+          <div class="cardBody">
+            <h3 class="name">Jim Walsh</h3>
+            <p class="moniker">“The Constitutional Defender”</p>
+            <p class="role"><b>Role:</b> State Representative / GOP Chair</p>
+            <p class="why"><b>Action:</b> A fierce opponent of unconstitutional “money scams” and tax traps; instrumental in protecting voter-led initiatives from being overturned.</p>
+            <div class="meta">
+              <span>Image: VvbjGx7ARQZ.webp</span>
+              <span>Category: Guardians</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="card">
+          <div class="poster">
+            <img src="/assets/heros/nd4px15rXu.webp" alt="Travis Couture poster" onerror="this.remove(); this.parentElement.innerHTML='<div class=&quot;pending&quot;>Poster Pending</div>';">
+          </div>
+          <div class="cardBody">
+            <h3 class="name">Travis Couture</h3>
+            <p class="moniker">“The Family Protector”</p>
+            <p class="role"><b>Role:</b> State Representative</p>
+            <p class="why"><b>Action:</b> Consistently votes against tax hikes that target working families and has been a leading critic of the 2026 “Millionaire’s Tax” expansion.</p>
+            <div class="meta">
+              <span>Image: nd4px15rXu.webp</span>
+              <span>Category: Guardians</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4 -->
+        <article class="card">
+          <div class="poster">
+            <img src="/assets/heros/yLg9TBMMJP8.webp" alt="April Connors poster" onerror="this.remove(); this.parentElement.innerHTML='<div class=&quot;pending&quot;>Poster Pending</div>';">
+          </div>
+          <div class="cardBody">
+            <h3 class="name">April Connors</h3>
+            <p class="moniker">“The Affordability Advocate”</p>
+            <p class="role"><b>Role:</b> State Representative</p>
+            <p class="why"><b>Action:</b> Championed affordability by opposing bills that increase the cost of living and fighting against new taxes on basic necessities.</p>
+            <div class="meta">
+              <span>Image: yLg9TBMMJP8.webp</span>
+              <span>Category: Guardians</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5 (your real PNG) -->
+        <article class="card">
+          <div class="poster">
+            <img src="/assets/heros/PhilFortunato.png" alt="Phil Fortunato poster">
+          </div>
+          <div class="cardBody">
+            <h3 class="name">Phil Fortunato</h3>
+            <p class="moniker">“The Taxpayer’s Shield”</p>
+            <p class="role"><b>Role:</b> State Senator</p>
+            <p class="why"><b>Action:</b> Denounced the tripling of property tax growth and has been a key strategist in blocking the implementation of a state-wide income tax.</p>
+            <div class="meta">
+              <span>Image: PhilFortunato.png</span>
+              <span>Category: Guardians</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6 -->
+        <article class="card">
+          <div class="poster"><div class="pending">Poster Pending</div></div>
+          <div class="cardBody">
+            <h3 class="name">Drew Stokesbary</h3>
+            <p class="moniker">“The Economic Watchdog”</p>
+            <p class="role"><b>Role:</b> House Minority Leader</p>
+            <p class="why"><b>Action:</b> Masterminded House opposition to the 2026 revenue package, focusing on government efficiency over tax increases.</p>
+            <div class="meta">
+              <span>Image: Poster Pending</span>
+              <span>Category: Guardians</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 7 -->
+        <article class="card">
+          <div class="poster"><div class="pending">Poster Pending</div></div>
+          <div class="cardBody">
+            <h3 class="name">Peter Abbarno</h3>
+            <p class="moniker">“The Fiscal Reformer”</p>
+            <p class="role"><b>Role:</b> State Representative</p>
+            <p class="why"><b>Action:</b> Vocal in the 2026 session about Washington’s spending problem—arguing the “deficit” is waste, not a lack of revenue.</p>
+            <div class="meta">
+              <span>Image: Poster Pending</span>
+              <span>Category: Guardians</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 8 -->
+        <article class="card">
+          <div class="poster"><div class="pending">Poster Pending</div></div>
+          <div class="cardBody">
+            <h3 class="name">Lynda Wilson</h3>
+            <p class="moniker">“The Budget Sentinel”</p>
+            <p class="role"><b>Role:</b> State Senator</p>
+            <p class="why"><b>Action:</b> As ranking member on Ways &amp; Means, consistently exposes hidden costs of new “crime and safety” taxes that don’t actually fund police.</p>
+            <div class="meta">
+              <span>Image: Poster Pending</span>
+              <span>Category: Guardians</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Extra (from your table) -->
+        <article class="card">
+          <div class="poster"><div class="pending">Poster Pending</div></div>
+          <div class="cardBody">
+            <h3 class="name">Ed Orcutt</h3>
+            <p class="moniker">“The Tax Truth-Teller”</p>
+            <p class="role"><b>Role:</b> State Representative</p>
+            <p class="why"><b>Action:</b> Breaks down exactly how much these “scams” cost families and taxpayers.</p>
+            <div class="meta">
+              <span>Image: Poster Pending</span>
+              <span>Category: Guardians</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="poster"><div class="pending">Poster Pending</div></div>
+          <div class="cardBody">
+            <h3 class="name">Gina Mosbrucker</h3>
+            <p class="moniker">“The Safety Champion”</p>
+            <p class="role"><b>Role:</b> State Representative</p>
+            <p class="why"><b>Action:</b> Leading the fight for real public safety funding that doesn’t rely on tax traps.</p>
+            <div class="meta">
+              <span>Image: Poster Pending</span>
+              <span>Category: Guardians</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="poster"><div class="pending">Poster Pending</div></div>
+          <div class="cardBody">
+            <h3 class="name">Chris Gildon</h3>
+            <p class="moniker">“The Education Guardian”</p>
+            <p class="role"><b>Role:</b> State Senator</p>
+            <p class="why"><b>Action:</b> Fighting to ensure tax dollars reach classrooms—not just bureaucracy.</p>
+            <div class="meta">
+              <span>Image: Poster Pending</span>
+              <span>Category: Guardians</span>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <div class="sectionHdr">
+        <div class="kicker">Civic Heroes</div>
+        <div class="tiny">Builders, organizers, and catalysts behind major accountability efforts.</div>
+      </div>
+
+      <section class="grid" aria-label="Heroes grid (civic)">
+        <article class="card">
+          <div class="poster">
+            <img src="/assets/heros/DnOba162C_Z.webp" alt="Brian Heywood poster" onerror="this.remove(); this.parentElement.innerHTML='<div class=&quot;pending&quot;>Poster Pending</div>';">
+          </div>
+          <div class="cardBody">
+            <h3 class="name">Brian Heywood</h3>
+            <p class="moniker">“The Initiative Architect”</p>
+            <p class="role"><b>Role:</b> Founder of “Let’s Go Washington”</p>
+            <p class="why"><b>Action:</b> Founder and major financial backbone of repeal initiatives.</p>
+            <div class="meta">
+              <span>Image: DnOba162C_Z.webp</span>
+              <span>Category: Civic</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="poster">
+            <img src="/assets/heros/Iyz9wcnHKGy.webp" alt="Steve Gordon poster" onerror="this.remove(); this.parentElement.innerHTML='<div class=&quot;pending&quot;>Poster Pending</div>';">
+          </div>
+          <div class="cardBody">
+            <h3 class="name">Steve Gordon</h3>
+            <p class="moniker">“The Freedom Catalyst”</p>
+            <p class="role"><b>Role:</b> Investor / Strategic leader</p>
+            <p class="why"><b>Action:</b> Key investor and strategic leader behind property tax protests and repeal efforts.</p>
+            <div class="meta">
+              <span>Image: Iyz9wcnHKGy.webp</span>
+              <span>Category: Civic</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="poster"><div class="pending">Poster Pending</div></div>
+          <div class="cardBody">
+            <h3 class="name">Tim Eyman</h3>
+            <p class="moniker">“The Tax Fighter Legend”</p>
+            <p class="role"><b>Role:</b> Activist</p>
+            <p class="why"><b>Action:</b> Decades of anti-tax activism; continuing opposition to the 2026 “Millionaire’s Tax.”</p>
+            <div class="meta">
+              <span>Image: Poster Pending</span>
+              <span>Category: Civic</span>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <div class="btnRow" style="margin-top:18px;">
+        <a class="btn btnPrimary" href="mailto:contact@olympiadidthat.com?subject=Hero%20Suggestion%20for%20ODT&body=Who%20should%20we%20add%20to%20the%20Heroes%20Wall%3F%0A%0AName%3A%0ARole%3A%0AWhy%20they%20belong%3A%0ALinks%2Fsources%3A%0A%0A%E2%80%94%20Sent%20from%20OlympiaDidThat.com">
+          Suggest a Hero
+        </a>
+        <a class="btn" href="/bills/billindex.html">Browse the Bills</a>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    async function inject(selector, url){
+      const el = document.querySelector(selector);
+      if (!el) return;
+      try{
+        const res = await fetch(url, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+        el.innerHTML = await res.text();
+      }catch(err){
+        console.warn("Inject failed:", url, err);
+        el.innerHTML = "";
+      }
+    }
+
+    (async () => {
+      await inject("#site-header", "/partials/header.html");
+      await inject("#site-footer", "/partials/footer.html");
+
+      // highlight HEROES link if you later add it to header.html nav
+      const links = document.querySelectorAll(".navlinks a");
+      links.forEach(a => a.classList.remove("active"));
+      const heroLink = Array.from(links).find(a => (a.getAttribute("href") || "").includes("heros"));
+      if (heroLink) heroLink.classList.add("active");
+    })();
+
+    // allow shared header search to work
+    window.ODT_findLegislator = function(e){
+      e.preventDefault();
+      const q = (document.getElementById("q")?.value || "").trim();
+      if(!q) return false;
+      window.location.href = "/wall.html?q=" + encodeURIComponent(q);
+      return false;
+    }
+  </script>
+</body>
+</html>
