@@ -3,9 +3,10 @@ export async function onRequestGet(context) {
   const url = new URL(request.url);
 
   const biennium = url.searchParams.get("biennium") || "2025-26";
-  const bill = url.searchParams.get("bill"); // e.g. 6345
-  if (!bill) return json({ error: "Missing ?bill=####" }, 400);
-
+  const bill =
+    url.searchParams.get("billNumber") ||  // what your HTML sends
+    url.searchParams.get("bill");          // fallback
+  if (!bill) return json({ ok: false, error: "Missing ?billNumber=####" }, 400);
   // Cache key includes biennium+bill
   const cacheKey = new Request(url.toString(), request);
   const cache = caches.default;
