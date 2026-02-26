@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rap Sheet | Olympia Did That</title>
+
+  <style>
+    :root{
+      --overlay: 0.22;
+      --stroke: rgba(255,255,255,0.18);
+      --stroke2: rgba(255,255,255,0.26);
+      --text: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.78);
+      --shadow: 0 18px 50px rgba(0,0,0,0.50);
+      --radius: 18px;
+      --max: 1180px;
+
+      --panelBg: rgba(0,0,0,0.70);
+      --panelBg2: rgba(0,0,0,0.62);
+      --red: #ff3b3b;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
+        url("assets/money-bg.jpg") center / cover no-repeat fixed;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
+
+    /* header.html is sticky already; keep it above content */
+    #site-header{ position: sticky; top:0; z-index:1000; }
+
+    .panel{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: var(--panelBg);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelPad{ padding: 22px; }
+
+    h1{
+      margin:0 0 8px;
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height:1.05;
+      text-transform: uppercase;
+      letter-spacing:0.6px;
+    }
+    .sub{ margin:0; color:var(--muted); line-height:1.55; max-width: 80ch; }
+
+    /* Bigger “Back to the Wall” */
+    .backRow{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom: 10px; }
+    .backBtn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke2);
+      background: rgba(255,255,255,0.14);
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+      transition: background .15s ease, box-shadow .15s ease, filter .15s ease, transform .15s ease;
+    }
+    .backBtn:hover{
+      background: rgba(255,255,255,0.18);
+      filter: brightness(1.07);
+      transform: translateY(-1px);
+      text-decoration:none;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.18),
+        0 14px 34px rgba(0,0,0,0.45);
+    }
+
+    /* Cards list */
+    .list{ margin-top: 14px; display:grid; gap:14px; }
+
+    .rapCard{
+      border: 1px solid var(--stroke);
+      border-radius: 22px;
+      background: var(--panelBg2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .rapTop{
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+
+    .who{ min-width: 280px; }
+    .who .name{
+      margin:0;
+      font-size: clamp(22px, 2.2vw, 34px);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing:0.6px;
+    }
+    .who .title{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .tags{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:flex-end; }
+    .tag{
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.10);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing:0.3px;
+      font-size: 12px;
+      color: var(--text);
+      user-select: none;
+    }
+
+    .rapBody{
+      padding: 16px 18px 18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .box{
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.26);
+      border-radius: 18px;
+      padding: 14px;
+    }
+    .boxTitle{
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing:0.4px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .box ul{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .quote{
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .cost{
+      margin-top: 10px;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .btnRow{ display:flex; gap:12px; flex-wrap:wrap; margin-top: 12px; }
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke2);
+      background: rgba(255,255,255,0.14);
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor:pointer;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+      transition: background .15s ease, box-shadow .15s ease, filter .15s ease, transform .15s ease;
+      user-select: none;
+    }
+
+    .btnPrimary{
+      background: rgba(255,59,59,0.92);
+      border-color: rgba(255,59,59,0.92);
+      color:#111;
+    }
+
+    .btn:hover{
+      filter: brightness(1.07);
+      transform: translateY(-1px);
+      text-decoration:none;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.18),
+        0 14px 34px rgba(0,0,0,0.45);
+    }
+
+    /* Subtle pulse for Take Action (only) */
+    .btnPulse{
+      animation: pulseGlow 2.4s ease-in-out infinite;
+    }
+    @keyframes pulseGlow{
+      0%, 100%{
+        box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+        filter: brightness(1.0);
+      }
+      50%{
+        box-shadow:
+          0 10px 26px rgba(0,0,0,0.35),
+          0 0 0 2px rgba(255,59,59,0.18),
+          0 0 24px rgba(255,59,59,0.14);
+        filter: brightness(1.04);
+      }
+    }
+
+    /* Copy button feedback */
+    .copyNote{
+      margin-left:auto;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing:0.2px;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(-2px);
+      transition: opacity .2s ease, transform .2s ease;
+      white-space: nowrap;
+    }
+    .copyNote.show{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Landing highlight + fade-in */
+    .rapCard.highlight{
+      outline: 2px solid rgba(255,255,255,0.22);
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,0.12),
+        0 22px 60px rgba(0,0,0,0.65);
+      scroll-margin-top: 110px;
+    }
+    .rapCard.landing{
+      opacity: 0;
+      transform: translateY(10px);
+      animation: landFade .55s ease forwards;
+    }
+    @keyframes landFade{
+      to{ opacity: 1; transform: translateY(0); }
+    }
+
+    .tiny{ color:var(--muted); font-size:13px; }
+
+    @media (max-width: 980px){
+      .rapBody{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Shared header/footer inject points -->
+  <div id="site-header"></div>
+
+  <main class="wrap" style="padding-top:22px;">
+    <section class="panel panelPad">
+      <div class="backRow">
+        <a class="backBtn" href="/wall.html">← Back to the Wall</a>
+        <div class="tiny">Tip: share a direct link to a person by copying the URL with <b>#name</b> at the end.</div>
+      </div>
+      <h1>Rap Sheet</h1>
+      <p class="sub">
+        A living index of who backed what. Click around, compare patterns, and share specific entries.
+      </p>
+    </section>
+
+    <section class="list" id="list" aria-label="Rap sheet list"></section>
+
+    <div class="tiny" style="margin-top:14px;">
+      Questions / corrections? Email us at <a href="mailto:contact@olympiadidthat.com">contact@olympiadidthat.com</a>.
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    // ---- Shared header/footer loader ----
+    async function inject(selector, url){
+      const el = document.querySelector(selector);
+      if (!el) return;
+      try{
+        const res = await fetch(url, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+        el.innerHTML = await res.text();
+      }catch(err){
+        console.warn("Inject failed:", url, err);
+        el.innerHTML = "";
+      }
+    }
+
+    (async () => {
+      // If rap-sheet lives at site root:
+      await inject("#site-header", "/partials/header.html");
+      await inject("#site-footer", "/partials/footer.html");
+
+      // Optional: set active nav to THE WALL or nothing; if your header script already handles it, ignore.
+      // (We keep this minimal.)
+    })();
+
+    // ---- Data ----
+    const db = [
+      {
+        id: "macri",
+        name: "Rep. Nicole Macri (Seattle)",
+        title: "The Crime-Pass Specialist",
+        tags: ["crime"],
+        bills: ["HB 1274 — Juvenile record wipe", "HB 2114 — Rent control"],
+        cost: "$$$ / month (placeholder)",
+        quote: "“Accountability is optional; your paycheck is not.”"
+      },
+      {
+        id: "fitzgibbon",
+        name: "Rep. Joe Fitzgibbon (West Seattle)",
+        title: "The Tax-Hike Architect",
+        tags: ["tax"],
+        bills: ["SB 6346 — Income tax 'foot in the door'", "SB 6345 — Pain at the pump ferry tax"],
+        cost: "$$$ / year (placeholder)",
+        quote: "“Why let you keep it when the state can spend it better?”"
+      },
+      {
+        id: "berg",
+        name: "Rep. April Berg (Mill Creek)",
+        title: "The Property-Tax Puppet Master",
+        tags: ["tax"],
+        bills: ["SB 5770 — Forever-hike property tax", "HB 2083 — (add short label)"],
+        cost: "$$$ / year (placeholder)",
+        quote: "“Your home is the state’s piggy bank.”"
+      },
+      {
+        id: "frame",
+        name: "Sen. Noel Frame (Seattle)",
+        title: "The Sentence Shortener",
+        tags: ["crime"],
+        bills: ["SB 5269 — Retroactive sentence cuts", "SB 5266 — Sentencing reform"],
+        cost: "Safety cost: higher repeat offenses (placeholder)",
+        quote: "“The prison door should always be swinging open.”"
+      },
+      {
+        id: "dhingra",
+        name: "Sen. Manka Dhingra (Redmond)",
+        title: "The Gatekeeper of Lawlessness",
+        tags: ["crime"],
+        bills: ["SB 5475 — '25 is the new 18' (emerging adults)"],
+        cost: "Safety cost: lighter accountability (placeholder)",
+        quote: "“Why punish the crime when we can analyze the criminal?”"
+      }
+    ];
+
+    function tagPills(tags){
+      return (tags || []).map(t => `<span class="tag">${t}</span>`).join("");
+    }
+
+    function absoluteHashLink(id){
+      // Produces full shareable link like https://site/rap-sheet#macri
+      const base = location.href.split("#")[0];
+      return `${base}#${id}`;
+    }
+
+    function card(person){
+      const mailHref =
+        "mailto:contact@olympiadidthat.com?subject=" +
+        encodeURIComponent("Rap sheet feedback: " + person.name);
+
+      return `
+        <article class="rapCard" id="${person.id}">
+          <div class="rapTop">
+            <div class="who">
+              <h2 class="name">${person.name}</h2>
+              <div class="title">${person.title}</div>
+            </div>
+            <div class="tags" aria-label="Tags">${tagPills(person.tags)}</div>
+          </div>
+
+          <div class="rapBody">
+            <div class="box">
+              <div class="boxTitle">The Bills</div>
+              <ul>${person.bills.map(b => `<li>${b}</li>`).join("")}</ul>
+            </div>
+
+            <div class="box">
+              <div class="boxTitle">
+                <span>The Cost</span>
+                <span class="copyNote" id="copynote-${person.id}">Copied!</span>
+              </div>
+
+              <div class="cost">${person.cost}</div>
+              <div class="quote">${person.quote}</div>
+
+              <div class="btnRow">
+                <a class="btn btnPrimary btnPulse" href="/action.html">Take Action</a>
+                <a class="btn" href="${mailHref}">Contact Us</a>
+                <button class="btn" type="button" data-copy="${person.id}">Copy Link</button>
+              </div>
+
+              <div class="tiny" style="margin-top:10px;">
+                Copy Link creates a shareable URL that jumps directly to this entry.
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    // Render all
+    document.getElementById("list").innerHTML = db.map(card).join("");
+
+    // Copy Link handler (event delegation)
+    document.addEventListener("click", async (e) => {
+      const btn = e.target.closest("[data-copy]");
+      if (!btn) return;
+
+      const id = btn.getAttribute("data-copy");
+      const link = absoluteHashLink(id);
+
+      try{
+        await navigator.clipboard.writeText(link);
+      }catch{
+        // Fallback for older browsers
+        const ta = document.createElement("textarea");
+        ta.value = link;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      }
+
+      const note = document.getElementById(`copynote-${id}`);
+      if (note){
+        note.classList.add("show");
+        setTimeout(() => note.classList.remove("show"), 1300);
+      }
+    });
+
+    // Option B: land + highlight + subtle fade
+    (function landFromHash(){
+      const id = (location.hash || "").replace("#","").trim();
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      setTimeout(() => {
+        el.classList.add("highlight", "landing");
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        setTimeout(() => el.classList.remove("highlight"), 2800);
+        setTimeout(() => el.classList.remove("landing"), 900);
+      }, 60);
+    })();
+  </script>
+</body>
+</html>
