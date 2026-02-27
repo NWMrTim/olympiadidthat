@@ -1,0 +1,80 @@
+<!-- /partials/footer.html -->
+<footer class="siteFooter" role="contentinfo">
+  <div class="footerInner">
+    <div class="footerLeft">
+      © 2026 Olympia Did That — Truth Fund. Paid for by People United for Washington.
+      <div class="footerSources">
+        Legislative information (e.g., bill status, sponsors) sourced from Washington State Legislature web services:
+        <a href="https://wslwebservices.leg.wa.gov/" target="_blank" rel="noopener">wslwebservices.leg.wa.gov</a>
+      </div>
+    </div>
+
+    <nav class="footerLinks" aria-label="Footer links">
+      <a href="/about.html">About Us</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="mailto:contact@olympiadidthat.com">Submit a Tip</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+/* Footer panel (Bills-style), with safe fallbacks if a page doesn't define vars */
+.siteFooter{
+  margin-top: 34px;
+  padding: 22px 0 30px;
+  border-top: 1px solid var(--stroke, rgba(255,255,255,0.18));
+  background: rgba(0,0,0,0.65);
+}
+
+.siteFooter .footerInner{
+  max-width: var(--max, 1180px);
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.siteFooter .footerLeft{
+  color: var(--muted, rgba(255,255,255,0.78));
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.siteFooter .footerSources{
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--muted, rgba(255,255,255,0.78));
+  max-width: 78ch;
+}
+
+.siteFooter .footerLinks{
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  color: var(--muted, rgba(255,255,255,0.78));
+}
+
+.siteFooter a{
+  color: inherit;
+  text-decoration: none;
+}
+
+.siteFooter a:hover{
+  text-decoration: underline;
+}
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const DONATE_URL = "https://pu4wa.com/donate/";
+
+    document.querySelectorAll(".fund-btn").forEach(btn => {
+      btn.href = DONATE_URL;
+      btn.target = "_blank";
+      btn.rel = "noopener noreferrer";
+    });
+  });
+</script>
