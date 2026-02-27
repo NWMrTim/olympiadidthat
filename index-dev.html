@@ -32,7 +32,7 @@
         linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
         url("/assets/money-bg.jpg") center / cover no-repeat fixed;
 
-      /* sticky footer layout */
+      /* ✅ Sticky-footer layout so footer sits at bottom on short pages */
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -41,7 +41,9 @@
     a{ color: inherit; text-decoration: none; }
     a:hover{ text-decoration: underline; }
 
+    /* Header partial is sticky already, but keeping safe z-index */
     #site-header{ position: sticky; top: 0; z-index: 1000; }
+
     main{ flex: 1 0 auto; }
 
     .wrap{ max-width: var(--max); margin: 0 auto; padding: 20px; }
@@ -85,6 +87,7 @@
       margin-top: 12px;
     }
 
+    /* Standard buttons */
     .btn{
       display:inline-flex;
       align-items:center;
@@ -114,6 +117,7 @@
         0 14px 34px rgba(0,0,0,0.45);
     }
 
+    /* RIGHT PANEL IMAGE */
     .artPanel{ display:flex; flex-direction:column; }
     .artWrap{
       padding: 18px;
@@ -142,6 +146,7 @@
       background: rgba(0,0,0,0.40);
     }
 
+    /* Bottom “Stay Alert” banner ABOVE footer */
     .alertBanner{ margin-top: 26px; }
     .alertInner{
       border: 1px solid var(--stroke);
@@ -189,6 +194,7 @@
       outline: none;
     }
 
+    /* Footer partial area */
     #site-footer{ margin-top: 18px; }
 
     @media (max-width: 980px){
@@ -200,6 +206,7 @@
 </head>
 
 <body>
+  <!-- ✅ Standard header inject point -->
   <div id="site-header"></div>
 
   <main class="wrap hero">
@@ -231,6 +238,7 @@
       </aside>
     </div>
 
+    <!-- ✅ Home-only banner (recommended): high value, low clutter -->
     <section class="alertBanner" aria-label="Stay alert signup">
       <div class="alertInner">
         <div class="alertText">
@@ -246,9 +254,11 @@
     </section>
   </main>
 
+  <!-- ✅ Standard footer inject point -->
   <div id="site-footer"></div>
 
   <script>
+    // Shared header/footer loader (standard)
     async function inject(selector, url){
       const el = document.querySelector(selector);
       if (!el) return;
@@ -267,6 +277,7 @@
       await inject("#site-footer", "/partials/footer.html");
     })();
 
+    // No-backend placeholder signup: opens an email draft with an automatic subject line.
     function ODT_signup(e){
       e.preventDefault();
       const email = (document.getElementById("alertEmail")?.value || "").trim();
@@ -280,7 +291,7 @@
       return false;
     }
 
-    // Make header search work on the homepage too
+    // allow shared header search to work on the homepage too
     window.ODT_findLegislator = function(e){
       e.preventDefault();
       const q = (document.getElementById("q")?.value || "").trim();
