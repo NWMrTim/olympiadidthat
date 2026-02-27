@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Take Action | Olympia Did That</title>
+
+  <style>
+    :root{
+      --overlay: 0.22;
+      --stroke: rgba(255,255,255,0.18);
+      --stroke2: rgba(255,255,255,0.26);
+      --text: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.78);
+      --shadow: 0 18px 50px rgba(0,0,0,0.50);
+      --radius: 18px;
+      --max: 1180px;
+
+      --panelBg: rgba(0,0,0,0.70);
+      --panelBg2: rgba(0,0,0,0.62);
+      --red: #ff3b3b;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
+        url("/assets/money-bg.jpg") center / cover no-repeat fixed;
+
+      /* ✅ sticky-footer behavior */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    #site-header{ position: sticky; top:0; z-index:1000; }
+    main{ flex: 1 0 auto; }
+
+    .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
+
+    .hero{ padding: 22px 0 10px; }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .panel{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: var(--panelBg);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelPad{ padding: 22px; }
+
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height:1.05;
+      text-transform: uppercase;
+      letter-spacing:0.6px;
+    }
+
+    .sub{
+      margin:0;
+      color:var(--muted);
+      line-height:1.6;
+      max-width: 80ch;
+    }
+
+    .bar{
+      height:12px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background:rgba(0,0,0,0.55);
+      overflow:hidden;
+      margin-top:8px;
+    }
+    .bar > div{
+      height:100%;
+      width:12%;
+      background: rgba(255,59,59,0.92);
+    }
+
+    .choice{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 12px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,0.12);
+      border-radius:14px;
+    }
+
+    .btnRow{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top: 16px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke2);
+      background: rgba(255,255,255,0.14);
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor:pointer;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+      transition: background .15s ease, box-shadow .15s ease, filter .15s ease, transform .15s ease;
+    }
+
+    .btnPrimary{
+      background: rgba(255,59,59,0.92);
+      border-color: rgba(255,59,59,0.92);
+      color:#111;
+    }
+
+    .btn:hover{
+      filter: brightness(1.07);
+      transform: translateY(-1px);
+      text-decoration:none;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.18),
+        0 14px 34px rgba(0,0,0,0.45);
+    }
+
+    .tiny{ color:var(--muted); font-size:13px; }
+
+    /* ✅ Hook block */
+    .hook{
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .hookTitle{
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      margin: 0 0 16px;
+    }
+
+    /* Typography enhancements */
+    .paraLead{
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      margin: 0 0 10px;
+      color: rgba(255,255,255,0.96);
+    }
+
+    .hook p{
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 15.5px;
+    }
+
+    .closingPunch{
+      font-size: 20px;
+      font-weight: 900;
+      margin-top: 22px;
+      letter-spacing: 0.4px;
+      color: rgba(255,255,255,0.98);
+
+      /* ✅ faint red glow */
+      text-shadow:
+        0 0 6px rgba(255,59,59,0.45),
+        0 0 14px rgba(255,59,59,0.25);
+    }
+
+    @media (max-width: 980px){
+      .heroGrid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="site-header"></div>
+
+  <main class="wrap hero">
+    <div class="heroGrid">
+
+      <!-- LEFT SIDE -->
+      <section class="panel panelPad">
+        <h1>They won’t listen to emails. They’ll listen to the Sunday paper.</h1>
+        <p class="sub">
+          We are taking the Wall of Shame to the front pages. Help us put these mugshots
+          in every driveway in Washington.
+        </p>
+
+        <div style="margin-top:16px;">
+          <div style="font-weight:900; text-transform:uppercase; letter-spacing:0.4px;">
+            $50 a month for 12 months
+          </div>
+          <div class="tiny" style="margin-top:6px;">
+            A $600 investment in Washington’s future.
+          </div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <div class="tiny">Goal: 2,000 donors at $50/mo. Current: 12%</div>
+          <div class="bar"><div></div></div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <div style="font-weight:900; text-transform:uppercase; letter-spacing:0.4px;">
+            Where your support goes
+          </div>
+          <ul style="margin:10px 0 0; color:var(--muted); line-height:1.6;">
+            <li><b>Sunday Ads:</b> full-page, high-impact ads to expose these legislators.</li>
+            <li><b>County Print Runs:</b> bundles for PCO door-to-door distribution.</li>
+            <li><b>2026 Vetting:</b> research + recruitment of candidates who will fix the mess.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- RIGHT SIDE -->
+      <aside class="panel panelPad">
+        <div style="font-weight:900; text-transform:uppercase; letter-spacing:0.4px;">
+          Donation Options
+        </div>
+
+        <div style="display:grid; gap:10px; margin-top:12px;">
+          <label class="choice">
+            <input type="radio" name="amt" value="5">
+            $5 Grain of Salt (Supporter)
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="amt" value="20">
+            $20 Budget (Supporter)
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="amt" value="50" checked>
+            $50 Monthly (Recommended)
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="amt" value="600">
+            $600 One-Time Donation (Annual Impact)
+          </label>
+        </div>
+
+        <div class="btnRow">
+          <a class="btn btnPrimary" id="donateBtn" href="https://pu4wa.com/donate/" target="_blank" rel="noopener">
+            Fund the Truth
+          </a>
+
+          <a class="btn" href="/wall.html">
+            Back to the Wall
+          </a>
+        </div>
+
+        <!-- THE HOOK (under the buttons) -->
+        <div class="hook">
+          <div class="hookTitle">Be The Change! Commit to $50/mo</div>
+
+          <p class="paraLead">Washington is losing its soul—and its people.</p>
+
+          <p>
+            While you’re busy working hard and living your life,
+            radical progressives are quietly driving your family and friends out of the state
+            with a “tax-and-tax-again” scam and soft-on-crime policies.
+          </p>
+
+          <p>
+            <strong>It’s time to connect the dots.</strong>
+            Soaring taxes and lenient-on-crime policies aren’t an accident—they are a
+            deliberate agenda that is destroying our quality of life.
+            Most people don’t see it until their neighbors are packing the U-Haul.
+          </p>
+
+          <p>
+            <strong>Your monthly commitment funds boots-on-the-ground efforts</strong>
+            to expose these schemes and connect the dots from the backrooms of Olympia
+            directly to the front doors of families who are too focused on surviving
+            to see how state-level politics are crushing their daily lives—
+            especially when local media fails to tell the story.
+          </p>
+
+          <p>
+            For the price of a monthly latte,
+            <strong>you can help fund the effort to reclaim our state.</strong>
+            Olympia politics matters as much (or more) than what’s happening in Washington, DC—
+            and we have more power to change it when we expose, unite, focus, and fund the mission.
+          </p>
+
+          <p class="closingPunch">Join us. Stand. Fight. Stop the scam.</p>
+        </div>
+
+        <div class="tiny" style="margin-top:12px;">
+          Secure donation processing provided by People United for Washington.
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    async function inject(selector, url){
+      const el = document.querySelector(selector);
+      if (!el) return;
+      try{
+        const res = await fetch(url, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+        el.innerHTML = await res.text();
+      }catch(err){
+        console.warn("Inject failed:", url, err);
+        el.innerHTML = "";
+      }
+    }
+
+    function selectedAmount(){
+      return (document.querySelector('input[name="amt"]:checked')?.value || "50");
+    }
+
+    function updateDonateLink(){
+      // If PU4WA supports query params later, you can adjust here.
+      // For now, we’ll just keep the base donate URL.
+      const btn = document.getElementById("donateBtn");
+      if (!btn) return;
+
+      // Optional: reflect choice in the link label (nice UX).
+      const amt = selectedAmount();
+      if (amt === "50") btn.textContent = "Fund the Truth ($50/mo)";
+      else if (amt === "600") btn.textContent = "Fund the Truth ($600)";
+      else btn.textContent = `Fund the Truth ($${amt})`;
+    }
+
+    (async () => {
+      await inject("#site-header", "/partials/header.html");
+      await inject("#site-footer", "/partials/footer.html");
+
+      // Update donate button label on load + change
+      document.querySelectorAll('input[name="amt"]').forEach(r => {
+        r.addEventListener("change", updateDonateLink);
+      });
+      updateDonateLink();
+    })();
+
+    // allow shared header search to work
+    window.ODT_findLegislator = function(e){
+      e.preventDefault();
+      const q = (document.getElementById("q")?.value || "").trim();
+      if(!q) return false;
+      window.location.href = "/wall.html?q=" + encodeURIComponent(q);
+      return false;
+    }
+  </script>
+
+</body>
+</html>
