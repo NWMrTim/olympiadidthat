@@ -1,154 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Heroes Wall | Olympia Did That</title>
-
-<style>
-:root{
-  --overlay: 0.22;
-  --stroke: rgba(255,255,255,0.18);
-  --text: rgba(255,255,255,0.94);
-  --muted: rgba(255,255,255,0.78);
-  --shadow: 0 18px 50px rgba(0,0,0,0.50);
-  --radius: 18px;
-  --max: 1180px;
-  --panelBg: rgba(0,0,0,0.70);
-  --panelBg2: rgba(0,0,0,0.62);
-}
-
-*{ box-sizing:border-box; }
-html,body{ height:100%; margin:0; }
-
-body{
-  font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  color: var(--text);
-  background:
-    linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
-    url("/assets/money-bg.jpg") center / cover no-repeat fixed;
-  display:flex;
-  flex-direction:column;
-  min-height:100vh;
-}
-
-main{ flex:1; }
-
-.wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
-
-.panel{
-  border:1px solid var(--stroke);
-  border-radius:var(--radius);
-  background:var(--panelBg);
-  box-shadow:var(--shadow);
-  padding:22px;
-}
-
-h1{
-  margin:0 0 8px;
-  font-size: clamp(30px,3.2vw,46px);
-  text-transform:uppercase;
-}
-
-.sub{ margin:0; color:var(--muted); }
-
-.grid{
-  margin-top:22px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
-}
-
-@media (max-width:980px){
-  .grid{ grid-template-columns:repeat(2,1fr); }
-}
-@media (max-width:640px){
-  .grid{ grid-template-columns:1fr; }
-}
-
-/* Card */
-
-.card{
-  background:var(--panelBg2);
-  border:1px solid var(--stroke);
-  border-radius:22px;
-  overflow:hidden;
-  box-shadow:var(--shadow);
-  display:flex;
-  flex-direction:column;
-}
-
-/* FIXED IMAGE WALL FORMAT */
-
-.poster{
-  aspect-ratio:1 / 1;   /* square wall */
-  width:100%;
-  overflow:hidden;
-  border-bottom:1px solid var(--stroke);
-}
-
-.poster img{
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:cover;
-  object-position:center 25%; /* keeps faces framed nicely */
-}
-
-/* Body */
-
-.cardBody{
-  padding:18px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  flex:1;
-}
-
-.name{
-  margin:0;
-  font-size:20px;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.moniker{ margin:0; font-weight:700; }
-
-.role{ margin:0; color:var(--muted); }
-
-.why{
-  margin:0;
-  color:rgba(255,255,255,0.82);
-  line-height:1.55;
-}
-
-.meta{
-  margin-top:auto;
-  padding-top:12px;
-  border-top:1px solid rgba(255,255,255,0.1);
-  display:flex;
-  justify-content:space-between;
-  font-size:12px;
-  color:var(--muted);
-}
-</style>
-</head>
-
-<body>
-
-<main>
-<div class="wrap">
-
-<section class="panel">
-<h1>Heroes Wall</h1>
-<p class="sub">
-Leaders and citizen advocates fighting for taxpayers and accountability.
-</p>
-</section>
-
-<section class="grid">
-
-<!-- Jim Walsh -->
+<!-- 2 Jim Walsh -->
 <article class="card">
   <div class="poster">
     <img src="/assets/heros/JimWalsh.jpg" alt="Jim Walsh">
@@ -157,9 +7,7 @@ Leaders and citizen advocates fighting for taxpayers and accountability.
     <h3 class="name">Jim Walsh</h3>
     <p class="moniker">“The Constitutional Defender”</p>
     <p class="role"><b>Role:</b> State Representative / GOP Chair</p>
-    <p class="why">
-      <b>Action:</b> A fierce opponent of unconstitutional “money scams” and tax traps.
-    </p>
+    <p class="why"><b>Action:</b> A fierce opponent of unconstitutional “money scams” and tax traps. Instrumental in protecting voter-led initiatives from being overturned by the legislature.</p>
     <div class="meta">
       <span>Jim Walsh testifies in the House</span>
       <span>Category: Guardians</span>
@@ -176,20 +24,10 @@ Leaders and citizen advocates fighting for taxpayers and accountability.
     <h3 class="name">Tim Eyman</h3>
     <p class="moniker">“The Initiative Architect”</p>
     <p class="role"><b>Role:</b> Citizen Activist</p>
-    <p class="why">
-      <b>Action:</b> Architect of multiple statewide ballot initiatives focused on tax limitation and voter approval requirements.
-    </p>
+    <p class="why"><b>Action:</b> Architect of multiple statewide ballot initiatives focused on tax limitation and voter approval requirements, reshaping Washington’s tax debate for decades.</p>
     <div class="meta">
       <span>Image: TimEyman.jpg</span>
       <span>Category: Civic</span>
     </div>
   </div>
 </article>
-
-</section>
-
-</div>
-</main>
-
-</body>
-</html>
