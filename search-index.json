@@ -1,0 +1,20 @@
+[
+  {
+    "title": "The Wall of Shame",
+    "url": "/wall.html",
+    "tags": ["legislators","district","rap sheet"],
+    "snippet": "Search legislators and view their record."
+  },
+  {
+    "title": "Suspect Bills",
+    "url": "/bills/billindex.html",
+    "tags": ["bills","taxes","crime"],
+    "snippet": "Browse suspect bills by category."
+  },
+  {
+    "title": "Take Action",
+    "url": "/action.html",
+    "tags": ["donate","support"],
+    "snippet": "Help fund Sunday paper ads and outreach."
+  }
+]
