@@ -170,14 +170,18 @@
     }
 
     function isBillQuery(q){
-      // HB 2034, SB5497, E2SHB 2034 etc
-      return /\b(?:E2SHB|2SHB|SHB|HB|SB)\s*-?\s*\d{3,4}\b/i.test(q);
+      // HB 2034, HB2034, HB-2034, SB 5974, E2SHB2034, etc.
+      return /\b(?:E2SHB|2SHB|SHB|E2SSB|2SSB|SSB|ESB|HB|SB)\s*-?\s*\d{3,5}\b/i.test(q);
     }
 
     function normalize(s){
       return (s || "")
         .toLowerCase()
         .replace(/&amp;/g,"&")
+        // turn punctuation into spaces
+        .replace(/[_\-.,/\\()'":;!?]+/g, " ")
+        // normalize bill codes: hb2034 -> hb 2034, sb5974 -> sb 5974, e2shb2034 -> e2shb 2034
+        .replace(/\b(e2shb|2shb|shb|e2ssb|2ssb|ssb|esb|hb|sb)\s*0*(\d{3,5})\b/g, "$1 $2")
         .replace(/[^a-z0-9\s]/g, " ")
         .replace(/\s+/g, " ")
         .trim();
@@ -203,10 +207,15 @@
       const hay = normalize([item.title, item.tags?.join(" "), item.text, item.code, item.status].join(" "));
       let score = 0;
 
-      // term matches
+      // term matches (support hb2034/hb 2034 both ways)
+      const hayCompact = hay.replace(/\s+/g, "");
       for (const t of terms){
         if (!t) continue;
         if (hay.includes(t)) score += 10;
+        
+        // if token is like "2034" or "hb" this is harmless; if "hb 2034" won't occur as a token here anyway
+        const tCompact = t.replace(/\s+/g,"");
+        if (tCompact.length >= 4 && hayCompact.includes(tCompact)) score += 8;
       }
 
       // exact code boost
@@ -218,9 +227,9 @@
       if (billBoost && item.type === "bill") score += 30;
 
       // small preference: title match
-      const title = normalize(item.title || "");
-      if (title.includes(qNorm)) score += 20;
-
+      const titleCompact = title.replace(/\s+/g,"");
+      const qCompact = qNorm.replace(/\s+/g,"");
+      if (title.includes(qNorm) || (qCompact && titleCompact.includes(qCompact))) score += 20;
       return score;
     }
 
