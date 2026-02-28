@@ -287,16 +287,9 @@
       await inject("#site-footer", "/partials/footer.html");
   
       document.getElementById("grid").innerHTML = taxBills.map(billCard).join("");
-  
-      window.ODT_findLegislator = function(e){
-        e.preventDefault();
-        const q = (document.getElementById("q")?.value || "").trim();
-        if(!q) return false;
-        window.location.href = "/wall.html?q=" + encodeURIComponent(q);
-        return false;
+        
       }
     })();
   </script>
-  <script src="/assets/site.js"></script>
 </body>
 </html>
