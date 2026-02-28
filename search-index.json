@@ -1,20 +1,47 @@
 [
   {
+    "type": "page",
     "title": "The Wall of Shame",
     "url": "/wall.html",
     "tags": ["legislators","district","rap sheet"],
-    "snippet": "Search legislators and view their record."
+    "text": "Search legislators and view their record."
   },
   {
+    "type": "page",
     "title": "Suspect Bills",
     "url": "/bills/billindex.html",
     "tags": ["bills","taxes","crime"],
-    "snippet": "Browse suspect bills by category."
+    "text": "Browse suspect bills by category."
   },
   {
+    "type": "page",
+    "title": "Taxes",
+    "url": "/bills/taxes.html",
+    "tags": ["bills","taxes"],
+    "text": "Suspect bills: taxes and cost of living."
+  },
+  {
+    "type": "page",
+    "title": "Crime",
+    "url": "/bills/crime.html",
+    "tags": ["bills","crime"],
+    "text": "Suspect bills: crime and public safety."
+  },
+  {
+    "type": "page",
     "title": "Take Action",
     "url": "/action.html",
     "tags": ["donate","support"],
-    "snippet": "Help fund Sunday paper ads and outreach."
+    "text": "Help fund Sunday paper ads and outreach."
+  },
+
+  {
+    "type": "bill",
+    "title": "HB 2034 — LEOFF funds redirected to General Fund for Climate Commitment Act",
+    "url": "/bills/taxes.html",
+    "tags": ["bill","taxes","hb2034","hb 2034"],
+    "code": "HB 2034",
+    "status": "Referred to Ways & Means",
+    "text": "HB 2034 Referred to Ways & Means LEOFF funds redirected to General Fund for Climate Commitment Act Ormsby Fitzgibbon Macri Concerning termination and restatement of plan 1 of the law enforcement officers' and firefighters' retirement system."
   }
 ]
