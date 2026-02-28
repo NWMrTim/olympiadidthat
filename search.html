@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Search | Olympia Did That</title>
+
+  <style>
+    :root{
+      --overlay: 0.22;
+      --stroke: rgba(255,255,255,0.18);
+      --stroke2: rgba(255,255,255,0.26);
+      --text: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.78);
+      --shadow: 0 18px 50px rgba(0,0,0,0.50);
+      --radius: 18px;
+      --max: 1180px;
+      --panelBg: rgba(0,0,0,0.70);
+      --panelBg2: rgba(0,0,0,0.62);
+      --red: #ff3b3b;
+    }
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
+        url("/assets/money-bg.jpg") center / cover no-repeat fixed;
+
+      min-height: 100vh;
+      display:flex;
+      flex-direction:column;
+    }
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+    #site-header{ position: sticky; top:0; z-index:1000; }
+    main{ flex: 1 0 auto; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
+
+    .panel{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: var(--panelBg);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelPad{ padding: 22px; }
+
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height:1.05;
+      text-transform: uppercase;
+      letter-spacing:0.6px;
+    }
+    .sub{ margin:0; color:var(--muted); line-height:1.6; max-width: 90ch; }
+
+    .results{ margin-top: 14px; display:grid; gap: 12px; }
+
+    .result{
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      background: var(--panelBg2);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .resultTop{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:flex-start;
+    }
+
+    .resultTitle{
+      font-weight: 900;
+      letter-spacing:0.3px;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .pill{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,0.40);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .snippet{ margin-top: 8px; color: var(--muted); line-height:1.55; }
+    .meta{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; color: var(--muted); font-size: 12.5px; }
+
+    mark{
+      background: rgba(255,59,59,0.25);
+      color: rgba(255,255,255,0.98);
+      padding: 0 2px;
+      border-radius: 4px;
+      border: 1px solid rgba(255,59,59,0.35);
+    }
+
+    .btnRow{ display:flex; gap:12px; flex-wrap:wrap; margin-top: 14px; }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke2);
+      background: rgba(255,255,255,0.14);
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor:pointer;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+    }
+    .btnPrimary{
+      background: rgba(255,59,59,0.92);
+      border-color: rgba(255,59,59,0.92);
+      color:#111;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="site-header"></div>
+
+  <main>
+    <div class="wrap">
+      <section class="panel panelPad">
+        <h1>Search Results</h1>
+        <p class="sub" id="summary">Loading…</p>
+
+        <div class="btnRow" id="noMatch" style="display:none;">
+          <a class="btn btnPrimary" id="suggestBtn" href="#">Suggest this</a>
+          <a class="btn" href="/index.html">Back Home</a>
+        </div>
+      </section>
+
+      <section class="results" id="results"></section>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    async function inject(selector, url){
+      const el = document.querySelector(selector);
+      if (!el) return;
+      try{
+        const res = await fetch(url, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+        el.innerHTML = await res.text();
+      }catch(err){
+        console.warn("Inject failed:", url, err);
+        el.innerHTML = "";
+      }
+    }
+
+    function getParam(name){
+      const u = new URL(location.href);
+      return (u.searchParams.get(name) || "").trim();
+    }
+
+    function isBillQuery(q){
+      // HB 2034, SB5497, E2SHB 2034 etc
+      return /\b(?:E2SHB|2SHB|SHB|HB|SB)\s*-?\s*\d{3,4}\b/i.test(q);
+    }
+
+    function normalize(s){
+      return (s || "")
+        .toLowerCase()
+        .replace(/&amp;/g,"&")
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function escapeHtml(s){
+      return (s || "").replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[m]));
+    }
+
+    function highlight(text, terms){
+      let out = escapeHtml(text || "");
+      for (const t of terms){
+        if (!t) continue;
+        const re = new RegExp(`(${t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig");
+        out = out.replace(re, "<mark>$1</mark>");
+      }
+      return out;
+    }
+
+    function scoreItem(item, qNorm, terms, billBoost){
+      const hay = normalize([item.title, item.tags?.join(" "), item.text, item.code, item.status].join(" "));
+      let score = 0;
+
+      // term matches
+      for (const t of terms){
+        if (!t) continue;
+        if (hay.includes(t)) score += 10;
+      }
+
+      // exact code boost
+      const qBill = qNorm.replace(/\s+/g,"");
+      const code = normalize(item.code || "").replace(/\s+/g,"");
+      if (code && qBill && code === qBill) score += 80;
+
+      // bill query boost (prioritize bills)
+      if (billBoost && item.type === "bill") score += 30;
+
+      // small preference: title match
+      const title = normalize(item.title || "");
+      if (title.includes(qNorm)) score += 20;
+
+      return score;
+    }
+
+    function renderItem(item, terms){
+      const typeLabel = item.type === "bill" ? "Bill" : "Page";
+      const title = item.title || item.url || "Result";
+      const snippetSrc = item.snippet || item.text || "";
+      const snippet = snippetSrc.length > 220 ? snippetSrc.slice(0, 220) + "…" : snippetSrc;
+
+      return `
+        <article class="result">
+          <div class="resultTop">
+            <div>
+              <div class="resultTitle">
+                <a href="${escapeHtml(item.url)}">${highlight(title, terms)}</a>
+              </div>
+              <div class="snippet">${highlight(snippet, terms)}</div>
+            </div>
+            <div class="pill">${typeLabel}${item.code ? " • " + escapeHtml(item.code) : ""}</div>
+          </div>
+          <div class="meta">
+            ${item.status ? `<span>Status: ${escapeHtml(item.status)}</span><span>•</span>` : ""}
+            <span>${escapeHtml(item.url)}</span>
+          </div>
+        </article>
+      `;
+    }
+
+    (async () => {
+      await inject("#site-header", "/partials/header.html");
+      await inject("#site-footer", "/partials/footer.html");
+
+      const q = getParam("q");
+      const summary = document.getElementById("summary");
+      const resultsEl = document.getElementById("results");
+      const noMatch = document.getElementById("noMatch");
+      const suggestBtn = document.getElementById("suggestBtn");
+
+      if (!q){
+        summary.textContent = "Type a name, bill number (e.g., HB 2034), or topic in the search bar.";
+        return;
+      }
+
+      const qNorm = normalize(q);
+      const terms = qNorm.split(" ").filter(Boolean);
+      const billBoost = isBillQuery(q);
+
+      summary.textContent = `Searching for “${q}”…`;
+
+      let index = [];
+      try{
+        const res = await fetch("/search-index.json?v=" + Date.now(), { cache: "no-store" });
+        if (!res.ok) throw new Error(res.status + " " + res.statusText);
+        index = await res.json();
+      }catch(err){
+        summary.textContent = "Search index failed to load.";
+        console.warn(err);
+        return;
+      }
+
+      // Score + filter
+      const scored = index
+        .map(item => ({ item, score: scoreItem(item, qNorm, terms, billBoost) }))
+        .filter(x => x.score > 0)
+        .sort((a,b) => b.score - a.score)
+        .slice(0, 30);
+
+      if (scored.length === 0){
+        summary.textContent = `No matches found for “${q}”.`;
+        noMatch.style.display = "flex";
+
+        const subject = encodeURIComponent(`Search suggestion: ${q}`);
+        const body = encodeURIComponent(
+          `Please add this to Olympia Did That search:\n\nQuery: ${q}\n\nWhere should it link?\n\n— Sent from OlympiaDidThat.com`
+        );
+        suggestBtn.href = `mailto:contact@olympiadidthat.com?subject=${subject}&body=${body}`;
+        return;
+      }
+
+      summary.textContent = `${scored.length} match(es) found for “${q}”.`;
+      resultsEl.innerHTML = scored.map(x => renderItem(x.item, terms)).join("");
+    })();
+
+    // allow header search to work everywhere
+    window.ODT_findLegislator = function(e){
+      e.preventDefault();
+      const q = (document.getElementById("q")?.value || "").trim();
+      if(!q) return false;
+      window.location.href = "/search.html?q=" + encodeURIComponent(q);
+      return false;
+    }
+  </script>
+</body>
+</html>
