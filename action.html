@@ -1,4 +1,4 @@
-xpose<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -32,7 +32,7 @@ xpose<!doctype html>
         linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
         url("/assets/money-bg.jpg") center / cover no-repeat fixed;
 
-      /* ✅ sticky-footer behavior */
+      /* sticky-footer behavior */
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -142,12 +142,13 @@ xpose<!doctype html>
 
     .tiny{ color:var(--muted); font-size:13px; }
 
-    /* ✅ Hook block */
+    /* Hook block */
     .hook{
       margin-top: 14px;
       padding-top: 14px;
       border-top: 1px solid rgba(255,255,255,0.12);
     }
+
     .hookTitle{
       font-size: 22px;
       font-weight: 900;
@@ -156,7 +157,6 @@ xpose<!doctype html>
       margin: 0 0 16px;
     }
 
-    /* Typography enhancements */
     .paraLead{
       font-size: 20px;
       font-weight: 900;
@@ -172,6 +172,13 @@ xpose<!doctype html>
       font-size: 15.5px;
     }
 
+    /* Accent emphasis inside hook */
+    .hook .accent{
+      font-weight: 900;
+      color: var(--red);
+      text-shadow: 0 0 10px rgba(255,59,59,0.18);
+    }
+
     .closingPunch{
       font-size: 20px;
       font-weight: 900;
@@ -179,7 +186,7 @@ xpose<!doctype html>
       letter-spacing: 0.4px;
       color: rgba(255,255,255,0.98);
 
-      /* ✅ faint red glow */
+      /* faint red glow */
       text-shadow:
         0 0 6px rgba(255,59,59,0.45),
         0 0 14px rgba(255,59,59,0.25);
@@ -269,7 +276,7 @@ xpose<!doctype html>
           </a>
         </div>
 
-        <!-- THE HOOK (under the buttons) -->
+        <!-- THE HOOK -->
         <div class="hook">
           <div class="hookTitle">Be The Change! Commit to $50/mo</div>
 
@@ -282,7 +289,7 @@ xpose<!doctype html>
           </p>
 
           <p>
-            <strong>It’s time to</strong><span class="accent">Take Action</span>.
+            <strong>It’s time to <span class="accent">connect the dots</span>.</strong>
             Soaring taxes and lenient-on-crime policies aren’t an accident—they are a
             deliberate agenda that is destroying our quality of life.
             Most people don’t see it until their neighbors are packing the U-Haul.
@@ -290,19 +297,22 @@ xpose<!doctype html>
 
           <p>
             <strong>Your monthly commitment funds boots-on-the-ground efforts</strong>
-            to <span class="accent">expose these schemes</span> and connect the dots from the backrooms of Olympia
+            to <span class="accent">expose the scam</span> and connect the dots from the backrooms of Olympia
             directly to the front doors of families who are too focused on surviving
             to see how state-level politics are crushing their daily lives—
             especially when local media fails to tell the story.
           </p>
 
           <p>
-            For the price of a monthly latte, you can help fund the effort to <span class="accent">reclaim our state</span>.
+            For the price of a monthly latte,
+            you can help fund the effort to <span class="accent">reclaim our state</span>.
             Olympia politics matters as much (or more) than what’s happening in Washington, DC—
             and we have more power to change it when we expose, unite, focus, and fund the mission.
           </p>
 
-          <p class="closingPunch">Join us. Stand. Fight. Expose the scam.</p>
+          <p class="closingPunch">
+            Join us. Stand. Fight. <span class="accent">Expose the scam.</span>
+          </p>
         </div>
 
         <div class="tiny" style="margin-top:12px;">
@@ -333,13 +343,9 @@ xpose<!doctype html>
       return (document.querySelector('input[name="amt"]:checked')?.value || "50");
     }
 
-    function updateDonateLink(){
-      // If PU4WA supports query params later, you can adjust here.
-      // For now, we’ll just keep the base donate URL.
+    function updateDonateLabel(){
       const btn = document.getElementById("donateBtn");
       if (!btn) return;
-
-      // Optional: reflect choice in the link label (nice UX).
       const amt = selectedAmount();
       if (amt === "50") btn.textContent = "Fund the Truth ($50/mo)";
       else if (amt === "600") btn.textContent = "Fund the Truth ($600)";
@@ -350,14 +356,12 @@ xpose<!doctype html>
       await inject("#site-header", "/partials/header.html");
       await inject("#site-footer", "/partials/footer.html");
 
-      // Update donate button label on load + change
       document.querySelectorAll('input[name="amt"]').forEach(r => {
-        r.addEventListener("change", updateDonateLink);
+        r.addEventListener("change", updateDonateLabel);
       });
-      updateDonateLink();
+      updateDonateLabel();
     })();
 
-    // allow shared header search to work
     window.ODT_findLegislator = function(e){
       e.preventDefault();
       const q = (document.getElementById("q")?.value || "").trim();
@@ -366,6 +370,5 @@ xpose<!doctype html>
       return false;
     }
   </script>
-
 </body>
 </html>
