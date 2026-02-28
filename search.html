@@ -112,86 +112,87 @@ h1{
 
 <div id="site-footer"></div>
 
-<script>
-async function inject(selector, url){
-  const el = document.querySelector(selector);
-  if (!el) return;
-  const res = await fetch(url, { cache: "no-cache" });
-  el.innerHTML = await res.text();
-}
-
-function getQuery(){
-  const url = new URL(window.location.href);
-  return (url.searchParams.get("q") || "").trim();
-}
-
-function tokenize(q){
-  return q.toLowerCase().split(/[\s\-_,.()]+/).filter(Boolean);
-}
-
-function score(item, tokens){
-  const text = (item.title + " " + item.tags.join(" ") + " " + item.snippet).toLowerCase();
-  let s = 0;
-  tokens.forEach(t => {
-    if(text.includes(t)) s += 10;
-  });
-  return s;
-}
-
-async function run(){
-  await inject("#site-header","/partials/header.html");
-  await inject("#site-footer","/partials/footer.html");
-
-  const q = getQuery();
-  const meta = document.getElementById("meta");
-  const resultsDiv = document.getElementById("results");
-
-  if(!q){
-    meta.textContent = "Enter a search term above.";
-    return;
+  <script>
+  async function inject(selector, url){
+    const el = document.querySelector(selector);
+    if (!el) return;
+    const res = await fetch(url, { cache: "no-cache" });
+    el.innerHTML = await res.text();
   }
-
-  const res = await fetch("/search-index.json");
-  const data = await res.json();
-  const tokens = tokenize(q);
-
-  const matches = data
-    .map(d => ({...d, score: score(d,tokens)}))
-    .filter(d => d.score > 0)
-    .sort((a,b)=> b.score - a.score);
-
-  if(matches.length){
-    meta.textContent = `Found ${matches.length} result(s) for "${q}".`;
-
-    matches.forEach(m=>{
-      const div = document.createElement("div");
-      div.className = "result";
-      div.innerHTML = `
-        <a href="${m.url}">${m.title}</a>
-        <p>${m.snippet}</p>
-      `;
-      resultsDiv.appendChild(div);
+  
+  function getQuery(){
+    const url = new URL(window.location.href);
+    return (url.searchParams.get("q") || "").trim();
+  }
+  
+  function tokenize(q){
+    return q.toLowerCase().split(/[\s\-_,.()]+/).filter(Boolean);
+  }
+  
+  function score(item, tokens){
+    const text = (item.title + " " + item.tags.join(" ") + " " + item.snippet).toLowerCase();
+    let s = 0;
+    tokens.forEach(t => {
+      if(text.includes(t)) s += 10;
     });
-
-  } else {
-
-    meta.textContent = `No matches found for "${q}".`;
-
-    resultsDiv.innerHTML = `
-      <div class="noResults">
-        Want us to add it?
-        <br>
-        <a class="btn"
-           href="mailto:contact@olympiadidthat.com?subject=Site Search Suggestion&body=I searched for: ${encodeURIComponent(q)}">
-           Suggest "${q}"
-        </a>
-      </div>
-    `;
+    return s;
   }
-}
-
-run();
-</script>
+  
+  async function run(){
+    await inject("#site-header","/partials/header.html");
+    await inject("#site-footer","/partials/footer.html");
+  
+    const q = getQuery();
+    const meta = document.getElementById("meta");
+    const resultsDiv = document.getElementById("results");
+  
+    if(!q){
+      meta.textContent = "Enter a search term above.";
+      return;
+    }
+  
+    const res = await fetch("/search-index.json");
+    const data = await res.json();
+    const tokens = tokenize(q);
+  
+    const matches = data
+      .map(d => ({...d, score: score(d,tokens)}))
+      .filter(d => d.score > 0)
+      .sort((a,b)=> b.score - a.score);
+  
+    if(matches.length){
+      meta.textContent = `Found ${matches.length} result(s) for "${q}".`;
+  
+      matches.forEach(m=>{
+        const div = document.createElement("div");
+        div.className = "result";
+        div.innerHTML = `
+          <a href="${m.url}">${m.title}</a>
+          <p>${m.snippet}</p>
+        `;
+        resultsDiv.appendChild(div);
+      });
+  
+    } else {
+  
+      meta.textContent = `No matches found for "${q}".`;
+  
+      resultsDiv.innerHTML = `
+        <div class="noResults">
+          Want us to add it?
+          <br>
+          <a class="btn"
+             href="mailto:contact@olympiadidthat.com?subject=Site Search Suggestion&body=I searched for: ${encodeURIComponent(q)}">
+             Suggest "${q}"
+          </a>
+        </div>
+      `;
+    }
+  }
+  
+  run();
+  </script>
+  <script src="/assets/site.js"></script>
 
 </body>
 </html>
