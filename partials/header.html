@@ -2,11 +2,10 @@
 <header class="siteHeader">
   <div class="headerInner">
 
-    <a class="brand" href="/index.html" aria-label="Olympia Did That home">
-      <div class="brandText">
-        <div class="brandTop">OLYMPIA</div>
-        <div class="brandBottom">DID THAT!</div>
-      </div>
+    <a class="brand brandLogo" href="/index.html" aria-label="Olympia Did That home">
+       <img src="/assets/ODT-Logo-with-URL.png"
+       alt="Olympia Did That"
+       class="brandImg" />
     </a>
 
     <nav class="nav" aria-label="Primary navigation">
@@ -79,7 +78,24 @@
   white-space: nowrap;
 }
 .brandTop,.brandBottom{ font-size: 16px; line-height: 1.05; }
+/* Logo image brand */
+.brandLogo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.brandImg {
+  height: 52px;              /* desktop size */
+  width: auto;
+  display: block;
+  transition: transform .15s ease, filter .15s ease;
+}
+
+.brandLogo:hover .brandImg {
+  transform: scale(1.04);
+  filter: brightness(1.08);
+}
 .nav{ display:flex; gap:12px; white-space:nowrap; }
 
 .navBtn{
@@ -197,7 +213,11 @@
 /* ✅ Mobile Layout + ✅ NOT sticky on mobile (scrolls away) */
 @media (max-width: 720px){
   .siteHeader{ position: static; } /* ⭐ key fix for “too much space” */
-
+  
+  .brandImg {
+    height: 44px;
+  }
+  
   .headerInner{
     flex-direction: column;
     align-items: stretch;
