@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Search | Olympia Did That</title>
+
+  <!-- Pagefind UI -->
+  <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
+
+  <style>
+    :root{
+      --overlay: 0.22;
+      --stroke: rgba(255,255,255,0.18);
+      --stroke2: rgba(255,255,255,0.26);
+      --text: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.78);
+      --shadow: 0 18px 50px rgba(0,0,0,0.50);
+      --radius: 18px;
+      --max: 1180px;
+      --panelBg: rgba(0,0,0,0.70);
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
+        url("/assets/money-bg.jpg") center / cover no-repeat fixed;
+
+      min-height: 100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    #site-header{ position: sticky; top:0; z-index:1000; }
+    main{ flex: 1 0 auto; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
+
+    .panel{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: var(--panelBg);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelPad{ padding: 22px; }
+
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(30px, 3.2vw, 46px);
+      text-transform: uppercase;
+      letter-spacing:0.6px;
+    }
+
+    .sub{
+      margin:0 0 18px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    /* Style Pagefind to match your site */
+    .pagefind-ui{
+      --pagefind-ui-primary: var(--text);
+      --pagefind-ui-text: var(--text);
+      --pagefind-ui-background: rgba(0,0,0,0);
+      --pagefind-ui-border: var(--stroke2);
+      --pagefind-ui-border-radius: 14px;
+      --pagefind-ui-font: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+
+    .pagefind-ui__search-input{
+      background: rgba(255,255,255,0.10) !important;
+      color: var(--text) !important;
+      border: 1px solid var(--stroke2) !important;
+      padding: 12px 14px !important;
+      border-radius: 14px !important;
+      font-weight: 900;
+    }
+
+    .pagefind-ui__result{
+      background: rgba(0,0,0,0.40) !important;
+      border: 1px solid var(--stroke) !important;
+      border-radius: 16px !important;
+      box-shadow: var(--shadow) !important;
+      padding: 14px !important;
+    }
+
+    .pagefind-ui__result-title{
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    .pagefind-ui__result-excerpt{
+      color: var(--muted);
+      line-height:1.55;
+    }
+
+    mark{
+      background: rgba(255,59,59,0.25);
+      border: 1px solid rgba(255,59,59,0.35);
+      border-radius: 4px;
+      padding:0 2px;
+    }
+
+    /* For HB2034 alias trick */
+    .sr-only{
+      position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="site-header"></div>
+
+  <main>
+    <div class="wrap">
+      <section class="panel panelPad">
+        <h1>Search</h1>
+        <p class="sub">
+          Search heroes, bills, wall entries, or topics.
+          Try “HB 2034”, “HB2034”, or a last name.
+        </p>
+
+        <div id="search"></div>
+      </section>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="/pagefind/pagefind-ui.js"></script>
+
+  <script>
+    async function inject(selector, url){
+      const el = document.querySelector(selector);
+      if (!el) return;
+      try{
+        const res = await fetch(url, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+        el.innerHTML = await res.text();
+      }catch(err){
+        console.warn("Inject failed:", url, err);
+        el.innerHTML = "";
+      }
+    }
+
+    function getParam(name){
+      const u = new URL(location.href);
+      return (u.searchParams.get(name) || "").trim();
+    }
+
+    (async () => {
+      await inject("#site-header", "/partials/header.html");
+      await inject("#site-footer", "/partials/footer.html");
+
+      const ui = new PagefindUI({
+        element: "#search",
+        showSubResults: true,
+        highlightParam: "h",
+        translations: { placeholder: "Search Olympia Did That…" }
+      });
+
+      // auto-run query from header search
+      const q = getParam("q");
+      if (q){
+        const input = document.querySelector(".pagefind-ui__search-input");
+        if (input){
+          input.value = q;
+          input.dispatchEvent(new Event("input", { bubbles:true }));
+        }
+      }
+    })();
+
+    // header search form hook
+    window.ODT_findLegislator = function(e){
+      e.preventDefault();
+      const q = (document.getElementById("q")?.value || "").trim();
+      if(!q) return false;
+      window.location.href = "/search.html?q=" + encodeURIComponent(q);
+      return false;
+    }
+  </script>
+</body>
+</html>
