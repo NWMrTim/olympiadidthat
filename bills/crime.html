@@ -30,7 +30,6 @@
         linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
         url("/assets/money-bg.jpg") center / cover no-repeat fixed;
 
-      /* ✅ sticky-footer behavior */
       min-height: 100vh;
       display:flex;
       flex-direction:column;
@@ -39,9 +38,7 @@
     a{ color:inherit; text-decoration:none; }
     a:hover{ text-decoration:underline; }
 
-    /* Header partial handles its own sticky behavior */
     #site-header{ z-index:1000; }
-
     main{ flex: 1 0 auto; }
 
     .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
@@ -86,6 +83,7 @@
       background: var(--cardBg);
       padding: 16px;
       box-shadow: var(--shadow);
+      scroll-margin-top: 110px;
     }
     .billTop{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
     .billCode{ font-weight: 900; letter-spacing:0.4px; }
@@ -171,7 +169,18 @@
       <section class="panel panelPad" style="margin-top:14px;">
         <div style="font-weight:900; text-transform:uppercase; letter-spacing:0.4px;">The “Safe Streets” Warning List</div>
         <div class="grid" id="grid"></div>
-        <div id="pagefind-index" class="sr-only" data-pagefind-body></div>
+
+        <!-- ✅ Static text so Pagefind can index bill codes/titles (JS-rendered cards aren't indexed at build time) -->
+        <div class="sr-only" data-pagefind-body>
+          SB 5269 SB5269 Retroactive Sentence Cuts
+          SB 5266 SB5266 Sentencing Reform Expansion
+          SB 5475 SB5475 25 is the New 18
+          SB 5974 SB5974 Overturning Elected Sheriffs Bill
+          HB 1274 HB1274 Juvenile Point Wipe
+          HB 1169 HB1169 Enhancement Cut
+          HB 1239 HB1239 Good Behavior Giveaway
+        </div>
+
         <div class="tiny" style="margin-top:12px;">
           As of today, bill status is updated manually. We are working on automatic updates.
         </div>
@@ -265,11 +274,20 @@
       return "proposed";
     }
 
+    function codeId(code){
+      return (code || "")
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .replace(/[^a-z0-9]/g,"");
+    }
+
     function billCard(b){
+      const id = codeId(b.code);
+      const nospace = (b.code || "").replace(/\s+/g,"");
       return `
-        <article class="bill">
+        <article class="bill" id="${id}">
           <div class="billTop">
-            <div class="billCode">${b.code}</div>
+            <div class="billCode">${b.code} <span class="sr-only">${nospace}</span></div>
             <div class="pill ${statusClass(b.status)}">${b.status}</div>
           </div>
           <div class="billTitle">${b.title}</div>
@@ -282,27 +300,37 @@
         </article>
       `;
     }
-    function buildPagefindIndex(bills){
-      return bills.map(b => {
-        const codeNoSpace = (b.code || "").replace(/\s+/g, "");
-        return `
-          ${b.code} ${codeNoSpace}
-          ${b.title || ""}
-          ${b.desc || ""}
-          ${b.sponsors || ""}
-          ${b.impact || ""}
-        `;
-      }).join("\n");
+
+    function normalizeBillQuery(q){
+      return (q || "")
+        .toLowerCase()
+        .replace(/\s+/g,"")
+        .replace(/[^a-z0-9]/g,"");
     }
-    
+
+    function scrollToBillFromUrl(){
+      const u = new URL(location.href);
+      const q = u.searchParams.get("q") || u.searchParams.get("h") || "";
+      const qn = normalizeBillQuery(q);
+      const m = qn.match(/\b(e2shb|2shb|shb|hb|sb)\d{3,5}\b/);
+      const id = (location.hash || "").replace("#","") || (m ? m[0] : "");
+
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const y = el.getBoundingClientRect().top + window.pageYOffset - 110;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+
     (async () => {
       await inject("#site-header", "../partials/header.html");
       await inject("#site-footer", "../partials/footer.html");
 
-      document.getElementById("grid").innerHTML = taxBills.map(billCard).join("");
+      // ✅ FIXED: use crimeBills, not taxBills
+      document.getElementById("grid").innerHTML = crimeBills.map(billCard).join("");
 
-      document.getElementById("pagefind-index").innerText =
-        buildPagefindIndex(crimeBills);
+      scrollToBillFromUrl();
     })();
   </script>
 </body>
