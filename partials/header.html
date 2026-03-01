@@ -21,18 +21,7 @@
       <input id="q" name="q" type="search" placeholder="Search..." aria-label="Search" />
       <button type="submit">Search</button>
     </form>
-    <script>
-      window.ODT_siteSearch = function(e){
-        e.preventDefault();
-        const form = e.target.closest("form") || e.target;
-        const input = form.querySelector('#q, input[type="search"], input[name="q"]');
-        const q = (input?.value || "").trim();
-        if (!q) return false;
-        window.location.href = "/search.html?q=" + encodeURIComponent(q);
-        return false;
-      };
-    </script>
-
+    
     <a class="districtBtn"
        href="https://app.leg.wa.gov/DistrictFinder/"
        target="_blank" rel="noopener">
@@ -310,4 +299,3 @@
 })();
 </script>
 
-<script src="/assets/site.js" defer></script>
