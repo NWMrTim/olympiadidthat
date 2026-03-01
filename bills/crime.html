@@ -282,7 +282,19 @@
         </article>
       `;
     }
-
+    function buildPagefindIndex(bills){
+      return bills.map(b => {
+        const codeNoSpace = (b.code || "").replace(/\s+/g, "");
+        return `
+          ${b.code} ${codeNoSpace}
+          ${b.title || ""}
+          ${b.desc || ""}
+          ${b.sponsors || ""}
+          ${b.impact || ""}
+        `;
+      }).join("\n");
+    }
+    
     (async () => {
       await inject("#site-header", "../partials/header.html");
       await inject("#site-footer", "../partials/footer.html");
