@@ -334,6 +334,9 @@
       await inject("#site-footer", "../partials/footer.html");
 
       document.getElementById("grid").innerHTML = taxBills.map(billCard).join("");
+
+      document.getElementById("pagefind-index").innerText =
+        buildPagefindIndex(taxBills);
     })();
   </script>
 </body>
