@@ -299,7 +299,10 @@
       await inject("#site-header", "../partials/header.html");
       await inject("#site-footer", "../partials/footer.html");
 
-      document.getElementById("grid").innerHTML = crimeBills.map(billCard).join("");
+      document.getElementById("grid").innerHTML = taxBills.map(billCard).join("");
+
+      document.getElementById("pagefind-index").innerText =
+        buildPagefindIndex(taxBills);
     })();
   </script>
 </body>
