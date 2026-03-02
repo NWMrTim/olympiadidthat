@@ -37,7 +37,9 @@
       flex-direction:column;
     }
 
-    #site-header{ position: sticky; top:0; z-index:1000; }
+    /* header partial handles its own sticky behavior */
+    #site-header{ z-index:1000; }
+
     main{ flex: 1 0 auto; }
     .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
 
@@ -106,12 +108,6 @@
       border-radius: 4px;
       padding:0 2px;
     }
-
-    /* For HB2034 alias trick */
-    .sr-only{
-      position:absolute;width:1px;height:1px;padding:0;margin:-1px;
-      overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
-    }
   </style>
 </head>
 
@@ -159,14 +155,14 @@
       await inject("#site-header", "/partials/header.html");
       await inject("#site-footer", "/partials/footer.html");
 
-      const ui = new PagefindUI({
+      new PagefindUI({
         element: "#search",
         showSubResults: true,
         highlightParam: "h",
         translations: { placeholder: "Search Olympia Did That…" }
       });
 
-      // auto-run query from header search
+      // Auto-run query from header search ?q=
       const q = getParam("q");
       if (q){
         const input = document.querySelector(".pagefind-ui__search-input");
@@ -176,8 +172,6 @@
         }
       }
     })();
-
-  
   </script>
 </body>
 </html>
