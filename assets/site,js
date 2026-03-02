@@ -1,0 +1,144 @@
+/* /assets/site.js
+   Shared site behaviors for OlympiaDidThat.com
+   - nav active highlight
+   - shared search handler (header search)
+   - Pagefind/query/hash scroll-to-result fix
+*/
+
+(function () {
+  "use strict";
+
+  // ---------- helpers ----------
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $all(sel, root) { return Array.from((root || document).querySelectorAll(sel)); }
+
+  function normalizeToId(s) {
+    return (s || "")
+      .toLowerCase()
+      .replace(/\s+/g, "")
+      .replace(/[^a-z0-9]/g, "");
+  }
+
+  function extractBillToken(s) {
+    const n = (s || "").toLowerCase().replace(/\s+/g, "");
+    // matches: sb6345, hb2034, e2shb2034, 2shb2034, shb2034, etc.
+    const m = n.match(/\b(e2shb|2shb|shb|hb|sb)\d{3,5}\b/);
+    return m ? m[0] : "";
+  }
+
+  function scrollToIdWithOffset(id, offsetPx) {
+    const el = document.getElementById(id);
+    if (!el) return false;
+
+    const offset = Number.isFinite(offsetPx) ? offsetPx : 110;
+    const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({ top: y, behavior: "smooth" });
+    return true;
+  }
+
+  // ---------- 1) nav active highlight ----------
+  function setActiveNav() {
+    // Expecting header.html to have something like: .navlinks a
+    const links = $all(".navlinks a");
+    if (!links.length) return;
+
+    const path = (location.pathname || "/").toLowerCase();
+
+    // Normalize /index.html to /
+    const normalizedPath = (path === "/index.html") ? "/" : path;
+
+    links.forEach(a => a.classList.remove("active"));
+
+    // Pick best match by checking href contains key page names
+    function match(href) {
+      if (!href) return false;
+      const h = href.toLowerCase();
+
+      // Home
+      if ((normalizedPath === "/" || normalizedPath === "/index.html") && (h === "/" || h.includes("index"))) return true;
+
+      // Bills index
+      if (normalizedPath.includes("/bills/") || normalizedPath.includes("billindex")) {
+        return h.includes("billindex") || h.includes("/bills/");
+      }
+
+      // Wall
+      if (normalizedPath.includes("wall")) return h.includes("wall");
+
+      // Rap sheet
+      if (normalizedPath.includes("rap-sheet")) return h.includes("rap-sheet");
+
+      // Heroes
+      if (normalizedPath.includes("heros")) return h.includes("heros");
+
+      // Take action
+      if (normalizedPath.includes("action")) return h.includes("action");
+
+      // Fallback: direct contains
+      return normalizedPath !== "/" && h.includes(normalizedPath.replace(/^\//, ""));
+    }
+
+    const best =
+      links.find(a => match(a.getAttribute("href"))) ||
+      links.find(a => (a.getAttribute("href") || "").toLowerCase() === normalizedPath);
+
+    if (best) best.classList.add("active");
+  }
+
+  // ---------- 2) shared header search handler ----------
+  // Your header can call: onsubmit="return ODT_findLegislator(event)"
+  window.ODT_findLegislator = function (e) {
+    if (e && typeof e.preventDefault === "function") e.preventDefault();
+
+    const q = ($("#q")?.value || "").trim();
+    if (!q) return false;
+
+    // If you later implement a Pagefind UI overlay, you can plug it in here.
+    // For now, keep it predictable: send to wall query.
+    window.location.href = "/wall.html?q=" + encodeURIComponent(q);
+    return false;
+  };
+
+  // ---------- 3) Pagefind + query/hash auto-scroll ----------
+  function scrollFromUrl() {
+    const u = new URL(window.location.href);
+
+    // 1) Prefer explicit hash (#sb6345 / #hb2034 / #macri etc.)
+    const rawHash = (window.location.hash || "").replace("#", "").trim();
+    if (rawHash) {
+      if (scrollToIdWithOffset(rawHash, 110)) return;
+      const nh = normalizeToId(rawHash);
+      if (nh && scrollToIdWithOffset(nh, 110)) return;
+    }
+
+    // 2) Pagefind often adds ?h=... ; your header search uses ?q=...
+    const q = (u.searchParams.get("q") || u.searchParams.get("h") || "").trim();
+    if (!q) return;
+
+    // If q/h includes a bill code, normalize to bill id (sb6345)
+    const token = extractBillToken(q);
+    if (token) {
+      scrollToIdWithOffset(token, 110);
+      return;
+    }
+
+    // Otherwise try treating q/h as a direct id-ish string (e.g., "Macri", "Noel Frame")
+    const id = normalizeToId(q);
+    if (id) scrollToIdWithOffset(id, 110);
+  }
+
+  function runSoon() {
+    // Give your header/footer inject a moment to complete and layout to settle
+    setTimeout(() => {
+      setActiveNav();
+      scrollFromUrl();
+    }, 80);
+  }
+
+  // Run on normal load + bfcache restores
+  window.addEventListener("DOMContentLoaded", runSoon);
+  window.addEventListener("pageshow", runSoon);
+
+  // Optional: allow manual call after you dynamically render cards
+  window.ODT_scrollFromUrl = scrollFromUrl;
+})();
