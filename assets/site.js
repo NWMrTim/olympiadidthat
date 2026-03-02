@@ -39,6 +39,21 @@
     window.location.href = "/search.html?q=" + encodeURIComponent(q);
     return false;
   }
+    // Wire up any donate buttons site-wide (works even when content is injected)
+  (function wireDonateButtons(){
+    const DONATE_URL = "https://pu4wa.com/donate/";
+    function apply() {
+      document.querySelectorAll("a.fund-btn").forEach(a => {
+        a.href = DONATE_URL;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+      });
+    }
+    apply();
+    // Observe for late-injected buttons
+    const mo = new MutationObserver(apply);
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+  })();
 
   // Called by the header search form
   window.ODT_siteSearch = function (e) {
