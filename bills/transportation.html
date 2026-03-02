@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Transportation | The Bills | Olympia Did That</title>
+
+  <style>
+    :root{
+      --overlay: 0.22;
+      --stroke: rgba(255,255,255,0.18);
+      --text: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.78);
+      --shadow: 0 18px 50px rgba(0,0,0,0.50);
+      --radius: 18px;
+      --max: 1180px;
+
+      --panelBg: rgba(0,0,0,0.70);
+      --cardBg: rgba(255,255,255,0.12);
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
+        url("/assets/money-bg.jpg") center / cover no-repeat fixed;
+
+      min-height: 100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    #site-header{ z-index:1000; }
+    main{ flex: 1 0 auto; }
+
+    .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
+
+    .panel{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: var(--panelBg);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelPad{ padding: 22px; }
+
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height:1.05;
+      text-transform: uppercase;
+      letter-spacing:0.6px;
+    }
+    .sub{ margin:0; color:var(--muted); line-height:1.55; max-width: 75ch; }
+
+    .tabs{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 14px; }
+    .tab{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.14);
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+    .tab.active{ background: rgba(255,255,255,0.20); }
+    .tab:hover{ text-decoration:none; filter:brightness(1.06); }
+
+    .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:14px; }
+
+    .bill{
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      background: var(--cardBg);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      scroll-margin-top: 110px;
+    }
+    .billTop{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+    .billCode{ font-weight: 900; letter-spacing:0.4px; }
+
+    .pill{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,0.40);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .pill.passed{
+      background: rgba(46, 204, 113, 0.22);
+      border-color: rgba(46, 204, 113, 0.60);
+      color: rgba(220, 255, 235, 0.98);
+    }
+    .pill.committee{
+      background: rgba(241, 196, 15, 0.22);
+      border-color: rgba(241, 196, 15, 0.60);
+      color: rgba(255, 248, 220, 0.98);
+    }
+    .pill.introduced{
+      background: rgba(52, 152, 219, 0.22);
+      border-color: rgba(52, 152, 219, 0.60);
+      color: rgba(225, 248, 255, 0.98);
+    }
+    .pill.signed{
+      background: rgba(155, 89, 182, 0.22);
+      border-color: rgba(155, 89, 182, 0.60);
+      color: rgba(250, 235, 255, 0.98);
+    }
+    .pill.blocked{
+      background: rgba(231, 76, 60, 0.22);
+      border-color: rgba(231, 76, 60, 0.60);
+      color: rgba(255, 228, 228, 0.98);
+    }
+    .pill.proposed{
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.26);
+      color: rgba(255,255,255,0.90);
+    }
+
+    .billTitle{ margin-top:8px; font-weight:900; }
+    .billDesc{ margin-top:6px; color: var(--muted); line-height:1.5; }
+    .billMeta{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; color: var(--muted); font-size: 13px; }
+
+    .tiny{ color:var(--muted); font-size:13px; }
+
+    .sr-only{
+      position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+    }
+
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="site-header"></div>
+
+  <main>
+    <div class="wrap" style="padding-top:22px;">
+      <section class="panel panelPad">
+        <h1>The Bills: Transportation</h1>
+        <p class="sub">
+          Transportation costs, gas taxes, transit debt, and long-term obligations.
+        </p>
+
+        <div class="tabs">
+          <a class="tab" href="/bills/taxes.html">💰 Taxes</a>
+          <a class="tab" href="/bills/crime.html">🚔 Crime</a>
+          <a class="tab active" href="/bills/transportation.html">🚧 Transportation</a>
+          <a class="tab" href="/bills/health-welfare.html">🧬 Health &amp; Welfare</a>
+        </div>
+      </section>
+
+      <section class="panel panelPad" style="margin-top:14px;" data-pagefind-body>
+        <div style="font-weight:900; text-transform:uppercase; letter-spacing:0.4px;">Transportation Watch List</div>
+        <div class="grid" id="grid"></div>
+
+        <!-- Pagefind static index help -->
+        <div class="sr-only" data-pagefind-body>
+          SB 6345 SB6345
+          SB 6148 SB6148
+        </div>
+
+        <div class="tiny" style="margin-top:12px;">
+          Bill status is currently maintained manually. We are working on automatic updates.
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="/assets/site.js" defer></script>
+
+  <script>
+    async function inject(selector, url){
+      const el = document.querySelector(selector);
+      if (!el) return;
+      try{
+        const res = await fetch(url, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+        el.innerHTML = await res.text();
+      }catch(err){
+        console.warn("Inject failed:", url, err);
+        el.innerHTML = "";
+      }
+    }
+
+    const transportationBills = [
+      {
+        billType: "SB",
+        billNumber: "6345",
+        biennium: "2025-26",
+        status: "Committee: Transportation",
+        title: "The “Pain at the Pump” Ferry Tax",
+        desc: "Hikes the gas tax again to fund hybrid-electric ferries and other projects while roads and bridges crumble.",
+        sponsors: "Architect (draft): Sen. Marko Liias",
+        impact: "Bottom Line: You pay more at the pump; they get a shiny project."
+      },
+      {
+        billType: "SB",
+        billNumber: "6148",
+        biennium: "2025-26",
+        status: "Committee: Transportation",
+        title: "Extend RTA bonds out to 75-year obligation",
+        desc: "Sound Transit is billions over budget through 2046. In a hail-mary effort, Democrats want to extend RTA bond obligations out to a staggering 75 years.",
+        sponsors: "Liias, King",
+        impact: "Bottom Line: Unlimited debt for your grandchildren."
+      }
+    ];
+
+    function statusClass(status){
+      const s = (status || "").toLowerCase();
+      if (s.includes("signed") || s.includes("effective")) return "signed";
+      if (s.includes("passed")) return "passed";
+      if (s.includes("committee")) return "committee";
+      if (s.includes("introduced") || s.includes("first reading")) return "introduced";
+      if (s.includes("blocked") || s.includes("killed") || s.includes("dead") || s.includes("failed")) return "blocked";
+      if (s.includes("proposal") || s.includes("proposed") || s.includes("prefiled")) return "proposed";
+      return "proposed";
+    }
+
+    function codeId(b){
+      return (b.billType + b.billNumber)
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g,"");
+    }
+
+    function billCard(b){
+      const id = codeId(b);
+      const displayCode = `${b.billType} ${b.billNumber} (${b.biennium} biennium)`;
+      const nospace = (b.billType + b.billNumber).replace(/\s+/g,"");
+
+      return `
+        <article class="bill" id="${id}">
+          <div class="billTop">
+            <div class="billCode">${displayCode} <span class="sr-only">${nospace}</span></div>
+            <div class="pill ${statusClass(b.status)}">${b.status}</div>
+          </div>
+          <div class="billTitle">${b.title}</div>
+          <div class="billDesc">${b.desc}</div>
+          <div class="billMeta">
+            <span>${b.sponsors}</span>
+            <span>•</span>
+            <span>${b.impact}</span>
+          </div>
+        </article>
+      `;
+    }
+
+    function normalizeBillQuery(q){
+      return (q || "")
+        .toLowerCase()
+        .replace(/\s+/g,"")
+        .replace(/[^a-z0-9]/g,"");
+    }
+
+    function scrollToBillFromUrl(){
+      const u = new URL(location.href);
+      const q = u.searchParams.get("q") || u.searchParams.get("h") || "";
+      const qn = normalizeBillQuery(q);
+      const m = qn.match(/\b(e2shb|2shb|shb|hb|sb)\d{3,5}\b/);
+      const id = (location.hash || "").replace("#","") || (m ? m[0] : "");
+
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const y = el.getBoundingClientRect().top + window.pageYOffset - 110;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+
+    (async () => {
+      await inject("#site-header", "../partials/header.html");
+      await inject("#site-footer", "../partials/footer.html");
+
+      document.getElementById("grid").innerHTML = transportationBills.map(billCard).join("");
+      scrollToBillFromUrl();
+    })();
+  </script>
+</body>
+</html>
