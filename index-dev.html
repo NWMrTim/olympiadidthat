@@ -1,4 +1,3 @@
-<!-- /index-dev.html  (rename to /index.html when ready) -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -33,7 +32,7 @@
         linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
         url("/assets/money-bg.jpg") center / cover no-repeat fixed;
 
-      /* ✅ Sticky-footer layout so footer sits at bottom on short pages */
+      /* sticky footer layout */
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -42,8 +41,9 @@
     a{ color: inherit; text-decoration: none; }
     a:hover{ text-decoration: underline; }
 
-    /* Header partial is sticky already, but keeping safe z-index */
+    /* header partial is sticky already; keep safe z-index */
     #site-header{ position: sticky; top: 0; z-index: 1000; }
+
     main{ flex: 1 0 auto; }
     .wrap{ max-width: var(--max); margin: 0 auto; padding: 20px; }
 
@@ -86,7 +86,6 @@
       margin-top: 12px;
     }
 
-    /* Standard buttons */
     .btn{
       display:inline-flex;
       align-items:center;
@@ -193,7 +192,6 @@
       outline: none;
     }
 
-    /* Footer partial area */
     #site-footer{ margin-top: 18px; }
 
     @media (max-width: 980px){
@@ -205,7 +203,6 @@
 </head>
 
 <body>
-  <!-- ✅ Standard header inject point (site.js will fill this) -->
   <div id="site-header"></div>
 
   <main class="wrap hero">
@@ -219,7 +216,7 @@
 
         <div class="ctaRow">
           <a class="btn" href="/bills/billindex.html">See Bills on the Hit List</a>
-          <a class="btn btnPrimary" href="/action.html">Take Action</a>
+          <a class="btn btnPrimary fund-btn" href="/action.html">Take Action</a>
           <a class="btn" href="/wall.html">See the Wall of Shame</a>
           <a class="btn" href="/heros.html">See the Wall of Heroes</a>
         </div>
@@ -237,7 +234,6 @@
       </aside>
     </div>
 
-    <!-- ✅ Home-only banner -->
     <section class="alertBanner" aria-label="Stay alert signup">
       <div class="alertInner">
         <div class="alertText">
@@ -253,16 +249,32 @@
     </section>
   </main>
 
-  <!-- ✅ Standard footer inject point (site.js will fill this) -->
   <div id="site-footer"></div>
 
-  <!-- ✅ ONE shared site script: injects header/footer + enables search, etc. -->
+  <!-- ✅ Load site.js once, let it own search + donate wiring -->
   <script src="/assets/site.js" defer></script>
 
-  <!-- ✅ Page-specific hooks only -->
-  <script defer>
-    // Home-only signup: opens an email draft (no backend needed).
-    window.ODT_signup = function(e){
+  <script>
+    async function inject(selector, url){
+      const el = document.querySelector(selector);
+      if (!el) return;
+      try{
+        const res = await fetch(url, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+        el.innerHTML = await res.text();
+      }catch(err){
+        console.warn("Inject failed:", url, err);
+        el.innerHTML = "";
+      }
+    }
+
+    (async () => {
+      await inject("#site-header", "/partials/header.html");
+      await inject("#site-footer", "/partials/footer.html");
+    })();
+
+    // No-backend placeholder signup: opens an email draft with an automatic subject line.
+    function ODT_signup(e){
       e.preventDefault();
       const email = (document.getElementById("alertEmail")?.value || "").trim();
       if(!email) return false;
@@ -273,14 +285,17 @@
       );
       window.location.href = "mailto:contact@olympiadidthat.com?subject=" + subject + "&body=" + body;
       return false;
-    };
+    }
 
-    // If your header search needs this, keep it here (harmless if site.js already defines it).
-    window.ODT_findLegislator = window.ODT_findLegislator || function(e){
-      e.preventDefault();
+    // ✅ Compatibility shim:
+    // If header.html still calls ODT_findLegislator(event), forward it to site.js handler.
+    // This prevents “works on some pages, breaks on others” while you transition.
+    window.ODT_findLegislator = function(e){
+      if (window.ODT_siteSearch) return window.ODT_siteSearch(e);
+      if (e && e.preventDefault) e.preventDefault();
       const q = (document.getElementById("q")?.value || "").trim();
       if(!q) return false;
-      window.location.href = "/wall.html?q=" + encodeURIComponent(q);
+      window.location.href = "/search.html?q=" + encodeURIComponent(q);
       return false;
     };
   </script>
