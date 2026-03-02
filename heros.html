@@ -532,14 +532,6 @@
       if (heroLink) heroLink.classList.add("active");
     })();
 
-    // allow shared header search to work
-    window.ODT_findLegislator = function(e){
-      e.preventDefault();
-      const q = (document.getElementById("q")?.value || "").trim();
-      if(!q) return false;
-      window.location.href = "/wall.html?q=" + encodeURIComponent(q);
-      return false;
-    }
   </script>
   <script src="/assets/site.js"></script>
 </body>
