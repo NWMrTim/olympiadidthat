@@ -33,7 +33,6 @@
         linear-gradient(rgba(0,0,0,var(--overlay)), rgba(0,0,0,var(--overlay))),
         url("/assets/money-bg.jpg") center / cover no-repeat fixed;
 
-      /* sticky footer behavior */
       min-height: 100vh;
       display:flex;
       flex-direction: column;
@@ -42,7 +41,8 @@
     a{ color:inherit; text-decoration:none; }
     a:hover{ text-decoration:underline; }
 
-    #site-header{ position: sticky; top:0; z-index:1000; }
+    /* header partial handles its own sticky behavior */
+    #site-header{ z-index:1000; }
     main{ flex: 1 0 auto; }
 
     .wrap{ max-width:var(--max); margin:0 auto; padding:20px; }
@@ -129,7 +129,6 @@
       min-height: 460px;
     }
 
-    /* ✅ Poster = square “wall” image area */
     .poster{
       aspect-ratio: 1 / 1;
       width: 100%;
@@ -140,7 +139,6 @@
       background: rgba(0,0,0,0.35);
     }
 
-    /* ✅ Images always fill poster area (fixes “thumbnail”) */
     .poster img{
       width: 100%;
       height: 100%;
@@ -151,7 +149,6 @@
       max-height: none;
     }
 
-    /* ✅ Placeholder styling for missing images */
     .posterPending{
       display:grid;
       place-items:center;
@@ -236,7 +233,7 @@
           <a class="btn" href="mailto:contact@olympiadidthat.com?subject=Hero%20Suggestion%20for%20ODT&body=Who%20should%20we%20add%20to%20the%20Heroes%20Wall%3F%0A%0AName%3A%0ARole%3A%0AWhy%20they%20belong%3A%0ALinks%2Fsources%3A%0A%0A%E2%80%94%20Sent%20from%20OlympiaDidThat.com">
             Suggest a Hero
           </a>
-          <a class="btn  btnPrimary" href="/action.html">Take Action</a>
+          <a class="btn btnPrimary" href="/action.html">Take Action</a>
         </div>
 
         <div class="tiny" style="margin-top:10px;">
@@ -249,7 +246,8 @@
         <div class="tiny">The “why” text is live; posters are added as we get them.</div>
       </div>
 
-      <section class="grid" aria-label="Heroes grid (legislators)" data-pagefind-body>
+      <!-- ✅ Add stable id; keep data-pagefind-body so Pagefind indexes this section -->
+      <section class="grid" id="grid-legislators" aria-label="Heroes grid (legislators)" data-pagefind-body>
 
         <!-- 1 -->
         <article class="card">
@@ -287,7 +285,7 @@
 
         <!-- 3 -->
         <article class="card">
-            <div class="poster">
+          <div class="poster">
             <img src="/assets/heros/TravisCouture.jpg" alt="Travis Couture">
           </div>
           <div class="cardBody">
@@ -443,7 +441,8 @@
         <div class="tiny">Builders, organizers, and catalysts behind major accountability efforts.</div>
       </div>
 
-      <section class="grid" aria-label="Heroes grid (civic)" data-pagefind-body>
+      <!-- ✅ Add stable id; keep data-pagefind-body so Pagefind indexes this section -->
+      <section class="grid" id="grid-civic" aria-label="Heroes grid (civic)" data-pagefind-body>
 
         <article class="card">
           <div class="poster">
@@ -462,7 +461,7 @@
         </article>
 
         <article class="card">
-            <div class="poster">
+          <div class="poster">
             <img src="/assets/heros/SteveGordon.jpg" alt="Steve Gordon">
           </div>
           <div class="cardBody">
@@ -477,7 +476,6 @@
           </div>
         </article>
 
-        
         <article class="card">
           <div class="poster">
             <img src="/assets/heros/TimEyeman.jpg" alt="Tim Eyman">
@@ -493,7 +491,7 @@
             </div>
           </div>
         </article>
-        <article class="card">
+          <article class="card">
           <div class="poster">
             <img src="/assets/heros/GlenMorgan.jpg" alt="Glen Morgan">
           </div>
@@ -539,15 +537,9 @@
     (async () => {
       await inject("#site-header", "/partials/header.html");
       await inject("#site-footer", "/partials/footer.html");
-
-      // highlight HEROES link if you later add it to header.html nav
-      const links = document.querySelectorAll(".navlinks a");
-      links.forEach(a => a.classList.remove("active"));
-      const heroLink = Array.from(links).find(a => (a.getAttribute("href") || "").includes("heros"));
-      if (heroLink) heroLink.classList.add("active");
+      // ✅ No per-page nav highlight needed — header handles active state.
+      // ✅ No per-page search handler needed — site.js (loaded by header) handles it.
     })();
-
   </script>
-  <script src="/assets/site.js"></script>
 </body>
 </html>
