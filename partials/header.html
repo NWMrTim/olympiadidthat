@@ -214,50 +214,66 @@
 }
 
 @media (max-width: 720px){
-  .siteHeader{ position: static; }
-  .brandImg { height: 44px; }
+  /* Keep sticky on mobile */
+  .siteHeader{
+    position: sticky;
+    top: 0;
+  }
 
+  /* Make header compact */
   .headerInner{
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
+    gap: 10px;
+    padding: 10px 14px;
   }
 
+  .brandLogo{ justify-content: center; }
+  .brandImg{ height: 40px; }
+
+  /* NAV becomes a horizontal scroll row of compact chips */
   .nav{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+    scrollbar-width: none; /* Firefox */
   }
+  .nav::-webkit-scrollbar{ display:none; }
 
   .navBtn{
-    width: 100%;
-    padding: 14px 12px;
-    font-size: 18px;
-    border-radius: 16px;
-    white-space: normal;
+    flex: 0 0 auto;
+    padding: 10px 12px;
+    font-size: 12px;
+    border-radius: 14px;
+    white-space: nowrap;
   }
 
+  /* Search becomes full width and smaller */
+  .search{
+    flex: 1 1 auto;
+    max-width: none;
+    min-width: 0;
+    margin-left: 0;
+  }
   .search input{
-    padding: 14px;
-    border-radius: 18px;
-    font-size: 18px;
+    min-width: 0;
+    padding: 12px 12px;
+    border-radius: 14px;
+    font-size: 16px;
   }
   .search button{
-    padding: 14px 16px;
-    border-radius: 18px;
-    font-size: 18px;
+    padding: 12px 12px;
+    border-radius: 14px;
+    font-size: 16px;
   }
 
-  .districtBtn{
-    display:flex;
-    width: 100%;
-    border-radius: 18px;
-    padding: 14px;
-    font-size: 15px;
-    white-space: normal;
-  }
+  /* District Finder: hide on small screens */
+  .districtBtn{ display:none !important; }
 
-  .siteHeader.isShrunk .headerInner{ padding: 14px 20px; }
+  /* If shrunk mode triggers, don’t “double shrink” on mobile */
+  .siteHeader.isShrunk .headerInner{ padding: 10px 14px; }
 }
 </style>
 
