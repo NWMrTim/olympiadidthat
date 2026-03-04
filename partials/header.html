@@ -1,0 +1,341 @@
+<!-- /partials/header.html -->
+<header class="siteHeader" data-pagefind-ignore>
+  <div class="headerInner">
+
+    <a class="brand brandLogo" href="/index.html" aria-label="Olympia Did That home">
+      <img
+        src="/assets/ODT-Logo-with-URL.png"
+        alt="Olympia Did That"
+        class="brandImg"
+      />
+    </a>
+
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="navBtn" href="/wall.html"><span>The Wall</span><span>of Shame</span></a>
+      <a class="navBtn" href="/heros.html"><span>The Wall</span><span>of Heroes</span></a>
+      <a class="navBtn" href="/bills/billindex.html"><span>Suspect</span><span>Bills</span></a>
+      <a class="navBtn" href="/events.html"><span>Upcoming</span><span>Events</span></a>
+      <a class="navBtn" href="/action.html"><span>Take</span><span>Action</span></a>
+    </nav>
+
+    <form class="search" action="/search.html" method="get"
+      onsubmit="return window.ODT_siteSearch ? window.ODT_siteSearch(event) : true;">
+      <input id="q" name="q" type="search" placeholder="Search..." aria-label="Search" />
+      <button type="submit">Search</button>
+    </form>
+
+    <a class="districtBtn"
+       href="https://app.leg.wa.gov/DistrictFinder/"
+       target="_blank" rel="noopener">
+      <span>Legislative</span>
+      <span>District Finder</span>
+    </a>
+
+  </div>
+</header>
+
+<style>
+:root{
+  --hdrStroke: rgba(255,255,255,0.18);
+  --hdrText: rgba(255,255,255,0.94);
+  --hdrShadow: 0 18px 40px rgba(0,0,0,0.45);
+  --glass: rgba(0,0,0,0.52);
+  --chip: rgba(255,255,255,0.12);
+
+  --glow: 0 0 0 1px rgba(255,255,255,0.18), 0 14px 34px rgba(0,0,0,0.45);
+  --glowActive: 0 0 0 2px rgba(255,255,255,0.28), 0 0 22px rgba(255,255,255,0.18), 0 18px 44px rgba(0,0,0,0.55);
+}
+
+.siteHeader{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,0.70);
+  border-bottom: 1px solid var(--hdrStroke);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background .18s ease, transform .18s ease;
+}
+
+.headerInner{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+  transition: padding .18s ease;
+}
+
+.siteHeader.isShrunk{ background: rgba(0,0,0,0.78); }
+.siteHeader.isShrunk .headerInner{ padding: 8px 20px; }
+
+.brand{
+  flex: 0 0 auto;
+  display: inline-flex;
+  text-decoration: none;
+  color: var(--hdrText);
+  font-weight: 900;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.brandLogo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brandImg {
+  height: 52px;
+  width: auto;
+  display: block;
+  transition: transform .15s ease, filter .15s ease;
+}
+
+.brandLogo:hover .brandImg {
+  transform: scale(1.04);
+  filter: brightness(1.08);
+}
+
+.nav{ display:flex; gap:12px; white-space:nowrap; }
+
+.navBtn{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap: 1px;
+
+  padding: 8px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--hdrStroke);
+  background: var(--chip);
+  color: var(--hdrText);
+  text-decoration: none;
+  box-shadow: var(--hdrShadow);
+
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1.05;
+  white-space: nowrap;
+
+  transition: background .14s ease, transform .14s ease, box-shadow .14s ease, filter .14s ease, border-color .14s ease;
+}
+
+.navBtn:hover{
+  background: rgba(255,255,255,0.20);
+  transform: translateY(-1px);
+  box-shadow: var(--glow);
+}
+.navBtn.active{
+  background: rgba(255,255,255,0.22);
+  border-color: rgba(255,255,255,0.30);
+  box-shadow: var(--glowActive);
+}
+
+.search{
+  flex: 0 1 400px;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 240px;
+  margin-left: 6px;
+}
+
+.search input{
+  flex: 1;
+  min-width: 180px;
+  padding: 9px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--hdrStroke);
+  background: var(--glass);
+  color: var(--hdrText);
+  outline: none;
+}
+
+.search button{
+  padding: 9px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--hdrStroke);
+  background: rgba(255,255,255,0.20);
+  color: var(--hdrText);
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--hdrShadow);
+  appearance: none;
+  transition: background .14s ease, transform .14s ease, box-shadow .14s ease, filter .14s ease, border-color .14s ease;
+}
+.search button:hover{
+  background: rgba(255,255,255,0.26);
+  transform: translateY(-1px);
+  box-shadow: var(--glow);
+}
+
+.districtBtn{
+  margin-left: auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap: 2px;
+
+  padding: 10px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--hdrStroke);
+  background: rgba(255,255,255,0.14);
+  color: var(--hdrText);
+  text-decoration: none;
+  box-shadow: var(--hdrShadow);
+
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1.1;
+  white-space: nowrap;
+
+  transition: background .14s ease, transform .14s ease, box-shadow .14s ease, filter .14s ease, border-color .14s ease;
+}
+.districtBtn:hover{
+  background: rgba(255,255,255,0.20);
+  transform: translateY(-1px);
+  box-shadow: var(--glow);
+}
+
+@media (max-width: 1080px){
+  .districtBtn{ display:none; }
+  .search{ flex: 1; max-width:none; }
+}
+
+@media (max-width: 720px){
+  .siteHeader{
+    position: sticky;
+    top: 0;
+  }
+
+  .headerInner{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 10px 14px;
+    align-items: center;
+  }
+
+  /* ✅ Hide logo on mobile so it doesn't take a whole row */
+  .brandLogo{ display:none; }
+
+  /* ✅ Put Take Action + District Finder on the first row */
+  .nav{
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* Make ONLY the "primary" nav button show in the first slot */
+  .navBtn{ display:none; }
+  .navBtn.navBtn--primary{ display:flex; }
+
+  /* District finder should show on mobile */
+  .districtBtn{
+    display:flex !important;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  /* Make primary + district visually consistent and bigger tap targets */
+  .navBtn.navBtn--primary,
+  .districtBtn{
+    padding: 12px 12px;
+    border-radius: 16px;
+    font-size: 13px;
+  }
+
+  /* ✅ Search is full width, on row 2 */
+  .search{
+    grid-column: 1 / -1;
+    max-width: none;
+    min-width: 0;
+    margin-left: 0;
+  }
+  .search input{
+    min-width: 0;
+    padding: 12px 12px;
+    border-radius: 14px;
+    font-size: 16px;
+  }
+  .search button{
+    padding: 12px 12px;
+    border-radius: 14px;
+    font-size: 16px;
+  }
+
+  /* ✅ Secondary nav chips row (optional): show the other buttons below search */
+  .nav.secondary{
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .nav.secondary::-webkit-scrollbar{ display:none; }
+
+  /* If you DON'T want a second nav row, comment everything above and instead: */
+  /* (we’ll build a 2nd row with a tiny JS clone later if needed) */
+
+  .siteHeader.isShrunk .headerInner{ padding: 10px 14px; }
+}
+</style>
+
+<script>
+(function(){
+  // Active highlight
+  const path = (location.pathname || "/").toLowerCase();
+
+  document.querySelectorAll(".navBtn").forEach(a => {
+    const href = (a.getAttribute("href") || "").toLowerCase();
+
+    const isBillsSection = href.includes("/bills/") && path.startsWith("/bills/");
+    const isExact = href && (path === href);
+
+    // treat / as /index.html
+    const isHome = (href === "/index.html" && (path === "/" || path === "/index.html"));
+
+    if (isBillsSection || isExact || isHome) a.classList.add("active");
+  });
+
+  // Shrink on scroll (desktop/tablet only)
+  const header = document.querySelector(".siteHeader");
+  if (!header) return;
+
+  const mqMobile = window.matchMedia("(max-width: 720px)");
+  let last = null;
+
+  function onScroll(){
+    if (mqMobile.matches){
+      header.classList.remove("isShrunk");
+      last = false;
+      return;
+    }
+    const shrunk = window.scrollY > 24;
+    if (shrunk !== last){
+      header.classList.toggle("isShrunk", shrunk);
+      last = shrunk;
+    }
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+
+<!-- Load shared site functions once -->
+<script src="/assets/site.js" defer></script>
